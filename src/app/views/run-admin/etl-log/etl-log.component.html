@@ -1,0 +1,33 @@
+<div class="content-wrap">
+  <app-ptree [treeOpts]="treeOpts"></app-ptree>
+  <div class="content-meta">
+    <!--面包屑-->
+    <div class="content-header nav_tab">
+      <ol class="breadcrumb">
+        <li>交换运行监控</li>
+        <li class="active">交换错误日志</li>
+      </ol>
+    </div>
+    <!-- 表格 -->
+    <div class="content-search">
+      <p class="search-box">
+        <span class="title">数据资源类型：</span>
+        <p-dropdown [options]="sourceList" [(ngModel)]="queryParam.busType" (onChange)="flushData()"></p-dropdown>
+        <span class="title">数据资源名称：</span>
+        <input type="text" [(ngModel)]="queryParam.transName" maxlength="20">
+      </p>
+
+      <span class="title">记录时间：</span>
+      <p-calendar dateFormat="yy-mm-dd" placeholder="开始时间" [(ngModel)]="timeOpts.startTime" (onSelect)="onSelectTime(1)" [maxDate]="timeOpts.endTime" [minDate]="timeOpts.startTimeMin" [locale]="cn" [readonlyInput]="true"></p-calendar>
+      <span>至：</span>
+      <p-calendar dateFormat="yy-mm-dd" placeholder="结束时间" [(ngModel)]="timeOpts.endTime" (onSelect)="onSelectTime(2)" [minDate]="timeOpts.startTime" [maxDate]="timeOpts.endTimeMax" [locale]="cn" [readonlyInput]="true"></p-calendar>
+      <button type="button" class="btn-check" (click)="flushData()">查询</button>
+    </div>
+    <div class="content-table">
+      <!--表格-->
+      <div class="table">
+        <app-ptable [tableOpts]="tableOpts"></app-ptable>
+      </div>
+    </div>
+  </div>
+</div>

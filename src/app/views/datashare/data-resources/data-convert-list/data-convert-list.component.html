@@ -1,0 +1,73 @@
+<div class="content-wrap">
+  <app-ptree [treeOpts]="treeOpts"></app-ptree>
+  <div class="content-meta">
+    <!--面包屑-->
+    <div class="content-header nav_tab">
+      <ol class="breadcrumb">
+        <li>数据共享交换</li>
+        <li class="active">{{getFunctionName()}}</li>
+      </ol>
+    </div>
+    <!-- 搜索 -->
+    <div class="content-search">
+      <div class="crumbs-btn">
+        <button type="button" (click)="deleteDataSources();" [hidden]="!checkAuth(getAuthcode(4))">批量删除</button>
+        <button type="button" (click)="startOrStopServices(1)" [hidden]="!checkAuth(getAuthcode(5))">批量启动</button>
+        <button type="button" (click)="startOrStopServices(0)" [hidden]="!checkAuth(getAuthcode(5))">批量停止</button>
+        <button type="button" (click)="addDataSource()" [hidden]="!checkAuth(getAuthcode(2))">新增资源</button>
+        <button type="button" (click)="addDataSource2()" [hidden]="!checkAuth(getAuthcode(3))">打开本地kettle</button>
+      </div>
+      <div class="">
+        <span class="title">数据源：</span>
+         <p-dropdown margin="none" [options]="collectionList" class="compatible" [(ngModel)]="queryParam.collectionId" (onChange)="flushData()"  [filter]="true"></p-dropdown>
+        <span class="title">资源状态：</span>
+        <p-dropdown [options]="statusList" class="compatible" [(ngModel)]="queryParam.status" (onChange)="flushData()"></p-dropdown>
+        <p class="search-box">
+          <span class="title">数据资源名称：</span>
+          <input type="text" [(ngModel)]="queryParam.name" maxlength="20">
+        </p>
+        <button type="button" class="btn-check" (click)="flushData()">查询</button>
+      </div>
+    </div>
+    <div class="content-table">
+      <!--表格-->
+      <div class="table">
+        <app-ptable [tableOpts]="tableOpts" (selectionChange)="tableOpts.selections = $event"></app-ptable>
+      </div>
+    </div>
+  </div>
+</div>
+<!--弹出层-->
+
+<p-dialog header="{{dialogOpts.delete.title}}" [(visible)]="dialogOpts.delete.visible" width="450" height="auto" modal="true">
+  <div>
+    是否确定删除？
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="deleteDataSourcesOk()" label="确认"></button>
+    <button type="button" pButton (click)="dialogOpts.delete.visible=false" label="取消"></button>
+  </p-footer>
+</p-dialog>
+
+<p-dialog header="{{dialogOpts.startnow.title}}" [(visible)]="dialogOpts.startnow.visible" width="450" height="auto" modal="true">
+  <div>
+    是否确定立即执行？
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="startnowOk()" label="确认"></button>
+    <button type="button" pButton (click)="dialogOpts.startnow.visible=false" label="取消"></button>
+  </p-footer>
+</p-dialog>
+
+
+<p-dialog header="{{dialogOpts.startLocalKettle.title}}" [(visible)]="dialogOpts.startLocalKettle.visible" width="450" height="auto" modal="true">
+  <div>
+    是否确定打开本地kettle转换平台？
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="startLocalKettleOk()" label="确认"></button>
+    <button type="button" pButton (click)="dialogOpts.startLocalKettle.visible=false" label="取消"></button>
+  </p-footer>
+</p-dialog>
+
+

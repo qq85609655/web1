@@ -1,0 +1,22 @@
+<div class="left_menu">
+  <ul class="nav">
+    <li style="color: white" *ngFor="let menu1 of menuData.menus">
+      <a class="active index1" (click)="toggleState(menu1)"><span></span>{{menu1.menuName}}<em></em></a><!--点击加active，后面就是index2，index3-->
+      <ul  class="oh"  [@menuState]="menu1.state" >
+        <li *ngFor="let menu2 of menu1.children" class="oh">
+
+          <a href="javascript:void(0)" class="list active" (click)="toggleState(menu2)"  *ngIf="menu2.children.length > 0"><span>●</span>{{menu2.menuName}}</a>
+          <div *ngFor="let menuItem of menu2.children"     [@menuState]="menu2.state"  >
+            <a [ngClass]="{'active':menuItem.menuId==menuData.selectedId}" (click)="menuClick(menuItem)">{{menuItem.menuName}}</a>
+          </div>
+
+          <div  *ngIf="menu2.children.length == 0">
+            <a [ngClass]="{'active':menu2.menuId==menuData.selectedId}" (click)="menuClick(menu2)">{{menu2.menuName}}</a>
+          </div>
+        </li>
+      </ul>
+
+    </li>
+  </ul>
+</div>
+

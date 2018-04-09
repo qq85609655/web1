@@ -1,0 +1,89 @@
+<div class="content-wrap">
+    <!--面包屑-->
+    <div class="content-header nav_tab">
+        <!--<app-crumbs></app-crumbs>-->
+        <ol class="breadcrumb">
+            <li>系统管理</li>
+            <li class="active">角色管理</li>
+        </ol>
+    </div>
+    <div class="content-search">
+        <div class="crumbs-btn">
+            <button type="button" class="btn-add ripple" (click)="addRole()" [hidden]="!checkAuth('015002')">新增</button>
+        </div>
+        <div class="">
+            <span class="title">角色状态：</span>
+            <p-dropdown [options]="statusList" [(ngModel)]="queryParam.state" (onChange)="flushData()"></p-dropdown>
+            <span class="title">角色名称：</span>
+            <input type="text" [(ngModel)]="queryParam.roleName" maxlength="20">
+            <button type="button" class="btn-check" (click)="flushData()">查询</button>
+        </div>
+    </div>
+    <div class="content-table">
+        <!--表格-->
+        <div class="table">
+            <app-ptable [tableOpts]="tableOpts"></app-ptable>
+        </div>
+    </div>
+</div>
+
+<!-- 删除 -->
+<p-dialog header="{{dialogOpts.delete.title}}" [(visible)]="dialogOpts.delete.visible" width="450" height="auto" modal="true">
+    <div>
+        是否确定删除？
+    </div>
+    <p-footer>
+        <button type="button" pButton (click)="deleteRoleOk()" label="确认"></button>
+        <button type="button" pButton (click)="dialogOpts.delete.visible=false" label="取消"></button>
+    </p-footer>
+</p-dialog>
+
+<!-- 新增修改 -->
+<p-dialog header="{{dialogOpts.addEdit.title}}" [(visible)]="dialogOpts.addEdit.visible" width="550" height="auto" modal="true">
+    <div class="dialogForm">
+        <div class="inp">
+            <span>
+            <em class="redStar">*</em>角色名称：</span>
+            <input type="text" name="roleName" maxlength="20" [(ngModel)]="dialogOpts.addEdit.dto.roleName" [ngClass]="{error: valid.dialogOpts.addEdit.dto.roleName.status}">
+        </div>
+        <div class="tarea">
+            <span>角色说明：</span>
+            <textarea name="remark" maxlength="60" [(ngModel)]="dialogOpts.addEdit.dto.remark"></textarea>
+            <b class="inputLength">还剩{{getRestLength(dialogOpts.addEdit.dto.remark)}}</b>
+        </div>
+        <div class="ptreeBox">
+            <div class="ptreeLeft">
+                <p>可操作功能</p>
+                <app-ptree [treeOpts]="menuTreeOpts"></app-ptree>
+            </div>
+            <div class="ptreeRight">
+                <p>可访问数据</p>
+                <app-ptree [treeOpts]="orgTreeOpts"></app-ptree>
+            </div>
+        </div>
+    </div>
+    <p-footer>
+        <button type="button" pButton (click)="addEditRoleOk()" label="确认"></button>
+        <button type="button" pButton (click)="dialogOpts.addEdit.visible=false" label="取消"></button>
+    </p-footer>
+</p-dialog>
+
+
+<p-dialog header="{{dialogOpts.details.title}}" [(visible)]="dialogOpts.details.visible" width="550" height="auto" modal="true">
+  <div class="dialogForm">
+    <div class="inp">
+      <span>角色名称：</span>
+      <B>{{dialogOpts.details.dto.roleName}}</B>
+    </div>
+    <div class="">
+      <!--表格-->
+      <div class="table">
+        <app-ptable [tableOpts]="tableOpts2"></app-ptable>
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="dialogOpts.details.visible=false" label="关闭"></button>
+  </p-footer>
+</p-dialog>
+

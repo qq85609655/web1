@@ -1,0 +1,76 @@
+<div class="content-wrap">
+  <!--面包屑-->
+  <div class="content-header nav_tab">
+    <ol class="breadcrumb">
+      <li>信息标准管理</li>
+      <li>{{getFunctionParentName()}}</li>
+      <li class="active">{{getFunctionName()}}维护</li>
+    </ol>
+  </div>
+  <!-- 表格 -->
+  <!-- 数据子集 -->
+    <div class="content-search">
+      <div class="crumbs-btn">
+        <button type="button" (click)="addData()" [hidden]="!checkAuth('024002')">新增</button>
+      </div>
+      <div class="">
+        <span class="title">编号/中文名称：</span>
+        <input type="text" [(ngModel)]="queryParam.keyWord" maxlength="20">
+        <button type="button" class="btn-check" (click)="flushData()">查询</button>
+      </div>
+    </div>
+    <div class="content-table">
+      <!--表格-->
+      <div class="table">
+        <app-ptable [tableOpts]="tableOpts"></app-ptable>
+      </div>
+    </div>
+</div>
+<!--弹出层-->
+
+<p-dialog header="{{dialogOpts.addEdit.title}}" [(visible)]="dialogOpts.addEdit.visible" width="720" height="auto" modal="true">
+  <div>
+    <table class="addTable">
+      <thead>
+      <td *ngIf="dialogOpts.addEdit.type == 'add'" width="50">序号</td>
+      <td><em>*</em>编号</td>
+      <td><em>*</em>中文名称</td>
+      <td>描述</td>
+      <td *ngIf="dialogOpts.addEdit.type == 'add'" width="80">操作</td>
+      </thead>
+      <tbody>
+      <tr *ngFor="let node of dialogOpts.addEdit.data, let i=index">
+        <td class="number" *ngIf="dialogOpts.addEdit.type == 'add'">{{i+1}}</td>
+        <!--校验错了加红色边框 border-red-->
+        <td><input type="text" class="cn-name" [(ngModel)]="node.code" [disabled]="dialogOpts.addEdit.type != 'add'" [ngClass]="{error:valid.data && valid.data[i]?.code.status}" maxlength="20"></td>
+        <td><input type="text" class="cn-name" [(ngModel)]="node.name" [ngClass]="{error:valid.data && valid.data[i]?.name.status}" maxlength="20"></td>
+        <td><input type="text" class="cn-name" [(ngModel)]="node.description" maxlength="80"></td>
+        <td *ngIf="dialogOpts.addEdit.type == 'add' && dialogOpts.addEdit.data.length == 1" class="last-td">
+          <span class="btn-add" (click)="addNodeRow(i)">+</span>
+          <span class="btn-add" style="visibility:hidden">+</span>
+        </td>
+        <td *ngIf="dialogOpts.addEdit.type == 'add' && dialogOpts.addEdit.data.length >1" class="last-td">
+          <span class="btn-add" (click)="addNodeRow(i)">+</span>
+          <span class="btn-delete" (click)="removeNodeRow(i)">-</span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="addEditDataOk()" label="确认"></button>
+    <button type="button" pButton (click)="dialogOpts.addEdit.visible=false" label="取消"></button>
+
+  </p-footer>
+</p-dialog>
+
+
+<p-dialog header="{{dialogOpts.delete.title}}" [(visible)]="dialogOpts.delete.visible" width="450" height="auto" modal="true">
+  <div>
+    您确定要删除该数据子集?
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="deleteDataOk()" label="确认"></button>
+    <button type="button" pButton (click)="dialogOpts.delete.visible=false" label="取消"></button>
+  </p-footer>
+</p-dialog>

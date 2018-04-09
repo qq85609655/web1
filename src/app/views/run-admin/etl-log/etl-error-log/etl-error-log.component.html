@@ -1,0 +1,17 @@
+<div class="content-wrap">
+    <!--面包屑-->
+    <div class="content-header nav_tab">
+      <a class="btn-back" (click)="goback()"><em></em>返回</a>
+        <ol class="breadcrumb">
+            <li>交换运行监控</li>
+            <li>交换错误日志</li>
+            <li class="active">查看</li>
+        </ol>
+    </div>
+    <div class="content-table">
+        <!--表格-->
+        <div class="table">
+            <app-ptable [tableOpts]="tableOpts"></app-ptable>
+        </div>
+    </div>
+</div>

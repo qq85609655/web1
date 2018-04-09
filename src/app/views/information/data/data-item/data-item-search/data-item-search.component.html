@@ -1,0 +1,41 @@
+<div class="content-wrap">
+  <app-ptree [treeOpts]="treeOpts"></app-ptree>
+  <div class="content-meta">
+    <!--面包屑-->
+    <div class="content-header nav_tab">
+      <ol class="breadcrumb">
+        <li>信息标准管理</li>
+        <li>{{getFunctionParentName()}}</li>
+        <li class="active">{{getFunctionName()}}维护</li>
+      </ol>
+    </div>
+    <!-- 表格 -->
+    <div class="content-search">
+      <div class="crumbs-btn">
+        <button type="button" class="btn-add ripple" (click)="addData()" [hidden]="!checkAuth('027002')">新增</button>
+      </div>
+      <div>
+        <span class="title">数据项名/中文名称：</span>
+        <input type="text" [(ngModel)]="queryParam.keyWord" maxlength="20">
+        <button type="button" class="btn-check" (click)="flushData()">查询</button>
+      </div>
+    </div>
+    <div class="content-table">
+      <div class="table">
+        <app-ptable [tableOpts]="tableOpts"></app-ptable>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 删除 -->
+<p-dialog header="{{dialogOpts.delete.title}}" [(visible)]="dialogOpts.delete.visible" width="450" height="auto" modal="true">
+  <div>
+    您确定要删除该元数据?
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="deleteDataOk()" label="确认"></button>
+    <button type="button" pButton (click)="dialogOpts.delete.visible=false" label="取消"></button>
+  </p-footer>
+</p-dialog>

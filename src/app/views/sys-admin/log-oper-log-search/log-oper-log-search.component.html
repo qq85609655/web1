@@ -1,0 +1,35 @@
+<div class="content-wrap">
+  <app-ptree [treeOpts]="treeOpts"></app-ptree>
+  <div class="content-meta">
+    <!--面包屑-->
+    <div class="content-header nav_tab">
+      <ol class="breadcrumb">
+        <li>系统管理</li>
+        <li class="active">操作日志管理</li>
+      </ol>
+    </div>
+    <!-- 搜索 -->
+    <div class="content-search">
+      <!-- <div class="inputtime w100"> -->
+      <p-calendar dateFormat="yy-mm-dd" placeholder="开始时间" [(ngModel)]="timeOpts.startTime" (onSelect)="onSelectTime(1)" [maxDate]="timeOpts.endTime" [minDate]="timeOpts.startTimeMin" [locale]="cn" [readonlyInput]="true"></p-calendar>
+      <span>至：</span>
+      <p-calendar dateFormat="yy-mm-dd" placeholder="结束时间" [(ngModel)]="timeOpts.endTime" (onSelect)="onSelectTime(2)" [minDate]="timeOpts.startTime" [maxDate]="timeOpts.endTimeMax" [locale]="cn" [readonlyInput]="true"></p-calendar>
+      <p class="search-box">
+        <span>日志类型：</span>
+        <p-dropdown [options]="statusList" [(ngModel)]="queryParam.operRes" (onChange)="flushData()"></p-dropdown>
+      </p>
+      <p class="search-box">
+        <span>用户编号/IP地址：</span>
+        <input type="text" [(ngModel)]="queryParam.keyWord" maxlength="20">
+        <button type="button" class="btn-check" (click)="flushData()">查询</button>
+      </p>
+    </div>
+    <!-- </div> -->
+    <div class="content-table">
+      <!--表格-->
+      <div class="table">
+        <app-ptable [tableOpts]="tableOpts"></app-ptable>
+      </div>
+    </div>
+  </div>
+</div>

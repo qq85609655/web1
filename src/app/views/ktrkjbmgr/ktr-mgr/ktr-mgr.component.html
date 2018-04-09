@@ -1,0 +1,50 @@
+<div class="content-wrap">
+  <!--面包屑-->
+  <div class="content-header nav_tab">
+    <ol class="breadcrumb">
+      <li>数据共享交换</li>
+      <li class="active">转换ktr管理</li>
+    </ol>
+  </div>
+  <!-- 表格 -->
+  <!-- 数据类 -->
+  <div class="content-search">
+    <div class="crumbs-btn">
+      <button type="button" (click)="runAllNow()">批量执行</button>
+    </div>
+  </div>
+  <div class="content-table">
+    <!--表格-->
+    <div class="table">
+      <app-ptable [tableOpts]="tableOpts"></app-ptable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="{{dialogOpts.startnow.title}}" [(visible)]="dialogOpts.startnow.visible" width="450" height="auto"
+          modal="true">
+  <div>
+    是否确定立即执行？如果执行，可能需要等待一段时间后才能看到任务执行结果！
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="startnowOk()" label="确认"></button>
+    <button type="button" pButton (click)="dialogOpts.startnow.visible=false" label="取消"></button>
+  </p-footer>
+</p-dialog>
+
+
+
+
+<p-dialog header="{{dialogOpts.changeSchedule.title}}" [(visible)]="dialogOpts.changeSchedule.visible" width="450" height="auto"
+          modal="true">
+  <div>
+    键入新的执行计划（Cron 表达式）：
+    <br />
+    <input type="text" [(ngModel)]="dialogOpts.changeSchedule.pathParam.scheduleInfo" maxlength="200"  />
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="changeScheduleOk()" label="确认"></button>
+    <button type="button" pButton (click)="dialogOpts.changeSchedule.visible=false" label="取消"></button>
+  </p-footer>
+</p-dialog>
+

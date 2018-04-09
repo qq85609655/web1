@@ -1,0 +1,27 @@
+<div *ngIf="userInfo.userId<=0">loading...</div>
+<div *ngIf="userInfo.userId>0">
+  <app-header></app-header>
+  <div class="center">
+    <div>
+      <div class="left-menu">
+        <app-left-menu></app-left-menu>
+      </div>
+      <div class="right-box">
+        <div class="tabs-box">
+          <div class="tabs">
+            <app-tabs></app-tabs>
+          </div>
+        </div>
+        <div class="content">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--<app-footer></app-footer>-->
+  <div class="customer-service">
+    <app-customerservice></app-customerservice>
+  </div>
+</div>
+<app-prompt></app-prompt>
+

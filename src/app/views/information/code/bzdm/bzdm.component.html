@@ -1,0 +1,131 @@
+<div class="content-wrap">
+  <app-ptree [treeOpts]="treeOpts"></app-ptree>
+  <div class="content-meta">
+    <!--面包屑-->
+    <div class="content-header nav_tab">
+      <ol class="breadcrumb">
+        <li>信息标准管理</li>
+        <li>代码标准</li>
+        <li class="active">{{getFunctionName()}}</li>
+      </ol>
+    </div>
+    <!-- 表格 -->
+    <div class="content-search">
+      <div class="crumbs-btn">
+        <button type="button" class="btn-add ripple" (click)="addData()" [hidden]="!checkAuth(getAuthcode(2))">新增</button>
+      </div>
+      <div>
+        <span class="title">代码/名称：</span>
+        <input type="text" [(ngModel)]="queryParam.keyWord" maxlength="20">
+        <button type="button" class="btn-check" (click)="flushData()">查询</button>
+      </div>
+    </div>
+    <div class="content-table">
+      <div class="table">
+        <app-ptable [tableOpts]="tableOpts"></app-ptable>
+      </div>
+    </div>
+  </div>
+</div>
+<!--弹出层-->
+
+
+<p-dialog header="{{dialogOpts.addEditNode.title}}" [(visible)]="dialogOpts.addEditNode.visible" width="720" height="auto"
+          modal="true">
+  <div>
+    <div class="menu-list">
+      <span class="title">上级代码类：{{dialogOpts.addEditNode.parentnodeName}}</span>
+    </div>
+    <table class="addTable">
+      <thead>
+      <td *ngIf="dialogOpts.addEditNode.type == 'add'">序号</td>
+      <td><em>*</em>代码类编号</td>
+      <td><em>*</em>名称</td>
+      <!--<td>描述</td>-->
+      <td *ngIf="dialogOpts.addEditNode.type == 'add'">操作</td>
+      </thead>
+      <tbody>
+      <tr *ngFor="let node of dialogOpts.addEditNode.data, let i=index">
+        <td class="number" *ngIf="dialogOpts.addEditNode.type == 'add'">{{i+1}}</td>
+        <!--校验错了加红色边框 border-red-->
+        <td><input type="text" class="cn-name" [(ngModel)]="node.code" [disabled]="dialogOpts.addEditNode.type != 'add'" [ngClass]="{error:validtree.data && validtree.data[i]?.code.status}" maxlength="20"></td>
+        <td><input type="text" class="cn-name" [(ngModel)]="node.name" [ngClass]="{error:validtree.data && validtree.data[i]?.name.status}" maxlength="50"></td>
+        <!--<td><input type="text" class="cn-name" [(ngModel)]="node.description"></td>-->
+        <td *ngIf="dialogOpts.addEditNode.type == 'add' && dialogOpts.addEditNode.data.length == 1" class="last-td">
+          <span class="btn-add" (click)="addNodeDataRow(i)">+</span>
+          <span class="btn-add" style="visibility:hidden">+</span>
+        </td>
+        <td *ngIf="dialogOpts.addEditNode.type == 'add' && dialogOpts.addEditNode.data.length >1" class="last-td">
+          <span class="btn-add" (click)="addNodeDataRow(i)">+</span>
+          <span class="btn-delete" (click)="removeNodeDataRow(i)">-</span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="addEditNodeDataOk()" label="确认"></button>
+    <button type="button" pButton (click)="dialogOpts.addEditNode.visible=false" label="取消"></button>
+  </p-footer>
+</p-dialog>
+
+
+<p-dialog header="{{dialogOpts.addEdit.title}}" [(visible)]="dialogOpts.addEdit.visible" width="720" height="auto" modal="true">
+  <div>
+    <div class="menu-list">
+      <span class="title">上级代码类：{{dialogOpts.addEdit.nodeName}}</span>
+    </div>
+    <table class="addTable">
+      <thead>
+      <td *ngIf="dialogOpts.addEdit.type == 'add'" width="50">序号</td>
+      <td><em>*</em>代码</td>
+      <td><em>*</em>名称</td>
+      <td>说明</td>
+      <td *ngIf="dialogOpts.addEdit.type == 'add'" width="80">操作</td>
+      </thead>
+      <tbody>
+      <tr *ngFor="let node of dialogOpts.addEdit.data, let i=index">
+        <td class="number" *ngIf="dialogOpts.addEdit.type == 'add'">{{i+1}}</td>
+        <!--校验错了加红色边框 border-red-->
+        <td><input type="text" class="cn-name" [(ngModel)]="node.code" [disabled]="dialogOpts.addEdit.type != 'add'" [ngClass]="{error:valid.data && valid.data[i]?.code.status}" maxlength="20"></td>
+        <td><input type="text" class="cn-name" [(ngModel)]="node.name" [ngClass]="{error:valid.data && valid.data[i]?.name.status}" maxlength="20"></td>
+        <td><input type="text" class="cn-name" [(ngModel)]="node.description" maxlength="80"></td>
+        <td *ngIf="dialogOpts.addEdit.type == 'add' && dialogOpts.addEdit.data.length == 1" class="last-td">
+          <span class="btn-add" (click)="addDataRow(i)">+</span>
+          <span class="btn-add" style="visibility:hidden">+</span>
+        </td>
+        <td *ngIf="dialogOpts.addEdit.type == 'add' && dialogOpts.addEdit.data.length >1" class="last-td">
+          <span class="btn-add" (click)="addDataRow(i)">+</span>
+          <span class="btn-delete" (click)="removeDataRow(i)">-</span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="addEditDataOk()" label="确认"></button>
+    <button type="button" pButton (click)="dialogOpts.addEdit.visible=false" label="取消"></button>
+  </p-footer>
+</p-dialog>
+
+
+<p-dialog header="{{dialogOpts.delete.title}}" [(visible)]="dialogOpts.delete.visible" width="450" height="auto" modal="true">
+  <div>
+    您确定要删除该代码?
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="deleteDataOk()" label="确认"></button>
+    <button type="button" pButton (click)="dialogOpts.delete.visible=false" label="取消"></button>
+  </p-footer>
+</p-dialog>
+
+<p-dialog header="{{dialogOpts.deleteNode.title}}" [(visible)]="dialogOpts.deleteNode.visible" width="450" height="auto"
+          modal="true">
+  <div>
+    您确定要删除该代码类?
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="deleteNodeDataOk()" label="确认"></button>
+    <button type="button" pButton (click)="dialogOpts.deleteNode.visible=false" label="取消"></button>
+  </p-footer>
+</p-dialog>

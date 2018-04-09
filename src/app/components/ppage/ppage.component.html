@@ -1,0 +1,32 @@
+
+
+<div class="ppage">
+  <div class="ppage-left">
+    <span class="ppage-tipspan">每页</span><span class="ppage-tipspan">
+    <p-dropdown [options]="rowsList" [(ngModel)]="rows"
+         (onChange)="onSelectChange($event)"
+         [styleClass]="'autoWidth'" [style]="{margin: '0px'}">
+    </p-dropdown>
+    </span><span class="ppage-tipspan">共：{{totalRecords}}条</span>
+  </div>
+
+  <div class="ppage-right">
+    <a class="ppage-link ppage-prev disabled" *ngIf="page <= 0"><span class="fa fa-backward"></span>
+    </a><a class="ppage-link ppage-prev"          *ngIf="page > 0" (click)="onLinkClick(page-1)"><span class="fa fa-backward"></span></a><!-- 处理inline-block元素间距问题
+
+    --><ng-container *ngFor="let pg of pageLinks"><a class="ppage-link ppage-page disabled" *ngIf="pg < 0">...
+      </a><a class="ppage-link ppage-page" [ngClass]="{'ppage-page-active': page == pg}" *ngIf="pg >= 0"
+         (click)="onLinkClick(pg)">{{pg+1}}</a></ng-container><!--
+
+    --><a class="ppage-link ppage-next disabled" *ngIf="page >= (totalPage-1)"><span class="fa fa-backward"></span>
+    </a><a class="ppage-link ppage-next"          *ngIf="page < (totalPage-1)" (click)="onLinkClick(page+1)"><span class="fa fa-backward"></span>
+    </a><!--
+
+
+
+    --><span class="ppage-tipspan">跳转：</span><input class="ppage-pageinput" [ngClass]="{error: !pageInput.stauts}"
+            type="text" maxlength="4" [(ngModel)]="pageInput.page"
+           (keydown)="onKeydown($event)" (keyup)="onKeyup($event)"/><!--
+    --><a class="ppage-link ppage-page" style="margin-left:0px;border-left:0px;" (click)="onGoClick()">go</a>
+  </div>
+</div>

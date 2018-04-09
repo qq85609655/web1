@@ -1,0 +1,65 @@
+<div class="watch-data mt10" id="runWach">
+  <div class="home-title">
+    <b>数据交换监控</b>
+  </div>
+  <div class="node-watch mt20">
+    <div class="node-watch-title">
+      <p>共<b class="blue">{{taskObject.totalCounts}}</b>个数据资源，其中<b class="blue">{{taskObject.errorCounts}}</b>个资源运行有问题</p>
+      <div>
+        <a href="javascript:void(0)"  (click)="doRefrash()" style="cursor: hand"> 手动刷新 </a>
+        <img src="./assets/img/fb.png" alt=""> 发布资源
+        <img src="./assets/img/dy.png" alt=""> 订阅资源
+        <img src="./assets/img/zc.png" alt=""> 运行正常
+        <img src="./assets/img/yc.png" alt=""> 运行异常
+      </div>
+    </div>
+    <div *ngIf="taskObject.loading" class="nodeWatchVostips">
+        <img class="loading-img" src="./assets/img/loading.gif" alt="加载中">加载中
+    </div>
+   <!-- <ng-container *ngIf="!taskObject.loading">
+      <ul class="mt10" *ngIf="taskObject.nodeWatchVos.length > 0 ">
+        <li *ngFor="let node of taskObject.nodeWatchVos" [ngClass]="{'run-success': node.status==1}">
+          <div class="watch-panel">
+            <h3 title="{{node.statusName}}"><i [ngClass]="{'run-release': node.busType==1,'run-subscribe': node.busType==2}"></i>{{node.resourceName}}</h3>
+            <div>
+              <p title="{{node.sourceTableName}}">源表：<span>{{node.sourceTableName}}</span></p>
+              <p title="{{node.tagertTableName}}">目标表：<span>{{node.tagertTableName}}</span></p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="watch-panel last-watch-panel" (click)="more()">
+            <img src="./assets/img/more.png" alt="查看更多">
+            <p>查看更多</p>
+          </div>
+        </li>
+      </ul>
+      <div *ngIf="taskObject.nodeWatchVos.length == 0 " class="nodeWatchVostips">
+        <img class="loading-img" src="./assets/img/nodata.png" alt="加载中">暂无数据
+      </div>
+    </ng-container>-->
+
+    <ng-container *ngIf="!taskObject.loading">
+      <ul class="mt10" *ngIf="taskObject.etlTaskStatuses.length > 0 ">
+        <li *ngFor="let node of taskObject.etlTaskStatuses" [ngClass]="{'run-success': node.sourceStatus==1 && node.targetStatus==1}">
+          <div class="watch-panel">
+            <h3 title="{{node.errorInfo}}"><i [ngClass]="{'run-release': node.busType==1,'run-subscribe': node.busType==2}"></i>{{node.taskName}}</h3>
+            <div>
+              <p title="{{'表名：'+node.sourceTableName+'，狀態：'+node.sourceStatusName}}">源表：<span>{{node.sourceTableName}}</span></p>
+              <p title="{{'表名：'+node.tagertTableName+'，狀態：'+node.targetStatusName}}">目标表：<span>{{node.tagertTableName}}</span></p>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="watch-panel last-watch-panel" (click)="more()">
+            <img src="./assets/img/more.png" alt="查看更多">
+            <p>查看更多</p>
+          </div>
+        </li>
+      </ul>
+      <div *ngIf="taskObject.etlTaskStatuses.length == 0 " class="nodeWatchVostips">
+        <img class="loading-img" src="./assets/img/nodata.png" alt="加载中">暂无数据
+      </div>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,92 @@
+<div class="content-wrap">
+  <app-ptree [treeOpts]="treeOpts"></app-ptree>
+  <div class="content-meta">
+    <!--面包屑-->
+    <div class="content-header nav_tab">
+      <ol class="breadcrumb">
+        <li>系统管理</li>
+        <li class="active">用户管理</li>
+      </ol>
+    </div>
+    <!-- 表格 -->
+    <div class="content-search">
+      <div class="crumbs-btn">
+        <button type="button" class="btn-add ripple" (click)="importUser()">导入</button>
+        <button type="button" class="btn-add ripple" (click)="exportUser()">导出</button>
+        <!--   <button type="button" class="btn-add ripple" (click)="plsq()">批量授权</button>-->
+
+        <button type="button" class="btn-add ripple" (click)="addUsqser()" [hidden]="!checkAuth('013002')">新增</button>
+      </div>
+      <div class="">
+        <span class="title">状态：</span>
+        <p-dropdown [options]="statusList" [(ngModel)]="queryParam.state" (onChange)="flushData()"></p-dropdown>
+        <span class="title">姓名/用户编号：</span>
+        <input type="text" [(ngModel)]="queryParam.keyWord" maxlength="20">
+        <button type="button" class="btn-check" (click)="flushData()">查询</button>
+      </div>
+    </div>
+    <div class="content-table">
+      <div class="table">
+        <app-ptable [tableOpts]="tableOpts"></app-ptable>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 删除 -->
+<p-dialog header="{{dialogOpts.delete.title}}" [(visible)]="dialogOpts.delete.visible" width="450" height="auto" modal="true">
+  <div>
+    是否确定删除？
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="deleteUserOk()" label="确认"></button>
+    <button type="button" pButton (click)="dialogOpts.delete.visible=false" label="取消"></button>
+  </p-footer>
+</p-dialog>
+
+<!-- 新增修改 -->
+<p-dialog header="{{dialogOpts.addEdit.title}}" [(visible)]="dialogOpts.addEdit.visible" width="450" height="auto" modal="true">
+  <div class="dialogForm texts">
+    <div class="inp">
+      <span>所属机构：</span>
+      {{dialogOpts.addEdit.dto.orgName}}
+      <!-- <input type="text" name="orgName" maxlength="20" [(ngModel)]="dialogOpts.addEdit.dto.orgName" readonly> -->
+    </div>
+    <div class="inp">
+      <span>
+      <em class="redStar">*</em>用户编号：</span>
+      <input type="text" name="userNo" maxlength="20" [(ngModel)]="dialogOpts.addEdit.dto.userNo" [ngClass]="{error: valid.dialogOpts.addEdit.dto.userNo.status}" [disabled]="!dialogOpts.addEdit.isAdd"  >
+    </div>
+    <div class="inp">
+      <span>
+      <em class="redStar">*</em>姓名：</span>
+      <input type="text" name="realName" maxlength="20" [(ngModel)]="dialogOpts.addEdit.dto.realName" [ngClass]="{error: valid.dialogOpts.addEdit.dto.realName.status}">
+    </div>
+    <div class="inp">
+      <span>性别：</span>
+      <p-dropdown [options]="sexList" [(ngModel)]="dialogOpts.addEdit.dto.sex" length="equate"></p-dropdown>
+    </div>
+    <div class="inp">
+      <span>
+      <em class="redStar">*</em>邮箱：</span>
+      <input type="text" name="email" maxlength="100" [(ngModel)]="dialogOpts.addEdit.dto.email" [ngClass]="{error: valid.dialogOpts.addEdit.dto.email.status}">
+    </div>
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="addEditUserOk()" label="确认"></button>
+    <button type="button" pButton (click)="dialogOpts.addEdit.visible=false" label="取消"></button>
+  </p-footer>
+</p-dialog>
+
+
+<!-- 授权 -->
+<p-dialog header="{{dialogOpts.sq.title}}" [(visible)]="dialogOpts.sq.visible" width="600" height="auto" modal="true">
+  <div class="dialogForm">
+    <app-pmultiselect [selectOpts]="selectOpts" [selectList]="dialogOpts.sq.roles"></app-pmultiselect>
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="sqOk()" label="确认"></button>
+    <button type="button" pButton (click)="dialogOpts.sq.visible=false" label="取消"></button>
+  </p-footer>
+</p-dialog>

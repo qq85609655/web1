@@ -1,0 +1,77 @@
+<div>
+  <div>
+<p-dataTable [value]="tableData" [(selection)]="tableOpts.selections" (selectionChange)="onSelectionChange($event)" [ngClass]="{'nodata': !tableData || tableData.length == 0}"
+>
+  <p-headerColumnGroup>
+    <p-row>
+      <p-column *ngFor="let column of tableOpts.theadOptions"
+                [header]="column.name"
+                [styleClass]="column.type=='checkbox' ? 'pdatatablecheckbox' : ''"
+                [selectionMode]="column.type=='checkbox'? 'multiple' : ''" >
+
+      </p-column>
+    </p-row>
+  </p-headerColumnGroup>
+
+  <p-column *ngFor="let column of tableOpts.theadOptions;let colunmIndex = index"
+            [field]="column.field"
+            [selectionMode]="column.type=='checkbox'? 'multiple' : ''" >
+
+    <ng-template let-col let-car="rowData" let-index="rowIndex" pTemplate="body"  *ngIf="column.type=='number' || column.type=='numberpage'">
+      <span *ngIf="column.type=='number'">{{index + 1}}</span>
+      <span *ngIf="column.type=='numberpage'">
+        {{ tableOpts.pageParam.pageSize * (tableOpts.pageParam.pageNum - 1 ) + index+1}}
+      </span>
+    </ng-template>
+
+    <ng-template let-col let-car="rowData" let-index="rowIndex" pTemplate="body"  *ngIf="column.type == 'switch'">
+      <p-inputSwitch [(ngModel)]="car[col.field]"
+                     [onLabel]="column.switchName[0]" [offLabel]="column.switchName[1]"
+                     (onChange)="onHandleSwitchChange($event, colunmIndex, car)"
+                      [disabled]="(column.disabled && callFrom(column.disabled , index, car)) || (column.authcode && !checkAuth(column.authcode)) "
+      ></p-inputSwitch>
+    </ng-template>
+
+    <ng-template let-col let-car="rowData" let-index="rowIndex" pTemplate="body"  *ngIf="column.type == 'button'">
+      <span *ngFor="let option of tableOpts[column.buttonOptions]" class="operate">
+        <span *ngIf="(!option.hidden || !callFrom(option.hidden , index, car))">
+          <a
+            disabled="disabled" [ngClass]="{'disabled': true}"
+            *ngIf="(option.disabled && callFrom(option.disabled , index, car)) || (option.authcode && !checkAuth(option.authcode))"
+          >{{option.name}}</a>
+          <a
+            *ngIf="!( (option.disabled && callFrom(option.disabled , index, car)) || (option.authcode && !checkAuth(option.authcode)) )"
+            (click)="callFrom(option.callback , index, car)"
+          >{{option.name}}</a>
+        </span>
+      </span>
+    </ng-template>
+
+
+    <ng-template let-col let-car="rowData" let-index="rowIndex" pTemplate="body"  *ngIf="!column.type || column.type == ''">
+      <span *ngIf="!column.link" [title]="column.title ? car[col.field] : ''" [ngClass]="car['_class'][colunmIndex]">{{car[col.field]}}</span>
+      <span *ngIf="column.link" [title]="column.title ? car[col.field] : ''">
+        <a (click)="callFrom(column.link , index, car)">
+          {{car[col.field]}}
+        </a>
+      </span>
+    </ng-template>
+
+  </p-column>
+
+  <ng-template pTemplate="emptymessage">
+      <ng-container *ngIf="!dataloading">{{tableOpts.emptyMessage}}</ng-container>
+      <ng-container *ngIf="dataloading">
+        <div style="padding: 5px;">
+          <img class="loading-img" src="./assets/img/loading.gif" alt="加载中">加载中...
+        </div>
+      </ng-container>
+  </ng-template>
+</p-dataTable>
+  </div>
+  <div *ngIf="tableData && tableData.length > 0 && tableOpts.isPage">
+<app-ppage first="{{firstRecord}}" rows="{{tableOpts.pageParam.pageSize}}" totalRecords="{{totalRecords}}"
+             pageLinkSize="3" [rowsPerPageOptions]="tableOpts.rowsPerPageOptions" (onPageChange)="onPageChange($event)"></app-ppage>
+  </div>
+</div>
+

@@ -1,0 +1,19 @@
+<div class="top-dialog">
+  <div class="{{promptData.status}}">
+  <span [ngClass]="{'waring': promptData.tag=='warn', 'error': promptData.tag == 'error'}">{{promptData.title}}</span>
+  </div>
+</div>
+
+
+<p-dialog header="{{dialogOpts.tip.title}}" [(visible)]="dialogOpts.tip.visible" [width]="dialogOpts.tip.width" height="auto" modal="true" (onHide)="dialogClose(dialogOpts.tip.tag)">
+  <div>
+    {{dialogOpts.tip.msg}}
+  </div>
+  <p-footer *ngIf="dialogOpts.tip.tag == 'dialog' ">
+    <button type="button" pButton (click)="dialogOpts.tip.visible = false" label="确定"></button>
+  </p-footer>
+  <p-footer *ngIf="dialogOpts.tip.tag == 'confirm' ">
+    <button type="button" pButton (click)="dialogClose()" label="确定"></button>
+    <button type="button" pButton (click)="dialogOpts.tip.visible = false" label="取消"></button>
+  </p-footer>
+</p-dialog>

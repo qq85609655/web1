@@ -1,0 +1,47 @@
+<div class="content-wrap">
+  <!--面包屑-->
+  <div class="content-header nav_tab">
+    <ol class="breadcrumb">
+      <li>中心库物理表</li>
+      <li class="active">列表信息</li>
+    </ol>
+  </div>
+  <!-- 表格 -->
+  <!-- 数据类 -->
+  <div class="content-search">
+    <div class="crumbs-btn">
+      <button type="button" (click)="runAllNow()">批量生成接口代码</button>
+    </div>
+  </div>
+  <div class="content-table">
+    <!--表格-->
+    <div class="table">
+      <app-ptable [tableOpts]="tableOpts"></app-ptable>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="{{dialogOpts.startnow.title}}" [(visible)]="dialogOpts.startnow.visible" width="450" height="auto"
+          modal="true">
+  <div>
+    是否确定立即生成接口代码？
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="startnowOk()" label="确认"></button>
+    <button type="button" pButton (click)="dialogOpts.startnow.visible=false" label="取消"></button>
+  </p-footer>
+</p-dialog>
+
+
+
+
+<p-dialog header="{{dialogOpts.runAllNow.title}}" [(visible)]="dialogOpts.runAllNow.visible" width="450" height="auto"
+          modal="true">
+  <div>
+    是否确定立即生成接口代码？
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="RunAllNowOk()" label="确认"></button>
+    <button type="button" pButton (click)="dialogOpts.runAllNow.visible=false" label="取消"></button>
+  </p-footer>
+</p-dialog>

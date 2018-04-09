@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../app/views/index/index.component.css">
+  <link rel="stylesheet" href="../css/bootstrap.min.css">
+  <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <style>
+      .container{
+        width: 100%;
+        min-width: 1280px;
+        padding: 0px;
+        margin-top: 50px;
+        padding-bottom: 70px;
+      }
+      .meta-nav{
+        width: 240px;
+        padding:10px;
+        height: 100%;
+        position: fixed;
+        left: 215px;
+        top:105px;
+        overflow: auto;
+        background: #f1f3f8;
+        z-index:1;
+        border: 1px solid #dde5f3;
+      }
+      .meta-nav li ul{
+        padding-left:15px;
+      }
+      .meta-nav li{
+        line-height: 30px;
+      }
+      .meta-nav li ul div{
+        padding-left:15px;
+      }
+      .content-wrap{
+        position: relative;
+      }
+      .code-left{
+        float: left;
+      }
+      .code-content{
+        padding-left:250px;
+      }
+
+
+/**********************************以下拷贝***********************************/
+      button{
+        height: 30px;
+        padding: 0 20px;
+        color: #fff;
+        background: #269dff;
+        border: none;
+        border-radius: 3px;
+        margin-right: 10px;
+      }
+
+      .popup-bg{
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        z-index: 3000;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        opacity: 0.5;
+      }
+      .popup-box{
+        background: #fff;
+        border-radius: 5px;
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        z-index: 3001;
+        transform:translate(-50%,-50%);
+        -moz-transform: translate(-50%,-50%);
+        padding-bottom: 30px;
+        overflow: hidden;
+        min-width: 300px;
+      }
+      .popup-title{
+        width: 100%;
+        height: 40px;
+        line-height:40px;
+        border-bottom:1px solid #ccc;
+        padding:0 10px;
+        position: relative;
+        background: #269dff;
+        color: #fff;
+      }
+      .popup-title span{
+        font-size: 16px;
+      }
+      .popup-title a{
+        font-size: 38px;
+        color: #fff;
+        position: absolute;
+        right: 10px;
+        top:5px;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        border-radius: 3px;
+        text-align:center;
+        line-height:30px;
+        transition: all 0.1s linear;
+      }
+      .popup-title a:hover{
+        text-decoration: none;
+        background: #79c1fd;
+      }
+      .popup-text{
+        padding: 10px;
+      }
+      .pupup-btn{
+        text-align: center;
+      }
+      .pupup-btn button{
+        border:none;
+        padding: 0 20px;
+        height: 30px;
+        -webkit-border-radius:3px;
+        -moz-border-radius:3px;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+        margin:0 10px;
+        transition: all 0.3s linear;
+      }
+      .pupup-btn button:hover{
+        box-shadow: 0 2px 4px #ccc;
+      }
+      .btn-confirm{
+        background: #269dff;
+        color: #fff;
+      }
+      table{
+        width: 100%;
+        border-top: 1px solid #797979;
+        border-left: 1px solid #797979;
+      }
+      table thead {
+        background: #ddd;
+      }
+      table td{
+        height: 40px;
+        border-top: none;
+        border-left: none;
+        border-bottom: 1px solid #797979;
+        border-right: 1px solid #797979;
+        background: none;
+        text-align: center;;
+      }
+      .text-top{
+        margin-bottom:10px;
+        padding-bottom:10px;
+        border-bottom:1px solid #ccc;
+      }
+      .wf{
+        width: 100%;
+        float: left;
+      }
+
+      .title {
+        float: left;
+        margin-top: 6px;
+        margin-right: 5px;
+        width: 120px;
+        text-align: right;
+      }
+
+      .dropdown {
+        float: left;
+        width: 100px;
+        height: 30px;
+        line-height: 30px;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        margin-right: 10px;
+      }
+
+      .dropdown-toggle {
+        width: 100%;
+        float: left;
+        padding: 0 10px;
+        color: #333;
+      }
+
+      .dropdown-toggle span {
+        width: 68px;
+        float: left;
+      }
+      .check-box input{
+        width: 200px;
+        height: 30px;
+        padding:5px 10px;
+        border:1px solid #ccc;
+        transition: all 0.3s linear;
+        border-radius: 3px;
+      }
+
+      .check-box{
+        margin: 10px 0;
+      }
+      .popup-btn{
+        width: 100%;
+        float: left;
+        margin-top:10px;
+        padding-bottom: 20px;
+        text-align: center;
+      }
+      .btn-cancel{
+        color: #333;
+        background: #ddd;
+      }
+
+      input:focus{
+        border-color:#269dff ;
+        box-shadow: 0px 0px 2px #269dff ;
+      }
+      table td input{
+        border:none;
+      }
+      .btn-add{
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        border-radius: 100px;
+        cursor: pointer;
+        margin: 0 5px;
+        color: #fff;
+        background: #269dff;
+      }
+      .btn-delete{
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        border-radius: 100px;
+        cursor: pointer;
+        margin: 0 5px;
+        border: 1px solid #ccc;
+        color: #ccc;
+      }
+    </style>
+
+  <div class="popup-bg"></div>
+  <div class="popup-box">
+    <div class="popup-title">
+      <span>拆分字段</span>
+      <a class="popup-close">&times</a>
+    </div>
+    <div class="popup-text">
+      <div class="text-top">
+        <table>
+          <thead>
+            <tr>
+              <td>序号</td>
+              <td>被拆分字段</td>
+              <td>操作</td>
+            </tr>
+          </thead>
+          <tbody>
+          <!--无数据-->
+            <tr>
+              <td colspan="3">尚无数据</td>
+            </tr>
+          <!--有数据-->
+            <tr>
+              <td>1</td>
+              <td>birthday</td>
+              <td>
+                <span>修改</span>
+                <span>删除</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="wf">
+        <span class="title">需要拆分的字段：</span>
+        <div class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="ellipsis" >请选择…</span><b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="javascript:void(0)">AAAA</a></li>
+            <li><a href="javascript:void(0)">BBBB</a></li>
+            <li><a href="javascript:void(0)">CCCC</a></li>
+            <li><a href="javascript:void(0)">DDDD</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="wf check-box">
+        <span class="title">分隔符：</span>
+        <input type="text" value=",">
+      </div>
+        <table>
+          <thead>
+          <tr>
+            <td>序号</td>
+            <td>新的字段</td>
+            <td>字段位置</td>
+            <td>去除空格类型</td>
+            <td>操作</td>
+          </tr>
+          </thead>
+          <tbody>
+          <!--有数据-->
+          <tr>
+            <td>1</td>
+            <td><input type="text"></td>
+            <td><input type="text"></td>
+            <td>
+              <div class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="ellipsis" >请选择…</span><b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li><a href="javascript:void(0)">不去掉空格</a></li>
+                  <li><a href="javascript:void(0)">去掉左空格</a></li>
+                  <li><a href="javascript:void(0)">去掉右空格</a></li>
+                  <li><a href="javascript:void(0)">去掉左右空格</a></li>
+                </ul>
+              </div>
+            </td>
+            <td>
+              <span class="btn-add">+</span>
+              <span class="btn-delete">-</span>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+    </div>
+    <div class="popup-btn">
+      <button type="button">确认</button>
+      <button type="button" class="btn-cancel">取消</button>
+    </div>
+  </div>
+
+</body>
+</html>

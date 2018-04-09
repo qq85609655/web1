@@ -1,0 +1,42 @@
+<div class="content-wrap">
+  <!--面包屑-->
+  <div class="content-header nav_tab">
+    <ol class="breadcrumb">
+      <li>校情分析系统</li>
+      <li>校情分析</li>
+      <li>教学情况</li>
+    </ol>
+  </div>
+
+  <div class="content-search">
+    <div class="crumbs-btn">
+
+    </div>
+    <div class="">
+
+    </div>
+  </div>
+  <div class="content-table" style="padding: 0px;margin: 15px 20px 50px 20px">
+    <!--表格-->
+    <div class="table">
+
+      <div style="width: 100%;height: 500px;" *ngIf="!flowShowloading">
+        <div echarts [options]="flowOption" [loading]="flowShowloading" style="height: 100%;width: 100%;"></div>
+      </div>
+      <div class="area">
+        <div echarts [options]="areaOption" [loading]="showloading" style="height: 100%;width: 100%;"></div>
+      </div>
+      <div class="clean"></div>
+      <div style="width: 100%;height: 600px;">
+        <div echarts [options]="regionOption" [loading]="showloading" style="height: 100%;width: 100%;"></div>
+      </div>
+      <div style="width: 39%;height: 300px;display: inline-block">
+        <div echarts [options]="booktypeOption" [loading]="showloading" style="height: 100%;width: 100%;"></div>
+      </div>
+      <div class="clean"></div>
+      <div style="width: 60%;height: 500px;display: inline-block">
+        <div echarts [options]="bookOption" [loading]="showloading" style="height: 100%;width: 100%;"></div>
+      </div>
+    </div>
+  </div>
+</div>

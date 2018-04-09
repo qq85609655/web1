@@ -1,0 +1,226 @@
+<div class="content-wrap">
+  <!--面包屑-->
+  <div class="content-header nav_tab">
+    <ol class="breadcrumb">
+      <li>系统管理</li>
+      <li class="active">系统信息设置</li>
+    </ol>
+  </div>
+  <div class="content-search"></div>
+  <!-- 表格 -->
+  <div class="content-table valignTable">
+    <!--表格-->
+    <div class="table">
+      <table>
+        <tbody class="sys-title">
+        <tr>
+          <th width="180">系统设置</th>
+          <td></td>
+        </tr>
+        </tbody>
+        <tbody class="sys-body">
+        <tr>
+          <th><em>*</em>系统名称：</th>
+          <td><input type="text" maxlength="8" [(ngModel)]="systemparam.sysName"
+                     [ngClass]="{error: valid.systemparam.sysName.status}"
+          /></td>
+        </tr>
+        <tr>
+          <th><em>*</em>学校名称：</th>
+          <td><input type="text" maxlength="8" [(ngModel)]="systemparam.schoolName"
+                     [ngClass]="{error: valid.systemparam.schoolName.status}"
+          /></td>
+        </tr>
+        <tr>
+          <th>系统LOGO：</th>
+          <td>
+            <div class="uploadLogo">
+              <div class="file-img"><img [src]="getBasePath() + systemparam.sysLogoUrl"></div>
+              <p-fileUpload #fileupload name="file" url="{{getBasePath()}}config/updatelogo"
+                            (onUpload)="onUpload($event)" chooseLabel="选择" (onRemove)="onRemove($event)"
+                            [auto]="false" accept="image/*" [showCancelButton]="false" [showUploadButton]="false"
+                            maxFileSize="131072"
+                            invalidFileSizeMessageSummary="最大支持128KB大小的图片！" invalidFileSizeMessageDetail=""
+                            invalidFileTypeMessageSummary="请选择图片文件！"
+                            invalidFileTypeMessageDetail=""></p-fileUpload>
+            </div>
+            <span class="imgtips">图片建议尺寸：125px*30px，支持最大图片文件为128KB。</span>
+          </td>
+        </tr>
+        <tr>
+          <th>版本信息：</th>
+          <td><textarea type="text" maxlength="100" [(ngModel)]="systemparam.copyRight"></textarea><b>还剩{{getRestLength(systemparam.copyRight,100)}}</b>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <div class="btn-group-center">
+              <button type="button" (click)="saveSystemSetOk()" [disabled]="!checkAuth('035002')"
+                      [ngClass]="{disabled:!checkAuth('035002')}">保存
+              </button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+
+
+        <tbody class="sys-title">
+        <tr>
+          <th>本地相关路径参数配置</th>
+        </tr>
+        </tbody>
+        <tbody class="sys-body">
+        <tr>
+          <th>本地kettle软件安装路径：</th>
+          <td>
+            <input type="text" [(ngModel)]="systemparam.kettleInstallPath" maxlength="100"/>
+          </td>
+        </tr>
+        <tr>
+          <th>本地ktr文件保存路径：</th>
+          <td>
+            <input type="text" [(ngModel)]="systemparam.ktrFilesPath" maxlength="100"/>
+          </td>
+        </tr>
+        <tr>
+          <th>本地kjb保存路径：</th>
+          <td>
+            <input type="text" [(ngModel)]="systemparam.kjbFilesPath" maxlength="100"/>
+          </td>
+        </tr>
+        </tbody>
+        <tbody class="sys-title">
+        <tr>
+          <th width="180">中心库初始化</th>
+          <td></td>
+        </tr>
+        </tbody>
+        <tbody class="sys-body">
+        <tr>
+          <th>初始化：</th>
+          <td>
+            选择:
+            <p-dropdown [options]="bzList" [(ngModel)]="systemparam.initbz"></p-dropdown>
+            <button type="button" (click)="initCenterDataBase()">初始化</button>
+          </td>
+        </tr>
+        </tbody>
+
+
+        <tbody class="sys-title">
+        <tr>
+          <th>邮箱设置</th>
+          <td></td>
+        </tr>
+        </tbody>
+        <tbody class="sys-body">
+        <tr>
+          <th><em>*</em>Email地址：</th>
+          <td><input type="text" [(ngModel)]="emailparam.emailHost" maxlength="100"
+                     [ngClass]="{error: valid.emailparam.emailHost.status}"
+          /></td>
+        </tr>
+        <tr>
+          <th><em>*</em>密码：</th>
+          <td><input type="password" maxlength="20" [(ngModel)]="emailparam.emailPwd"
+                     [ngClass]="{error: valid.emailparam.emailPwd.status}"
+          /></td>
+        </tr>
+        <tr>
+          <th><em>*</em>显示名称：</th>
+          <td><input type="text" maxlength="100" [(ngModel)]="emailparam.emailUser"
+                     [ngClass]="{error: valid.emailparam.emailUser.status}"
+          /></td>
+        </tr>
+        <tr>
+          <th><em>*</em>SMTP服务器：</th>
+          <td><input type="text" maxlength="100" [(ngModel)]="emailparam.emailSmtpAddr"
+                     [ngClass]="{error: valid.emailparam.emailSmtpAddr.status}"
+          /></td>
+        </tr>
+        <tr>
+          <th><em>*</em>端口号：</th>
+          <td><input type="text" maxlength="100" [(ngModel)]="emailparam.emailSmtpPort"
+                     [ngClass]="{error: valid.emailparam.emailSmtpPort.status}"
+          /></td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <div class="btn-group-center">
+              <button type="button" (click)="saveEmailDataOk()" [disabled]="!checkAuth('035002')"
+                      [ngClass]="{disabled:!checkAuth('035002')}">保存
+              </button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+
+
+        <tbody class="sys-title">
+        <tr>
+          <th>中心库链接配置</th>
+          <td></td>
+        </tr>
+        </tbody>
+        <tbody class="sys-body">
+        <tr>
+          <th><em>*</em>数据库类型：</th>
+          <td>
+            <p-dropdown length="equate" [options]="dbTypeList" [(ngModel)]="centerDb.dbType" placeholder="请选择"
+                        [ngClass]="{error: valid.centerDb.dbType.status}"
+                        (onChange)="onDbtypeChange()"></p-dropdown>
+          </td>
+        </tr>
+
+        <tr>
+          <th><em>*</em>IP地址：</th>
+          <td><input type="text" [(ngModel)]="centerDb.ipAddress" maxlength="100"
+                     [ngClass]="{error: valid.centerDb.ipAddress.status}"/></td>
+        </tr>
+        <tr>
+          <th><em>*</em>数据库名称：</th>
+          <td><input type="text" maxlength="100" [(ngModel)]="centerDb.dbName"
+                     [ngClass]="{error: valid.centerDb.dbName.status}"
+          /></td>
+        </tr>
+        <tr>
+          <th><em>*</em>用户名：</th>
+          <td><input type="text" maxlength="100" [(ngModel)]="centerDb.username"
+                     [ngClass]="{error: valid.centerDb.username.status}"/></td>
+        </tr>
+        <tr>
+          <th><em>*</em>密码：</th>
+          <td><input type="password" maxlength="20" [(ngModel)]="centerDb.password"
+                     [ngClass]="{error: valid.centerDb.password.status}"/></td>
+        </tr>
+        <tr>
+          <th><em>*</em>端口号：</th>
+          <td><input type="text" maxlength="100" [(ngModel)]="centerDb.port"
+                     [ngClass]="{error: valid.centerDb.port.status}"/></td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <div class="btn-group-center">
+              <button type="button" (click)="saveCenterDbInfoOk()">保存
+              </button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+
+      </table>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="{{dialogOpts.initialization.title}}" [(visible)]="dialogOpts.initialization.visible" width="450"
+          height="auto" modal="true">
+  <div>
+    <div class="poptip"><img src="./assets/img/warning.png" alt="提示"> 此功能需要强烈注意：初始化会删除中心库所有表和数据，请谨慎操作！</div>
+    是否确定初始化？
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="initializationOk()" label="确认"></button>
+    <button type="button" pButton (click)="dialogOpts.initialization.visible=false" label="取消"></button>
+  </p-footer>
+</p-dialog>

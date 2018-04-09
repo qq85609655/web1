@@ -1,0 +1,11 @@
+
+.tipStatus{
+  border-width: 0 1px 0px 1px;
+}
+.spandef{
+  display: inline;
+  color:#ddd;
+}
+.spanred{
+  color:red;
+}

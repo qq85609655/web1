@@ -1,0 +1,18 @@
+
+.condition,.subclassDiv,.itemDiv{
+  padding: 10px 0px;
+  width: 1000px;
+}
+
+.subclassDiv table td{
+  text-align: left;
+}
+
+.itemDiv .oper{
+  text-align: center;
+  padding: 10px;
+}
+
+.itemDiv .oper button{
+  margin-right: 30px;
+}

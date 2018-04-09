@@ -1,0 +1,35 @@
+<div class="content-wrap">
+  <app-ptree [treeOpts]="treeOpts"></app-ptree>
+  <div class="content-meta">
+    <!--面包屑-->
+    <div class="content-header nav_tab">
+      <ol class="breadcrumb">
+        <li>交换运行监控</li>
+        <li class="active">交换错误推送</li>
+      </ol>
+    </div>
+    <!-- 表格 -->
+    <div class="content-search">
+      <span class="title">邮件推送：</span>
+      <p-dropdown [options]="statusList" [(ngModel)]="queryParam.isPush" (onChange)="flushData()"></p-dropdown>
+    </div>
+    <div class="content-table">
+      <!--表格-->
+      <div class="table">
+        <app-ptable [tableOpts]="tableOpts"></app-ptable>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- 授权 -->
+<p-dialog header="{{dialogOpts.set.title}}" [(visible)]="dialogOpts.set.visible" width="600" height="auto" modal="true">
+  <div class="dialogForm">
+    <app-pmultiselect [selectOpts]="selectOpts" [selectList]="dialogOpts.set.taskList"></app-pmultiselect>
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="ok()" label="确认"></button>
+    <button type="button" pButton (click)="dialogOpts.set.visible=false" label="取消"></button>
+  </p-footer>
+</p-dialog>

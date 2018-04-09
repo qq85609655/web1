@@ -1,0 +1,15 @@
+<div (click)="changeMenu(honeMenu)">
+<a class="alert pull-left" routerLink="/index" [ngClass]="{'active':tabData.selectedId === honeMenu.menuId}">
+  <span class="pull-left ">{{honeMenu.menuName}}</span>
+</a>
+</div>
+<div *ngFor="let tabItem of tabData.tabList">
+  <div (click)="changeMenu(tabItem)">
+    <a class="alert pull-left" [ngClass]="{'active':tabItem.menuId==tabData.selectedId}"  >
+      <span class="pull-left ">{{tabItem.menuName}}</span>
+      <em href="javascript:void(0)" class="close" data-dismiss="alert" (click)="removeTab(tabItem)">
+        &times;
+      </em>
+    </a>
+  </div>
+</div>

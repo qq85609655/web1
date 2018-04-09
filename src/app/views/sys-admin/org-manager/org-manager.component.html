@@ -1,0 +1,70 @@
+<div class="content-wrap">
+  <app-ptree [treeOpts]="treeOpts"></app-ptree>
+  <div class="content-meta">
+    <!--面包屑-->
+    <div class="content-header nav_tab">
+      <ol class="breadcrumb">
+        <li>系统管理</li>
+        <li class="active">机构管理</li>
+      </ol>
+    </div>
+    <!-- 搜索 -->
+    <div class="content-search">
+      <div class="crumbs-btn">
+        <p class="mt20" style="display: inline-block;" *ngIf="!isAdmin()">新增下级请联系超级管理员</p>
+        <button type="button" pButton label="新增下级" (click)="addOrgData()" *ngIf="tableOpts.type=='view' && tableOpts.canAdd && isAdmin() " [hidden]="!checkAuth('014002')"></button>
+        <button type="button" pButton label="修改" (click)="editOrgData()" *ngIf="tableOpts.type=='view' && tableOpts.canEdit " [hidden]="!checkAuth('014003')"></button>
+        <button type="button" pButton label="删除" (click)="deleteOrgData()" *ngIf="tableOpts.type=='view' && tableOpts.canDelete" [hidden]="!checkAuth('014004')"></button>
+      </div>
+    </div>
+    <!--表格-->
+    <div class="content-table valignTable">
+      <div class="table">
+        <table>
+          <tbody>
+            <tr>
+              <th><em *ngIf="tableOpts.type=='add'  ||  tableOpts.type=='edit'">*</em>机构编号：</th>
+              <td><input type="text" [(ngModel)]="orgData.orgNo" [disabled]="tableOpts.type=='view' || tableOpts.type=='edit'"
+                  maxlength="20" [ngClass]="{error: valid.orgData.orgNo.status}" /></td>
+              <th><em *ngIf="tableOpts.type=='add'  ||  tableOpts.type=='edit'">*</em>机构名称：</th>
+              <td><input type="text" [(ngModel)]="orgData.orgName" [disabled]="tableOpts.type=='view'" maxlength="20" [ngClass]="{error: valid.orgData.orgName.status}"
+                /></td>
+            </tr>
+            <tr>
+              <th><em *ngIf="tableOpts.type=='add'  ||  tableOpts.type=='edit'">*</em>上级机构：</th>
+              <td><input type="text" [(ngModel)]="orgData.parentName" disabled /></td>
+              <th><em *ngIf="tableOpts.type=='add'  ||  tableOpts.type=='edit'">*</em>机构类别：</th>
+              <td>
+                <p-dropdown [options]="orgTypeList" [(ngModel)]="orgData.orgType" [disabled]="tableOpts.type=='view'" ></p-dropdown>
+            </tr>
+            <tr>
+              <th>机构负责人：</th>
+              <td><input type="text" [(ngModel)]="orgData.manager" [disabled]="tableOpts.type=='view'" maxlength="20" /></td>
+              <td></td>
+              <td></td>
+            </tr>
+            <tr>
+              <th>机构地址：</th>
+              <td colspan="3"><textarea type="text" [(ngModel)]="orgData.orgAddress" [disabled]="tableOpts.type=='view'" maxlength="60"></textarea><b>还剩{{getRestLength(orgData.orgAddress)}}</b></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="btn-group-center" *ngIf="tableOpts.type=='add'  ||  tableOpts.type=='edit'">
+          <button type="button" pButton label="保存" (click)="saveOrgDataOk()"></button>
+          <button type="button" pButton label="取消" (click)="viewOrgData()"></button>
+          <label *ngIf="tableOpts.type=='add'" class="abusolute"><input type="checkbox" [(ngModel)]="tableOpts.appendAdd" />保存后继续增加</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="{{dialogOpts.delete.title}}" [(visible)]="dialogOpts.delete.visible" width="450" height="auto" modal="true">
+  <div>
+    是否确定删除？
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="deleteOrgOk()" label="确认"></button>
+    <button type="button" pButton (click)="dialogOpts.delete.visible=false" label="取消"></button>
+  </p-footer>
+</p-dialog>

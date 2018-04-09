@@ -1,0 +1,81 @@
+<header class="navbar navbar-fixed-top main-nav">
+  <div class="navbar-header">
+    <a routerLink="/index"><span class="navbar-brand navbar-brand-my" title="{{systenInfo.sysName}}">{{systenInfo.sysName}}</span></a>
+  </div>
+
+  <!--登陆之前-->
+  <!--<div class="header_right pull-right">-->
+  <!--<a href="javascript:void(0)" >登录</a>-->
+  <!--<a href="javascript:void(0)" >注册</a>-->
+  <!--</div>-->
+
+  <!--登陆之后-->
+  <div class="header_right pull-right">
+    <i class="login_img"></i>
+    <span title="{{userInfo.realName}}">{{userInfo.realName}}</span>
+    <div class="drop-menu">
+      <a (click)="editUserInfo()">个人信息</a>
+      <a (click)="editPwd()">修改密码</a>
+      <a (click)="showHelp()">帮助</a>
+      <a (click)="logoout()">退出</a>
+    </div>
+  </div>
+</header>
+
+<!-- 修改密码 -->
+<p-dialog header="{{dialogOpts.editPwd.title}}" [(visible)]="dialogOpts.editPwd.visible" width="450" height="auto" modal="true">
+  <div>
+    <div class="dialogForm texts">
+      <div class="inp">
+        <span><em class="redStar">*</em>旧密码：</span>
+        <input type="password" [(ngModel)]="dialogOpts.editPwd.data.oldPwd" [ngClass]="{error:valid.dialogOpts.editPwd.data.oldPwd.status}" maxlength="20" >
+      </div>
+      <div class="inp">
+        <span><em class="redStar">*</em>新密码：</span>
+        <input type="password" [(ngModel)]="dialogOpts.editPwd.data.newPwd" [ngClass]="{error:valid.dialogOpts.editPwd.data.newPwd.status}" maxlength="20" >
+      </div>
+      <div class="inp">
+        <span><em class="redStar">*</em>确认新密码：</span>
+        <input type="password" [(ngModel)]="dialogOpts.editPwd.data.newPwdRepeat" [ngClass]="{error:valid.dialogOpts.editPwd.data.newPwdRepeat.status}" maxlength="20" >
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="editPwdOk()" label="确认"></button>
+    <button type="button" pButton (click)="dialogOpts.editPwd.visible=false" label="取消"></button>
+  </p-footer>
+</p-dialog>
+
+<!-- 修改用户信息 -->
+<p-dialog header="{{dialogOpts.editUserInfo.title}}" [(visible)]="dialogOpts.editUserInfo.visible" width="450" height="auto" modal="true">
+  <div>
+    <div class="dialogForm texts">
+      <div class="inp">
+        <span><em class="redStar">*</em>用户编号：</span>
+        <input type="text" name="userNo" maxlength="20" [(ngModel)]="dialogOpts.editUserInfo.data.userNo" [disabled]="true" readonly>
+      </div>
+      <div class="inp">
+        <span><em class="redStar">*</em>姓名：</span>
+        <input type="text" name="realName" maxlength="20" [(ngModel)]="dialogOpts.editUserInfo.data.realName" [ngClass]="{error:valid.dialogOpts.editUserInfo.data.realName.status}">
+      </div>
+      <div class="inp">
+        <span>性别：</span>
+        <p-dropdown [options]="sexList" [(ngModel)]="dialogOpts.editUserInfo.data.sex" length="equate"></p-dropdown>
+      </div>
+      <div class="inp">
+        <span><em class="redStar">*</em>所属机构：</span>
+        <input type="text" name="orgName" maxlength="20" [(ngModel)]="dialogOpts.editUserInfo.data.orgName" [disabled]="true" readonly>
+      </div>
+      <div class="inp">
+        <span><em class="redStar">*</em>邮箱：</span>
+        <input type="text" name="email" maxlength="100" [(ngModel)]="dialogOpts.editUserInfo.data.email" [ngClass]="{error:valid.dialogOpts.editUserInfo.data.email.status}">
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="editUserInfoOk()" label="确认"></button>
+    <button type="button" pButton (click)="dialogOpts.editUserInfo.visible=false" label="取消"></button>
+  </p-footer>
+</p-dialog>
+
+

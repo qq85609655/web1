@@ -1,0 +1,119 @@
+
+
+.rule{
+  border: 1px solid #cfd6e5;
+  margin-top: 30px;
+}
+
+
+.content-title{
+  font-size: 16px;
+  font-weight: 700;
+  padding:10px 5px;
+  color: #364760;
+}
+[width="auto"] .ui-dropdown{
+  width:150px!important;
+}
+
+.content-step{
+  margin: 20px 20px 0;
+  border-bottom: 1px solid #cfd6e5;
+  padding-bottom: 20px;
+  position: relative;
+
+}
+.step-right{
+  line-height: 30px;
+}
+.content-step .fr{
+  float: right;
+  margin-top: 22px;
+}
+.content-step:last-child{
+  border-bottom:none;
+}
+.content-step-detail{
+  border-bottom:1px solid #cfd6e5;
+  border-top:0px;
+  margin: 0 20px 20px;
+}
+.content-stepflow{
+  margin: 15px 0 0;
+}
+
+.rule-title{
+  font-size: 14px;
+  font-weight: 700;
+  padding: 10px 0;
+}
+
+.ruleTypeSelect .selected{
+  border-color: #5a9afa;
+}
+.ruleTypeSelect .selected a{
+  color: #5a9afa;
+  transition: inherit;
+}
+.rule-name{
+  margin-bottom: 10px;
+}
+.data-convert .btn-group-center{
+  width: auto;
+}
+
+.convert-list div.error{
+  border-color: red;
+  color: red;
+}
+
+.ruleFrequency ul{
+  overflow: hidden;
+  font-size: 0;
+  text-align: left;
+  margin-bottom: 0;
+}
+.ruleFrequency li{
+  display: inline-block;
+  margin: 5px;
+  border: 1px solid #cfd6e5;
+  width: 55px;
+  height: 35px;
+  text-align: left;
+  line-height: 35px;
+  font-weight: bold;
+}
+.ruleFrequency li a{
+  font-size: 14px;
+  display: block;
+  color: #364760;
+  text-align: center;
+  padding: 0;
+}
+.ruleFrequency .selected{
+  border-color: #5a9afa;
+}
+.ruleFrequency .selected a{
+  color: #5a9afa;
+  transition: inherit;
+}
+.project table tr:hover{
+  background: transparent!important;
+}
+.project td{
+  line-height: 30px;
+}
+.runYear{
+  margin: 0 32px;
+}
+
+.tipStatus{
+  border-width: 0 1px 0px 1px;
+}
+.spandef{
+  display: inline;
+  color:#ddd;
+}
+.spanred{
+  color:red;
+}

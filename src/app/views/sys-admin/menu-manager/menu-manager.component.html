@@ -1,0 +1,23 @@
+<div class="content-wrap">
+  <!--面包屑-->
+  <div class="content-header nav_tab">
+    <!--<app-crumbs></app-crumbs>-->
+    <ol class="breadcrumb">
+      <li>系统管理</li>
+      <li class="active">菜单管理</li>
+    </ol>
+  </div>
+  <div class="content-search">
+    <div class="pull-left">
+      <span class="title">菜单名称：</span>
+      <input type="text" [(ngModel)]="queryParam.menuName" maxlength="20">
+      <button type="button" class="btn-check" (click)="flushData()">查询</button>
+    </div>
+  </div>
+  <div class="content-table">
+    <!--表格-->
+    <div class="table">
+      <app-ptable [tableOpts]="tableOpts"></app-ptable>
+    </div>
+  </div>
+</div>

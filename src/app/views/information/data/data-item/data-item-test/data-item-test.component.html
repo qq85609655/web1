@@ -1,0 +1,76 @@
+<div style="padding: 10px 30px;">
+  <div class="condition">
+    主键：<p-dropdown [options]="typeList" length="equate" [(ngModel)]="subclassParam.type" (onChange)="flushSubclass()"></p-dropdown>
+    <input type="text" [(ngModel)]="subclassParam.keyword" placeholder="请输入子类名称或表名..." maxlength="20" />
+    <button (click)="flushSubclass()">搜索</button>
+
+    <button (click)="rebuildAllTable()" style="float: right">全部初始化</button>
+  </div>
+
+  <div class="subclassDiv">
+    <div style="padding: 5px">
+      <table>
+        <colgroup>
+          <col width="100px"/>
+          <col width="250px"/>
+          <col width="auto"/>
+          <col width="300px"/>
+        </colgroup>
+        <tr>
+          <td colspan="2">
+            数据子类：<p-dropdown [options]="subclassList" length="equate" [(ngModel)]="itemParam.subclassCode" (onChange)="subclassChange()" placeholder="无"></p-dropdown>
+          </td>
+          <td colspan="2">有主键{{itemParam.primarySize}}个，共{{subclassList.length}}个</td>
+        </tr>
+        <tr>
+          <td>序号：{{itemParam.subclassIndex + 1}}</td>
+          <td>编号：{{itemParam.subclass.code}}</td>
+          <td>名称：{{itemParam.subclass.name}}</td>
+          <td>表名：{{itemParam.subclass.tableName}}</td>
+        </tr>
+        <tr>
+          <td colspan="4">描述：{{itemParam.subclass.description}}</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="itemDiv">
+    <div class="oper">
+      <button (click)="prevNextTable(false)">上一个表</button>
+      <button (click)="saveTable()">保存</button>
+      <button (click)="prevNextTable(true)">下一个表</button>
+    </div>
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <td width="80px">序号</td>
+            <td width="80px">主键</td>
+            <td>编号</td>
+            <td>字段名</td>
+            <td>注释</td>
+            <td>说明</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of this.itemData,let i=index">
+            <td>{{i+1}}</td>
+            <td><label style="display: block;"><input type="checkbox" [(ngModel)]="item.primary"/></label></td>
+            <td [title]="item.itemCode">{{item.itemCode}}</td>
+            <td [title]="item.itemName">{{item.itemName}}</td>
+            <td [title]="item.itemComment">{{item.itemComment}}</td>
+            <td [title]="item.dataExplain">{{item.dataExplain}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!--<div class="oper">
+      <button (click)="prevNextTable(false)">上一个表</button>
+      <button (click)="saveTable()">保存</button>
+      <button (click)="prevNextTable(true)">下一个表</button>
+    </div>-->
+  </div>
+</div>
+
+<app-prompt></app-prompt>

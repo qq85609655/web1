@@ -1,0 +1,11 @@
+.poptip{
+    background-color: #eff2f9;
+    padding: 5px;
+    line-height: 28px;
+    border: 1px solid #cfd6e5;
+    color: #364760;
+    margin-bottom: 10px;;
+}
+.poptip img{
+    vertical-align: text-bottom;
+}

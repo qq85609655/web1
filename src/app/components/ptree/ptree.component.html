@@ -1,0 +1,97 @@
+<div class="meta-nav">
+  <div class="tree-btn" *ngIf="isSingle() && hasOperButton()">
+    <button *ngIf="treeOpts.operButton.add?.show && !(onCheckDisabled('add') || !checkAuth(treeOpts.operButton.add?.authcode))" class="add" (click)="onAddNode()"></button>
+    <button *ngIf="treeOpts.operButton.add?.show &&  (onCheckDisabled('add') || !checkAuth(treeOpts.operButton.add?.authcode) )"  class="add unavailable" [disabled]="true"></button>
+
+    <button *ngIf="treeOpts.operButton.edit?.show && !(onCheckDisabled('edit') || !checkAuth(treeOpts.operButton.edit?.authcode))" class="edit" (click)="onEditNode()"></button>
+    <button *ngIf="treeOpts.operButton.edit?.show && (onCheckDisabled('edit') || !checkAuth(treeOpts.operButton.edit?.authcode))"  class="edit unavailable" [disabled]="true"></button>
+
+    <button *ngIf="treeOpts.operButton.delete?.show && !(onCheckDisabled('delete') || !checkAuth(treeOpts.operButton.delete?.authcode))" class="delete" (click)="onDeleteNode()"></button>
+    <button *ngIf="treeOpts.operButton.delete?.show && (onCheckDisabled('delete') || !checkAuth(treeOpts.operButton.delete?.authcode))"  class="delete unavailable" [disabled]="true"></button>
+
+    <button *ngIf="treeOpts.operButton.up?.show && !(onCheckDisabled('up') || !checkAuth(treeOpts.operButton.up?.authcode))" class="up" (click)="onUpDown(true)"></button>
+    <button *ngIf="treeOpts.operButton.up?.show && (onCheckDisabled('up') || !checkAuth(treeOpts.operButton.up?.authcode))"  class="up unavailable" [disabled]="true"></button>
+
+    <button *ngIf="treeOpts.operButton.down?.show && !(onCheckDisabled('down') || !checkAuth(treeOpts.operButton.down?.authcode))" class="down" (click)="onUpDown(false)"></button>
+    <button *ngIf="treeOpts.operButton.down?.show && (onCheckDisabled('down') || !checkAuth(treeOpts.operButton.down?.authcode))"  class="down unavailable" [disabled]="true"></button>
+  </div>
+
+  <ul class="nav">
+    <p-tree #tree [value]="treeData"  selectionMode="single" *ngIf="isSingle()"
+            [(selection)]="selectedNode" [propagateSelectionUp]="true" [propagateSelectionDown]="true"
+      (onNodeSelect)="onNodeSelect($event)"
+    ></p-tree>
+    <p-tree [value]="treeData"  selectionMode="checkbox" *ngIf="treeOpts.treeType == 'checkbox'"
+            [(selection)]="selectedNodes" [propagateSelectionUp]="true" [propagateSelectionDown]="true"
+            (onNodeSelect)="onNodeSelect($event)" (onNodeUnselect)="onNodeUnSelect($event)"
+    ></p-tree>
+  </ul>
+</div>
+<p-dialog header="{{dialogOpts.add.title}}" [(visible)]="dialogOpts.add.visible" width="720" height="auto" modal="true">
+  <div>
+    <div class="menu-list">
+      上级节点：&nbsp;{{dialogOpts.add.parent.label}}
+    </div>
+    <table class="addTable">
+      <thead>
+      <td><em>*</em>序号</td>
+      <td><em>*</em>名称</td>
+      <td>操作</td>
+      </thead>
+      <tbody>
+      <tr *ngFor="let node of dialogOpts.add.addNodes, let i=index">
+        <td class="number">{{i+1}}</td>
+        <!--校验错了加红色边框 border-red-->
+        <td><input type="text" class="cn-name" [(ngModel)]="node.name"></td>
+        <td *ngIf="dialogOpts.add.addNodes.length == 1" class="last-td">
+          <span class="btn-add" (click)="addNodeSubset(i)">+</span>
+        </td>
+        <td *ngIf="dialogOpts.add.addNodes.length >1" class="last-td">
+          <span class="btn-add" (click)="addNodeSubset(i)">+</span>
+          <span class="btn-delete" (click)="removeNodeSubset(i)">-</span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="addNodeOk()" label="Yes"></button>
+    <button type="button" pButton (click)="dialogOpts.add.visible=false" label="No"></button>
+  </p-footer>
+</p-dialog>
+
+
+<p-dialog header="{{dialogOpts.edit.title}}" [(visible)]="dialogOpts.edit.visible" width="720" height="auto" modal="true">
+  <div>
+    <div class="menu-list">
+      上级节点：&nbsp;{{dialogOpts.edit.parent.label}}
+    </div>
+    <table class="addTable">
+      <thead>
+      <td><em>*</em>序号</td>
+      <td><em>*</em>名称</td>
+      </thead>
+      <tbody>
+      <tr>
+        <td class="number">1</td>
+        <!--校验错了加红色边框 border-red-->
+        <td><input type="text" class="cn-name" [(ngModel)]="dialogOpts.edit.editNode.name"></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="editNodeOk()" label="Yes"></button>
+    <button type="button" pButton (click)="dialogOpts.edit.visible=false" label="No"></button>
+  </p-footer>
+</p-dialog>
+
+<p-dialog header="{{dialogOpts.delete.title}}" [(visible)]="dialogOpts.delete.visible" width="720" height="auto" modal="true">
+  <div>
+    您确定要删除当前{{treeOpts.functionName}}节点吗？
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="deleteNodeOk()" label="Yes"></button>
+    <button type="button" pButton (click)="dialogOpts.delete.visible=false" label="No"></button>
+  </p-footer>
+</p-dialog>

@@ -1,0 +1,89 @@
+<div class="content-wrap">
+  <!--面包屑-->
+  <div class="content-header nav_tab">
+    <ol class="breadcrumb">
+      <li>系统管理</li>
+      <li class="active">数据查询帮助</li>
+    </ol>
+  </div>
+  <div class="content-search">
+    <div class="">
+      <span class="title">选择数据来源：</span>
+      <p-dropdown [options]="fromList" [(ngModel)]="params.from" (onChange)="flushData()"></p-dropdown>
+
+      <span class="title">选择表来源：</span>
+      <p-dropdown [options]="sourceList" [(ngModel)]="params.source" (onChange)="flushData()"></p-dropdown>
+
+      <span class="title">选择表：</span>
+      <p-dropdown [options]="tableNameList" [(ngModel)]="params.tableName" (onChange)="flushData()"></p-dropdown>
+      <button type="button" class="btn-check" (click)="flushData()">查询</button>
+    </div>
+  </div>
+  <div class="content-table valignTable">
+    <div class="noData" [ngClass]="{'fadeIn':tabelData && (tabelData?.list).length==0}">
+      <span></span>尚无数据
+    </div>
+    <div *ngIf="tabelData && (tabelData?.list).length != 0">
+      <table>
+        <thead>
+        <td *ngFor="let thDataItem of tableOps.thData">{{thDataItem}}</td>
+        </thead>
+        <tbody>
+        <tr *ngFor="let listItem of tabelData.list, let i=index">
+          <td *ngFor="let columnItem of tableOps.column">
+            <span *ngIf="columnItem.setName === 'number'">{{i+1}}</span>
+            <a *ngIf="columnItem.setName && columnItem.setName != 'number' && columnItem.setName != 'check'"
+               [routerLink]="columnItem.setName" [queryParams]="listItem">{{listItem[columnItem.name]}}</a>
+            <span *ngIf="!columnItem.setName" title="{{listItem[columnItem.name]}}">{{listItem[columnItem.name]}}</span>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="table-bottom" *ngIf="tabelData && (tabelData?.list).length != 0">
+      <div class="pull-left">
+        <span class="text">每页记录</span>
+        <div class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
+            class="ellipsis">{{tabelData.pageSize}}条</span><b
+            class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li *ngFor="let pageLenItem of pageLength" (click)="changePageSize(pageLenItem)"><a>{{pageLenItem}}条</a>
+            </li>
+          </ul>
+        </div>
+        <span class="text">
+      共有：{{tabelData.total}}条
+    </span>
+      </div>
+      <div class="page-box">
+        <a (click)="firstPage()">首页</a>
+        <a (click)="prePage()" class="prev" [ngClass]="{'disabled':this.tabelData.pageNum == 1}"><em></em></a>
+
+        <!-- 如果当前页-4>1 则显示... 如果当前页> -->
+        <a *ngIf="tabelData.pageNum>5&&tabelData.pages>8"
+           (click)="numberPage(tabelData.pageNum-5>1?tabelData.pageNum-5:1)"
+           [ngClass]="{'active':false}"> ...</a>
+
+        <a *ngFor="let pageItem of tabelData.navigatepageNums,let i=index" (click)="numberPage(pageItem)"
+           [ngClass]="{'active':pageItem==indexs}">{{pageItem}}</a>
+
+        <a *ngIf="(tabelData.pageNum+3<tabelData.pages&&tabelData.pageNum>=5)||(tabelData.pageNum<5&&tabelData.pages>8)"
+           (click)="numberPage(tabelData.pageNum+5<tabelData.pages?tabelData.pageNum+5:tabelData.pages)"
+           [ngClass]="{'active':false}"> ...</a>
+
+        <a (click)="nextPage()" class="next"
+           [ngClass]="{'disabled':this.tabelData.pageNum == this.tabelData.pages}"><em></em></a>
+        <a (click)="lastPage()">尾页</a>
+        <div class="pull-left">
+          <span class="text">跳转：</span>
+          <div class="goto-input">
+            <input type="text" #pageNumber>
+            <button type="button" (click)="goNumberPage(pageNumber)">go</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="content-wrap">
+  <app-ptree [treeOpts]="treeOpts"></app-ptree>
+  <div class="content-meta">
+    <!--面包屑-->
+    <div class="content-header nav_tab">
+      <ol class="breadcrumb">
+        <li>交换运行监控</li>
+        <li class="active">节点运行监控</li>
+      </ol>
+    </div>
+    <div class="content-search">
+      <div class="">
+        <span class="title">数据资源：</span>
+        <p-dropdown [options]="sourceList" [(ngModel)]="queryParam.busType" (onChange)="flushData()"></p-dropdown>
+      <!--  <span class="title">状态：</span>
+        <p-dropdown [options]="statusList" [(ngModel)]="queryParam.status" (onChange)="flushData()"></p-dropdown>-->
+      </div>
+    </div>
+    <!-- 表格 -->
+    <div class="content-table">
+      <app-ptable [tableOpts]="tableOpts"></app-ptable>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+<div class="pmultiselect">
+  <div class="pmultiselect-list pmultiselect-left" [ngStyle]="{width:selectOpts.width}">
+    <div class="pmultiselect-title">可选{{selectOpts.functionName}}</div>
+    <div class="pmultiselect-content" [ngStyle]="{height:calPx(selectOpts.height, -31)}">
+      <ng-container *ngFor="let item of selectList">
+        <div class="pmultiselect-item" *ngIf="!item.selected"  [ngClass]="{checked: item.checked}"
+             (dblclick)="dblclickSelected(item,true)" (click)="item.checked = !item.checked">
+            <span [title]="selectOpts.getName.call(selectOpts.that, item)">
+            {{selectOpts.getName.call(selectOpts.that, item)}}
+          </span>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="pmultiselect-button" [ngStyle]="{height:selectOpts.height}">
+      <div><button type="button" (click)="toRight()" [disabled]="getCheckedList(false).length &lt;=0" [ngClass]="{ disabled: getCheckedList(false).length &lt;=0}">{{selectOpts.buttons[0]}}</button></div>
+      <div><button type="button" (click)="toRightAll()">{{selectOpts.buttons[1]}}</button></div>
+      <div><button type="button" (click)="toLeft()" [disabled]="getCheckedList(true).length &lt;=0" [ngClass]="{ disabled: getCheckedList(true).length &lt;=0}">{{selectOpts.buttons[2]}}</button></div>
+      <div><button type="button" (click)="toLeftAll()">{{selectOpts.buttons[3]}}</button></div>
+  </div>
+
+  <div class="pmultiselect-list authRight" [ngStyle]="{width:selectOpts.width}">
+    <div class="pmultiselect-title">已选{{selectOpts.functionName}}</div>
+    <div class="pmultiselect-content" [ngStyle]="{height:calPx(selectOpts.height, -31)}">
+      <ng-container *ngFor="let item of selectList">
+        <div class="pmultiselect-item" *ngIf="item.selected" [ngClass]="{checked: item.checked}"
+             (dblclick)="dblclickSelected(item,false)" (click)="item.checked = !item.checked">
+          <span [title]="selectOpts.getName.call(selectOpts.that, item)">
+            {{selectOpts.getName.call(selectOpts.that, item)}}
+          </span>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <div class="clear"></div>
+</div>

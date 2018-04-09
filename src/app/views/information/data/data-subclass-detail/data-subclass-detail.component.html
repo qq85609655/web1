@@ -1,0 +1,30 @@
+<div class="content-wrap">
+  <!--面包屑-->
+  <div class="content-header nav_tab">
+    <a class="btn-back" (click)="goback()"><em></em>返回</a>
+    <ol class="breadcrumb">
+      <li>信息标准管理</li>
+      <li>{{getFunctionParentName()}}</li>
+      <li>{{getFunctionName()}}维护</li>
+      <li class="active">查看</li>
+    </ol>
+  </div>
+  <!-- 表格 -->
+  <div class="content-search">
+    <div class="crumbs-btn">
+
+    </div>
+    <div class="mt20">
+      <span class="title" style="margin-right: 50px;">数据子类编号：{{subclassParam.code}}</span>
+      <span class="title" style="margin-right: 50px;">中文名称：{{subclassParam.name}}</span>
+      <span class="title" style="margin-right: 50px;">英文名称：{{subclassParam.tableName}}</span>
+    </div>
+  </div>
+  <div class="content-table">
+    <!--表格-->
+    <div class="table">
+      <app-ptable [tableOpts]="tableOpts"></app-ptable>
+    </div>
+  </div>
+</div>
+

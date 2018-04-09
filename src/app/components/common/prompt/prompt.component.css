@@ -1,0 +1,36 @@
+.top-dialog{
+  position: fixed;
+  top: 0px;
+  left: 0;
+  z-index: 9999;
+  width: 100%;
+  text-align: center;
+}
+.top-dialog span{
+  text-align: center;
+  display: inline-block;
+  /*width: 300px;*/
+  padding: 0 20px;
+  height: 40px;
+  line-height: 40px;
+  color: #ffffff;
+  font-size: 16px;
+  background: #10a54a;
+}
+.top-dialog span.waring{
+  background: #fdb513;
+}
+.top-dialog span.error{
+  background: #FFFFFF;
+}
+.top-dialog .hide{
+  display: none;
+}
+.top-dialog .show{
+  z-index: 9999;
+  display: block;
+}
+
+
+
+

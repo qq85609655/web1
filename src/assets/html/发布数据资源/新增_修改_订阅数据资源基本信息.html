@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" href="../../../styles.css">
+  <link rel="stylesheet" href="../../../app/views/index/index.component.css">
+  <link rel="stylesheet" href="../css/bootstrap.min.css">
+  <script src="https://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+  <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <style>
+      .container{
+        width: 100%;
+        min-width: 1280px;
+        padding: 0px;
+        margin-top: 50px;
+        padding-bottom: 70px;
+      }
+      .meta-nav{
+        width: 240px;
+        padding:10px;
+        height: 100%;
+        position: fixed;
+        left: 215px;
+        top:105px;
+        overflow: auto;
+        background: #f1f3f8;
+        z-index:1;
+        border: 1px solid #dde5f3;
+      }
+      .meta-nav li ul{
+        padding-left:15px;
+      }
+      .meta-nav li{
+        line-height: 30px;
+      }
+      .meta-nav li ul div{
+        padding-left:15px;
+      }
+      .content-wrap{
+        position: relative;
+      }
+      .code-left{
+        float: left;
+      }
+      .code-content{
+        padding-left:250px;
+      }
+
+
+/**********************************以下拷贝***********************************/
+      button{
+        height: 30px;
+        padding: 0 20px;
+        color: #fff;
+        background: #269dff;
+        border: none;
+        float: left;
+        border-radius: 3px;
+        margin-right: 10px;
+      }
+      .btn-back{
+        margin-top: -5px;
+      }
+      .content-search{
+        width: 100%;
+        float:left;
+      }
+
+      .title {
+        float: left;
+        margin-top: 6px;
+        margin-right: 5px;
+        width: 120px;
+        text-align: right;
+      }
+
+      .dropdown {
+        float: left;
+        width: 150px;
+        height: 30px;
+        line-height: 30px;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        margin-right: 5px;
+      }
+
+      .dropdown-toggle {
+        width: 100%;
+        float: left;
+        padding: 0 10px;
+        color: #333;
+      }
+
+      .dropdown-toggle span {
+        width: 118px;
+        float: left;
+      }
+
+      em{
+        height: 40px;
+        line-height:40px;
+        color: #ff0000;
+        font-weight: bold;
+        font-size:18px;
+        float: left;
+        margin-right: 50px;
+      }
+
+      .check-box{
+        width: 100%;
+        float: left;
+        position: relative;
+      }
+      .check-box input{
+        width: 200px;
+        height: 30px;
+        padding:5px 10px;
+        border:1px solid #ccc;
+        transition: all 0.3s linear;
+        border-radius: 3px;
+      }
+      .check-box input:focus{
+        border-color:#269dff ;
+        box-shadow: 0px 0px 2px #269dff ;
+      }
+      .pull-left input{
+        float: left;
+      }
+      .absolute{
+        position: absolute;
+        left:0px;
+        top:0px;
+      }
+      .release-info{
+        margin-left:125px;
+        border:1px solid #ccc;
+        padding: 20px 10px;
+        -webkit-border-radius:3px;
+        -moz-border-radius:3px;
+        border-radius:3px;
+      }
+      .table{
+        width: 100%;
+        float: left;
+        margin-top: 20px;
+        border:1px solid #ccc;
+        display: flex;
+        display: -webkit-flex;
+      }
+      .table-left,.table-right{
+        -webkit-flex:0 0 50%;
+        flex:0 0 50%;
+      }
+      .table-tit{
+        height: 40px;
+        line-height:40px;
+        text-align: center;
+
+      }
+      .table-left{
+        border-right: 1px solid #ccc;
+      }
+      .table-list{
+        width: 100%;
+        height: 92px;
+        float: left;
+        padding: 10px 0;
+        border-top:1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+      }
+      .search-input{
+        display: block;
+        margin-left:10px;
+        height: 30px;
+        padding: 5px 10px;
+        line-height: 20px;
+        border:1px solid #ddd;
+        border-radius: 3px;
+      }
+      .table-list li a{
+        padding-left:10px;
+        color: #000;
+      }
+      .table-list li:hover{
+        background: #f2f2f2;
+        cursor: pointer;
+      }
+      .table-list .dropdown{
+        width: 120px;
+      }
+      .table-list .dropdown-toggle span{
+        width: 88px;
+      }
+      .paddingTop{
+        margin-top: 10px;
+      }
+      .btn-groups{
+        width: 100%;
+        float:left;
+        padding:10px 0;
+      }
+      .table-box{
+        width: 100%;
+        float: left;
+        padding-bottom: 50px;
+      }
+      .table-from,.table-to{
+        width: 45%;
+        float: left;
+      }
+      .table-active{
+        padding-top:40px;
+        width: 9%;
+        margin: 0 0.5%;
+        float: left;
+        border-top:1px solid #fff;
+      }
+      .table-active li{
+        width: 100%;
+        float: left;
+        margin:10px 0;
+        height: 20px;
+        background: #ff0000;
+      }
+      .table-active li.active{
+        background:#1fef55;
+      }
+      table{
+        width: 100%;
+        border-top: 1px solid #797979;
+        border-left: 1px solid #797979;
+      }
+      table thead {
+        background: #ddd;
+      }
+      table td{
+        height: 40px;
+        border-top: none;
+        border-left: none;
+        border-bottom: 1px solid #797979;
+        border-right: 1px solid #797979;
+        background: none;
+        text-align: center;;
+      }
+      .table-from table tr td:nth-child(2),.table-to table tr td:nth-child(1){
+        width: 155px;
+      }
+      .btn-add{
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        border-radius: 100px;
+        cursor: pointer;
+        margin: 0 5px;
+        color: #fff;
+        background: #269dff;
+      }
+      .btn-delete{
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        border-radius: 100px;
+        cursor: pointer;
+        margin: 0 5px;
+        border: 1px solid #ccc;
+        color: #ccc;
+      }
+      .btn-box{
+        text-align: center;
+        padding-bottom: 50px;
+
+      }
+      .btn-box button{
+        float: none;
+        border: none;
+        height: 30px;
+        padding: 0 20px;
+        border-radius: 3px;
+        margin: 0 10px;
+        transition: all 0.3s linear 0s;
+      }
+      .btn-save{
+        background: #269dff;
+        color: #fff;
+      }
+      .btn-cancel{
+        color: #333;
+        background: #ddd;
+      }
+    </style>
+
+    <div class="container center">
+
+          <!--左侧导航-->
+          <div class="left-menu"></div>
+
+          <!--右侧内容-->
+          <div class="right-box">
+            <div class="content">
+
+              <!--右边内容-->
+              <div class="content-wrap">
+
+                <!--面包屑-->
+                <div class="content-header nav_tab">
+                  <button type="button" class="btn-back" >返回</button>
+                  <ol class="breadcrumb">
+                    <li><a>数据共享交换</a></li>
+                    <li><a>订阅数据资源</a></li>
+                    <li class="active">新增</li>
+                  </ol>
+                </div>
+                <!--下拉框-->
+                <div class="content-search">
+                  <div class="check-box">
+                    <div class="pull-left">
+                      <span class="title">订阅资源节点：</span>
+                      <!--这个地方不要下拉，默认显示当前节点，产品确认过的-->
+                      <div class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="ellipsis" >请选择…</span><b class="caret"></b></a>
+                      </div>
+                      <em>*</em>
+                    </div>
+                    <div class="pull-left">
+                      <span class="title">订阅资源名称：</span>
+                      <input type="text">
+                      <em>*</em>
+                    </div>
+                    <div class="pull-left">
+                      <span class="title">数据类型：</span>
+                      <div class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="ellipsis" >请选择…</span><b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="javascript:void(0)">结构化数据</a></li>
+                          <li><a href="javascript:void(0)">非结构化数据</a></li>
+                        </ul>
+                      </div>
+                      <em>*</em>
+                    </div>
+                  </div>
+                  <div class="check-box">
+                    <div class="pull-left">
+                      <span class="title">每批次处理条数：</span>
+                      <div class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="ellipsis" >请选择…</span><b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="javascript:void(0)">500</a></li>
+                          <li><a href="javascript:void(0)">800</a></li>
+                          <li><a href="javascript:void(0)">1500</a></li>
+                          <li><a href="javascript:void(0)">3000</a></li>
+                          <li><a href="javascript:void(0)">5000</a></li>
+                          <li><a href="javascript:void(0)">8000</a></li>
+                          <li><a href="javascript:void(0)">12000</a></li>
+                          <li><a href="javascript:void(0)">18000</a></li>
+                        </ul>
+                      </div>
+                      <em>*</em>
+                    </div>
+                    <div class="pull-left">
+                      <span class="title">同步计划：</span>
+                      <div class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="ellipsis" >请选择…</span><b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                          <li><a href="javascript:void(0)">5分钟</a></li>
+                          <li><a href="javascript:void(0)">15分钟</a></li>
+                          <li><a href="javascript:void(0)">30分钟</a></li>
+                        </ul>
+                      </div>
+                      <em>*</em>
+                    </div>
+                  </div>
+                  <div class="check-box">
+                    <span class="title absolute">订阅资源说明：</span>
+                    <div class="release-info">
+                      资源发布节点：XXX，发布资源名称：XXX，数据类型：结构化数据，每批次处理条数：500条，同步计划：每小时，映射字段：15个
+                    </div>
+                  </div>
+                </div>
+
+                <!--表格-->
+                <div class="table">
+                  <div class="table-left">
+                    <div class="table-tit">源字段</div>
+                    <div class="table-list">
+                      <div class="pull-left">
+                        <span class="title">数据子集：</span>
+                        <div class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="ellipsis" >请选择…</span><b class="caret"></b></a>
+                          <div class="dropdown-menu">
+                            <!--输入文字检索，没有查询按钮-->
+                            <input type="text" class="search-input" placeholder="请输入关键字搜索">
+                            <ul>
+                              <li><a href="javascript:void(0)">选项一</a></li>
+                              <li><a href="javascript:void(0)">选项二</a></li>
+                              <li><a href="javascript:void(0)">选项三</a></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="pull-left">
+                        <span class="title">数据类：</span>
+                        <div class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="ellipsis" >请选择…</span><b class="caret"></b></a>
+                          <div class="dropdown-menu">
+                            <!--输入文字检索，没有查询按钮-->
+                            <input type="text" class="search-input" placeholder="请输入关键字搜索">
+                            <ul>
+                              <li><a href="javascript:void(0)">选项一</a></li>
+                              <li><a href="javascript:void(0)">选项二</a></li>
+                              <li><a href="javascript:void(0)">选项三</a></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="pull-left paddingTop">
+                        <span class="title">数据子类：</span>
+                        <div class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="ellipsis" >请选择…</span><b class="caret"></b></a>
+                          <div class="dropdown-menu">
+                            <!--输入文字检索，没有查询按钮-->
+                            <input type="text" class="search-input" placeholder="请输入关键字搜索">
+                            <ul>
+                              <li><a href="javascript:void(0)">选项一</a></li>
+                              <li><a href="javascript:void(0)">选项二</a></li>
+                              <li><a href="javascript:void(0)">选项三</a></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="btn-groups">
+                      <div class="pull-right">
+                        <button type="button">更新条件</button>
+                        <button type="button">自动映射</button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="table-right">
+                    <div class="table-tit">目标字段</div>
+                    <div class="table-list">
+                      <div class="pull-left">
+                        <span class="title">数据源：</span>
+                        <div class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="ellipsis" >请选择…</span><b class="caret"></b></a>
+                          <div class="dropdown-menu">
+                            <!--输入文字检索，没有查询按钮-->
+                            <input type="text" class="search-input" placeholder="请输入关键字搜索">
+                            <ul><!--搜索结果也是这个-->
+                              <li><a href="javascript:void(0)">选项一</a></li>
+                              <li><a href="javascript:void(0)">选项二</a></li>
+                              <li><a href="javascript:void(0)">选项三</a></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="pull-left">
+                        <span class="title">数据表：</span>
+                        <div class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="ellipsis" >请选择…</span><b class="caret"></b></a>
+                          <div class="dropdown-menu">
+                            <!--输入文字检索，没有查询按钮-->
+                            <input type="text" class="search-input" placeholder="请输入关键字搜索">
+                            <ul>
+                              <li><a href="javascript:void(0)">选项一</a></li>
+                              <li><a href="javascript:void(0)">选项二</a></li>
+                              <li><a href="javascript:void(0)">选项三</a></li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="btn-groups">
+                      <div class="pull-right">
+                      <button type="button">值映射</button>
+                      <button type="button">合并字段</button>
+                      <button type="button">拆分字段</button>
+                    </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!--映射-->
+                <div class="table-box">
+                  <!--左侧表格-->
+                  <div class="table-from">
+                    <table>
+                      <thead>
+                        <tr>
+                          <td>序号</td>
+                          <td>数据项名</td>
+                          <td>中文名称</td>
+                          <td>类型</td>
+                          <td>长度</td>
+
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>1</td>
+                          <td>
+                            <div class="dropdown">
+                              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="ellipsis" >请选择…</span><b class="caret"></b></a>
+                              <ul class="dropdown-menu">
+                                <li><a href="javascript:void(0)">选项一</a></li>
+                                <li><a href="javascript:void(0)">选项二</a></li>
+                                <li><a href="javascript:void(0)">选项三</a></li>
+                              </ul>
+                            </div>
+                          </td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td>2</td>
+                          <td>
+                            <div class="dropdown">
+                              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="ellipsis" >请选择…</span><b class="caret"></b></a>
+                              <ul class="dropdown-menu">
+                                <li><a href="javascript:void(0)">选项一</a></li>
+                                <li><a href="javascript:void(0)">选项二</a></li>
+                                <li><a href="javascript:void(0)">选项三</a></li>
+                              </ul>
+                            </div>
+                          </td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!--映射状态-->
+                  <div class="table-active">
+                    <ul>
+                      <li class="active"></li><!--成功的加上active-->
+                      <li></li>
+                    </ul>
+                  </div>
+                  <!--右侧表格-->
+                  <div class="table-to">
+                    <table>
+                      <thead>
+                        <tr>
+                          <td>字段名称</td>
+                          <td>类型</td>
+                          <td>长度</td>
+                          <td>主键</td>
+                          <td>操作</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <div class="dropdown">
+                              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="ellipsis" >请选择…</span><b class="caret"></b></a>
+                              <ul class="dropdown-menu">
+                                <li><a href="javascript:void(0)">选项一</a></li>
+                                <li><a href="javascript:void(0)">选项二</a></li>
+                                <li><a href="javascript:void(0)">选项三</a></li>
+                              </ul>
+                            </div>
+                          </td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td>
+                            <span class="btn-add">+</span>
+                            <span class="btn-delete">-</span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div class="dropdown">
+                              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="ellipsis" >请选择…</span><b class="caret"></b></a>
+                              <ul class="dropdown-menu">
+                                <li><a href="javascript:void(0)">选项一</a></li>
+                                <li><a href="javascript:void(0)">选项二</a></li>
+                                <li><a href="javascript:void(0)">选项三</a></li>
+                              </ul>
+                            </div>
+                          </td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td>
+                            <span class="btn-add">+</span>
+                            <span class="btn-delete">-</span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <!--底部按钮-->
+                <div class="btn-box">
+                  <button class="btn-save">保存</button>
+                  <button class="btn-cancel">取消</button>
+                  <label>
+                    <input type="checkbox">保存后继续增加
+                  </label>
+                  <label>
+                    <input type="checkbox">保存后启用资源
+                  </label>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+
+
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,94 @@
+<div class="homePage" id="screenHeight">
+  <div class="home-title mb20">
+    <b>信息标准管理</b>
+  </div>
+  <div class="show-data">
+    <ul>
+      <li>
+        <div class="data-flex">
+          <i class="icon icon_1"></i>
+          <div>
+            <p>数据标准类数</p>
+            <p *ngIf="standardObject.loading"><img class="loading-img" src="./assets/img/loading.gif" alt="加载中"></p>
+            <p *ngIf="!standardObject.loading"><b>{{standardObject.a1}}</b>个</p>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="data-flex">
+          <i class="icon icon_2"></i>
+          <div>
+            <p>数据标准模型数</p>
+            <p *ngIf="standardObject.loading"><img class="loading-img" src="./assets/img/loading.gif" alt="加载中"></p>
+            <p *ngIf="!standardObject.loading"><b>{{standardObject.a2}}</b>个</p>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="data-flex">
+          <i class="icon icon_3"></i>
+          <div>
+            <p>元数据数</p>
+            <p *ngIf="standardObject.loading"><img class="loading-img" src="./assets/img/loading.gif" alt="加载中"></p>
+            <p *ngIf="!standardObject.loading"><b>{{standardObject.a3}}</b>个</p>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="data-flex">
+          <i class="icon icon_4"></i>
+          <div>
+            <p>国家标准代码类</p>
+            <p *ngIf="standardObject.loading"><img class="loading-img" src="./assets/img/loading.gif" alt="加载中"></p>
+            <p *ngIf="!standardObject.loading"><b>{{standardObject.a4}}</b>个</p>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="data-flex">
+          <i class="icon icon_5"></i>
+          <div>
+            <p>国家标准代码</p>
+            <p *ngIf="standardObject.loading"><img class="loading-img" src="./assets/img/loading.gif" alt="加载中"></p>
+            <p *ngIf="!standardObject.loading"><b>{{standardObject.a5}}</b>个</p>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="data-flex">
+          <i class="icon icon_6"></i>
+          <div>
+            <p>数据字典</p>
+            <p *ngIf="standardObject.loading"><img class="loading-img" src="./assets/img/loading.gif" alt="加载中"></p>
+            <p *ngIf="!standardObject.loading"><b>{{standardObject.a6}}</b>个</p>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <!-- 交换数据统计 -->
+  <!-- <div class="statistics-data">
+    <div class="home-title tablist">
+      <b>交换数据统计</b>
+      <ul class="tablist-ul">
+        <li class="active">本周</li>
+        <li>本月</li>
+        <li>本季度</li>
+        <li>本年度</li>
+      </ul>
+    </div>
+    <div class="statistics-charts tabpanels mt20">
+      <div class="tabpanel active">
+        <div class="lineChart"><img src="./assets/img/bar1.jpg" alt=""></div>
+        <div class="barChart"><img src="./assets/img/bar2.jpg" alt=""></div>
+      </div>
+      <div class="tabpanel"></div>
+      <div class="tabpanel"></div>
+      <div class="tabpanel"></div>
+    </div>
+  </div> -->
+  <!-- 数据交换监控，权限码信息是存在异步的情况，故任务查看放到子组件中 -->
+  <ng-container *ngIf="checkAuth('018001')">
+    <app-main-index-task ></app-main-index-task>
+  </ng-container>
+</div>

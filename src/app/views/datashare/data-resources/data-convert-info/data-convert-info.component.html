@@ -1,0 +1,305 @@
+<!--右边内容-->
+<div class="content-wrap">
+
+  <!--面包屑-->
+  <div class="content-header nav_tab">
+    <a class="btn-back" (click)="goback()"><em class="ico-r"></em>返回</a>
+    <ol class="breadcrumb">
+      <li>数据共享交换</li>
+      <li>{{getFunctionName()}}</li>
+      <li class="active">{{getOperName()}}</li>
+    </ol>
+  </div>
+  <div class="data-convert">
+    <!--数据资源基础信息-->
+    <div class="content-title">数据资源基础信息</div>
+    <div class="border valignTable autovalignTable">
+      <table>
+        <tr>
+          <th>所属机构：</th>
+          <td>{{taskData.orgName}}</td>
+          <th><em>*</em>{{getFunctionShortName()}}资源名称：</th>
+          <td><input type="text" [(ngModel)]="taskData.taskName" maxlength="20" [ngClass]="{error:valid.taskData.taskName.status}"></td>
+          <td></td>
+        </tr>
+        <tr>
+          <!--<th><em>*</em>数据类型：</th>
+          <td>
+            <p-dropdown length="equate" [options]="dataTypeList" [(ngModel)]="taskData.dataType"  [ngClass]="{error:valid.taskData.dataType.status}" placeholder="请选择" [disabled]="true"></p-dropdown>
+          </td>-->
+          <th><em>*</em>同步时间：</th>
+          <td>
+            <p-dropdown length="equate" [options]="runTypeList" [(ngModel)]="runValue" [ngClass]="{error: valid.taskData.runType.status}"
+              placeholder="请选择" (onChange)="onRuleTypeChange($event)"></p-dropdown>
+            <a class="c_blue title" (click)="onRuleTypeAdvanced()" *ngIf="runValue && runValue.runType >= 3">高级</a>
+            <a class="c_blue disabled title" *ngIf="!runValue || runValue.runType < 3">高级</a>
+          </td>
+          <th></th>
+        </tr>
+        <tr *ngIf="false">
+          <th valign="top">{{getFunctionShortName()}}数据资源说明：</th>
+          <td colspan="4">
+            <textarea [(ngModel)]="taskData.description" readonly="readonly"></textarea>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="content-stepflow">
+      <span></span>
+    </div>
+    <!-- 数据转换规则 -->
+    <div class="content-title">数据转换规则</div>
+    <div class="border ">
+      <!-- 第一步 -->
+      <div class="content-step first-step" *ngIf="sourceRule">
+        <div class="step-num">
+          <span>1</span>
+          <div>选择源表</div>
+        </div>
+        <div class="step-right">
+
+          <div *ngIf="isIssue()">
+            <span>编号：1&nbsp;&nbsp;</span>
+            <span>数据源：</span>
+            <p-dropdown [options]="sourceRule.dataSourceList" [(ngModel)]="sourceRule.data.thirdConnectionId" (onChange)="sourceRule.onDataSourceChange()"
+              [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
+            <span>数据表：</span>
+            <p-dropdown [options]="sourceRule.dataTableList" [(ngModel)]="sourceRule.data.thirdTablename" (onChange)="sourceRule.onDataTableChange()"
+              [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
+            <span class="error-tip" *ngIf="sourceRule.error.status" [title]="sourceRule.error.msg"></span>
+          </div>
+          <div *ngIf="!isIssue()">
+            <span>编号：1&nbsp;&nbsp;</span>
+            <span>数据子集：</span>
+            <p-dropdown [options]="sourceRule.subsetList" [(ngModel)]="sourceRule.data.subsetCode" (onChange)="sourceRule.onSubsetChange()"
+              [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
+            <span>数据类：</span>
+            <p-dropdown [options]="sourceRule.classList" [(ngModel)]="sourceRule.data.classCode" (onChange)="sourceRule.onClassChange()"
+              [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
+            <span>数据子类：</span>
+            <p-dropdown [options]="sourceRule.subclassList" [(ngModel)]="sourceRule.data.subclassCode" (onChange)="sourceRule.onSubclassChange()"
+              [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
+            <span class="error-tip" *ngIf="sourceRule.error.status" [title]="sourceRule.error.msg"></span>
+          </div>
+        </div>
+        <button class="fr" (click)="sourceRule.openTableDetail(1)">详情</button>
+      </div>
+      <!-- 第二步 -->
+      <div class="content-step second-step">
+        <div class="step-num">
+          <span>2</span>
+          <div>自定义数据转换</div>
+        </div>
+        <div class="step-right">
+          <div class="convert-list">
+            <div class="ruleli first-ruleli">开始</div>
+            <div class="rightflow"></div>
+            <div *ngFor="let ruleli of rules;let i = index" [ngClass]="{hidden: ruleli.type < 3}">
+              <div class="ruleli" [ngClass]="{error:ruleli.error.status}" class="ruleli" [title]="ruleli.error.msg">
+                <table width="100%" class="ruleTable">
+                  <tr>
+                    <td> {{ruleli.name}}({{ruleli.id}})</td>
+                  </tr>
+                </table>
+                <ng-container *ngIf="isRuleOpen()">
+                  <a class="editrules disabled">修改</a>
+                  <a class="delrules  disabled">删除</a>
+                </ng-container>
+                <ng-container *ngIf="!isRuleOpen()">
+                  <a class="editrules" (click)="onRuleUpdate(ruleli)">修改</a>
+                  <a class="delrules" (click)="onRuleDelete(ruleli)">删除</a>
+                </ng-container>
+              </div>
+              <div class="rightflow"></div>
+            </div>
+
+            <div class="ruleli last-ruleli">
+              <a class="disabled" *ngIf="rule && rule.type >= 0"><img src="./assets/img/adddisabled.png" alt="添加规则"></a>
+              <a (click)="onRuleAdd()" *ngIf="!rule || rule.type < 0"><img src="./assets/img/adddisabled.png" alt="添加规则"></a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="content-step-detail" *ngIf="rule?.type > 2">
+        <!--  各步骤操作div开始  -->
+        <app-data-convert-info-rulepage [rule]="rule" [parentComponent]="that"></app-data-convert-info-rulepage>
+        <!--  各步骤操作div结束  -->
+      </div>
+      <!-- 第三步 -->
+      <div class="content-step" *ngIf="targetRule">
+        <div>
+          <div class="step-num">
+            <span>3</span>
+            <div>选择目标表</div>
+          </div>
+          <div class="step-right">
+            <div *ngIf="!isIssue()">
+              <span>编号：2&nbsp;&nbsp;</span>
+              <span>数据源：</span>
+              <p-dropdown [options]="targetRule.dataSourceList" [(ngModel)]="targetRule.data.thirdConnectionId" (onChange)="targetRule.onDataSourceChange()"
+                [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
+              <span>数据表：</span>
+              <p-dropdown [options]="targetRule.dataTableList" [(ngModel)]="targetRule.data.thirdTablename" (onChange)="targetRule.onDataTableChange()"
+                [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
+              <span class="error-tip" *ngIf="targetRule.error.status" [title]="targetRule.error.msg"></span>
+            </div>
+            <div *ngIf="isIssue()">
+              <span>编号：2&nbsp;&nbsp;</span>
+              <span>数据子集：</span>
+              <p-dropdown [options]="targetRule.subsetList" [(ngModel)]="targetRule.data.subsetCode" (onChange)="targetRule.onSubsetChange()"
+                [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
+              <span>数据类：</span>
+              <p-dropdown [options]="targetRule.classList" [(ngModel)]="targetRule.data.classCode" (onChange)="targetRule.onClassChange()"
+                [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
+              <span>数据子类：</span>
+              <p-dropdown [options]="targetRule.subclassList" [(ngModel)]="targetRule.data.subclassCode" (onChange)="targetRule.onSubclassChange()"
+                [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
+              <span class="error-tip" *ngIf="targetRule.error.status" [title]="targetRule.error.msg"></span>
+            </div>
+          </div>
+          <button class="fr" (click)="targetRule.openTableDetail(2)">详情</button>
+        </div>
+        <div class="thirds-operate">
+          <button (click)="onRuleUpdate(targetRule)" [disabled]="rule?.type > 0" [ngClass]="{ disabled: rule?.type > 0}">关联映射</button>
+          <span>选择目标表后，点击关联映射进行数据映射！</span>
+        </div>
+
+      </div>
+
+      <div class="content-step-detail" *ngIf="rule?.type == 2">
+        <app-data-convert-info-rulepage [rule]="rule" [parentComponent]="that"></app-data-convert-info-rulepage>
+      </div>
+    </div>
+
+    <!--底部按钮-->
+    <div class="btn-group-center" id="btnDiv2" *ngIf="!rule && operType < 3">
+      <button class="btn-save" id="addBtn" (click)="saveDataTaskOk()">保存数据资源</button>
+      <button class="btn-cancel" id="cancelBtn2" (click)="goback()">取消</button>
+      <label *ngIf="operType == 1">
+        <ng-container>
+          <input type="checkbox" [(ngModel)]='pageParam.appendAdd'>保存后继续增加
+        </ng-container>
+      </label>
+      <label *ngIf="operType <= 2">
+        <ng-container>
+          <input type="checkbox" [(ngModel)]='pageParam.startTask'>保存后启用资源
+        </ng-container>
+      </label>
+    </div>
+    <div class="btn-group-center" id="btnDiv" *ngIf="!rule && operType==3">
+      <button class="btn-cancel" id="cancelBtn" (click)="goback()">返回</button>
+    </div>
+  </div>
+</div>
+
+
+
+<p-dialog header="{{dialogOpts.select.title}}" [(visible)]="dialogOpts.select.visible" width="702" height="auto" modal="true">
+  <div class="ruleTypeSelect">
+    <ul>
+      <li *ngFor="let item of ruleTypeList;let i=index" [ngClass]="{'selected': item?.selected}">
+        <a title="{{item.description}}" (click)="selectRuleClick(item)">{{item.name}}</a>
+      </li>
+    </ul>
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="selectRuleOk()" label="确认"></button>
+    <button type="button" pButton (click)="dialogOpts.select.visible=false" label="取消"></button>
+  </p-footer>
+</p-dialog>
+
+
+<p-dialog header="{{dialogOpts.runtime.title}}" [(visible)]="dialogOpts.runtime.visible" width="610" height="auto" modal="true">
+  <div class="project">
+    <table>
+      <tr>
+        <td width="100">同步时间：</td>
+        <td>
+          <p-dropdown [options]="runTypeList" [(ngModel)]="dialogOpts.runtime.data.runValue" (onChange)="onRuleTypeChangeAdvanced($event)"></p-dropdown>
+        </td>
+      </tr>
+      <tr *ngIf="dialogOpts.runtime.data.runType >= 3">
+        <td>执行时间：</td>
+        <td>
+          <ng-container *ngIf="dialogOpts.runtime.data.runType >= 6">
+            日：
+            <p-dropdown length="80" [options]="runDayList" [(ngModel)]="dialogOpts.runtime.data.runDay"></p-dropdown>
+          </ng-container>
+          时：
+          <p-dropdown length="80" [options]="runHourList" [(ngModel)]="dialogOpts.runtime.data.runHour"></p-dropdown>
+          分：
+          <p-dropdown length="80" [options]="runMinuteList" [(ngModel)]="dialogOpts.runtime.data.runMinute"></p-dropdown>
+        </td>
+      </tr>
+      <tr *ngIf="dialogOpts.runtime.data.runType >= 4">
+        <td>执行频率：</td>
+        <td class="ruleFrequency">
+          <div *ngIf="dialogOpts.runtime.data.runType == 4">
+            <ul>
+              <li *ngFor="let item of runWeekList" [ngClass]="{selected: item.status}">
+                <a (click)="item.status = (item.status===true ? false : true)">{{item.label}}</a>
+              </li>
+            </ul>
+          </div>
+          <div *ngIf="dialogOpts.runtime.data.runType == 5">
+            <ul>
+              <li *ngFor="let item of runMonthList" [ngClass]="{selected: item.status}">
+                <a (click)="item.status = (item.status===true ? false : true)">{{item.label}}</a>
+              </li>
+            </ul>
+          </div>
+          <div *ngIf="dialogOpts.runtime.data.runType == 6">
+            <ul class="runYear">
+              <li *ngFor="let item of runYearList" [ngClass]="{selected: item.status}">
+                <a (click)="item.status = (item.status===true ? false : true)">{{item.label}}</a>
+              </li>
+            </ul>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="onRuleTypeAdvancedOk()" label="确认"></button>
+    <button type="button" pButton (click)="dialogOpts.runtime.visible=false" label="取消"></button>
+  </p-footer>
+</p-dialog>
+
+
+<p-dialog header="{{dialogOpts.tabledetail.title}}" [(visible)]="dialogOpts.tabledetail.visible" width="800" height="auto"
+  modal="true" ovflow="auto">
+  <div>
+    <div>表名：{{dialogOpts.tabledetail.tableInfo.name}}</div>
+    <table class="ruletable mt10" style="table-layout: auto;">
+      <thead>
+        <tr>
+          <td width="40">序号</td>
+          <td>字段</td>
+          <td>注释</td>
+          <td>类型</td>
+          <td>长度</td>
+          <td width="80">主键/非空</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of dialogOpts.tabledetail.fieldList; let i=index">
+          <td>{{i+1}}</td>
+          <td>{{item.field}}</td>
+          <td>{{item.comment}}</td>
+          <td>{{item.dataType}}</td>
+          <td>{{item.length}}<ng-container *ngIf="dialogOpts.tabledetail.typeList[i]=='N'">,{{item.decimalLength}}</ng-container></td>
+          <td>
+            <span *ngIf="item.primarykey == 1" class="spandef spanred">是</span>
+            <span *ngIf="item.primarykey != 1" class="spandef">否</span> /
+            <span *ngIf="!item.hasOwnProperty('nullable') || item.nullable == 1" class="spandef">否</span>
+            <span *ngIf="item.hasOwnProperty('nullable')  && item.nullable != 1" class="spandef spanred">是</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="dialogOpts.tabledetail.visible=false" label="关闭"></button>
+  </p-footer>
+</p-dialog>
