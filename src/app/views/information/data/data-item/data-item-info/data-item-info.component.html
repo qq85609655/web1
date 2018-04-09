@@ -1,0 +1,93 @@
+<div class="content-wrap">
+  <!--面包屑-->
+  <div class="content-header nav_tab">
+    <a class="btn-back" (click)="goback()"><em></em>返回</a>
+    <ol class="breadcrumb">
+      <li>信息标准管理</li>
+      <li>{{getFunctionParentName()}}</li>
+      <li>{{getFunctionName()}}维护</li>
+      <li class="active">{{getOperName()}}</li>
+    </ol>
+  </div>
+  <!-- 表格 -->
+  <div class="content-table valignTable">
+    <div class="table">
+      <table>
+        <tr>
+          <th>数据子类：</th>
+          <td colspan="3">
+            {{itemData.subclassName}}
+          </td>
+        <!--  <th><em>*</em>编号：</th>
+          <td>
+            <input type="text" [(ngModel)]="itemData.itemCode" [disabled]="checkDisabled(false)"   maxlength="20" [ngClass]="{error: valid.itemData.itemCode.status}" >
+          </td>-->
+        </tr>
+        <tr>
+          <th><em>*</em>数据项名：</th>
+          <td>
+            <input type="text" [(ngModel)]="itemData.itemName" [disabled]="checkDisabled(false)" [ngClass]="{error: valid.itemData.itemName.status}" maxlength="20">
+          </td>
+          <th><em>*</em>类型：</th>
+          <td>
+            <p-dropdown [options]="dataTypeList" [(ngModel)]="itemData.dataType" [disabled]="checkDisabled(false)" length="equate" [ngClass]="{error: valid.itemData.dataType.status}" ></p-dropdown>
+          </td>
+        </tr>
+        <tr>
+          <th><em>*</em>中文名称：</th>
+          <td>
+            <input type="text" [(ngModel)]="itemData.itemComment" [disabled]="checkDisabled(true)" [ngClass]="{error: valid.itemData.itemComment.status}" maxlength="20">
+          </td>
+          <th><em>*</em>主键：</th>
+          <td>
+            <p-dropdown [options]="dataPrimarykeyList" [(ngModel)]="itemData.dataPrimarykey" [disabled]="checkDisabled(false)" length="equate" [ngClass]="{error: valid.itemData.dataPrimarykey.status}"></p-dropdown>
+          </td>
+        </tr>
+        <tr>
+          <th><em>*</em>长度：</th>
+          <td>
+            <input type="text" [(ngModel)]="itemData.dataLength" [disabled]="checkDisabled(false)" [ngClass]="{error: valid.itemData.dataLength.status}" maxlength="5">
+          </td>
+          <th><em>*</em>约束：</th>
+          <td>
+            <p-dropdown [options]="selectableList" [(ngModel)]="itemData.selectable" [disabled]="checkDisabled(false)" length="equate" [ngClass]="{error: valid.itemData.selectable.status}"></p-dropdown>
+          </td>
+        </tr>
+        <tr>
+          <th><em>*</em>是否可空：</th>
+          <td>
+            <p-dropdown [options]="dataNullableList" [(ngModel)]="itemData.dataNullable" [disabled]="checkDisabled(false)" length="equate" [ngClass]="{error: valid.itemData.dataNullable.status}"></p-dropdown>
+          </td>
+          <td></td><td></td>
+        </tr>
+        <tr>
+          <th>取值范围：</th>
+          <td colspan="3">
+            <textarea type="text" [(ngModel)]="itemData.dataValueSource" maxlength="30" [disabled]="checkDisabled(true)"></textarea>
+            <b>还剩{{getRestLength(itemData.dataValueSource,30)}}</b>
+          </td>
+        </tr>
+        <tr>
+          <th>说明/示例：</th>
+          <td colspan="3">
+            <textarea type="text" [(ngModel)]="itemData.dataExplain" maxlength="30" [disabled]="checkDisabled(true)"></textarea>
+            <b>还剩{{getRestLength(itemData.dataExplain,30)}}</b>
+          </td>
+        </tr>
+        <tr>
+          <th>引用管理：</th>
+          <td colspan="3">
+            <textarea type="text" [(ngModel)]="itemData.dataReferenced" maxlength="30" [disabled]="checkDisabled(true)"></textarea>
+            <b>还剩{{getRestLength(itemData.dataReferenced,30)}}</b>
+          </td>
+        </tr>
+      </table>
+      <div class="btn-group-center" *ngIf="operType < 3">
+        <button type="button" pButton label="保存" (click)="saveDataOk()"></button>
+        <button type="button" pButton label="取消" (click)="goback()"></button>
+        <label *ngIf="operType==1"><input type="checkbox" [(ngModel)]="appendAdd"/>保存后继续增加</label>
+      </div>
+    </div>
+  </div>
+</div>
+
