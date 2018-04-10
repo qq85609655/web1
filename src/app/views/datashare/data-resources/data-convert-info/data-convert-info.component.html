@@ -143,6 +143,7 @@
               <p-dropdown [options]="targetRule.dataTableList" [(ngModel)]="targetRule.data.thirdTablename" (onChange)="targetRule.onDataTableChange()"
                 [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
               <span class="error-tip" *ngIf="targetRule.error.status" [title]="targetRule.error.msg"></span>
+              <span>当前表的主键信息:<p id="primaryKeyInfo"> </p></span>
             </div>
             <div *ngIf="isIssue()">
               <span>编号：2&nbsp;&nbsp;</span>

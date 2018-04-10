@@ -919,25 +919,20 @@
 <!--  选择目标表  操作    {label: '全表插入', value: 1},
       {label: '按照主键更新插入', value: 2},
       {label: '自定义更新条件', value: 3}
-
         (onChange)="rule.showMyCaption()"  -->
 <div id="targetRule" *ngIf="rule?.type == 2">
   <div class="rule-detail">
     <div class="mt10 textright">
       更新类型：
-      <!--<button type="button" (click)="rule.showMyCaption(1)">全表插入</button>-->
-      <!--<button type="button" (click)="rule.showMyCaption(2)">按照主键更新插入</button>-->
-      <!--<button type="button" (click)="rule.showMyCaption(3)">自定义更新条件</button>-->
-     <!-- [disabled]="!rule.hasPrimarykey"-->
      <p-dropdown [options]="rule.updateTypeList" align="left"
                   [(ngModel)]="rule.data.updateType"
       ></p-dropdown>
+      主键生成策略：
+      <p-dropdown [options]="rule.keyCreateList" align="left"
+                  [(ngModel)]="rule.data.keyCreate"
+    ></p-dropdown>
       <button type="button" (click)="rule.onAutoMapping()">自动映射</button>
     </div>
-    <!--<div class="mt10 textright">
-      已选择的更新条件为：{{rule.conditionss}}
-    </div>-->
-
     <table class="ruletable mt10" style="table-layout: auto;">
       <thead>
       <tr>
@@ -991,7 +986,6 @@
                       [(ngModel)]="item.primaryFlag"
                       [disabled]="rule.data.updateType!=-1"
                      ></p-dropdown>
-          <!-- (onChange)="rule.setPrimaryKey(i)"-->
         </td>
         <td>
           <p-dropdown [options]="rule.targetFieldList"
@@ -1027,49 +1021,3 @@
     </div>
   </div>
 </div>
-
-<!--
-<ng-container *ngIf="rule.type==2">
-  <p-dialog header="{{rule.dialogOpts.updateDict.title}}"
-            [(visible)]="rule.dialogOpts.updateDict.visible" width="810"
-            height="auto" modal="true">
-    <div class="project">
-      <table>
-        <thead>
-        <tr>
-          <td>源表字段</td>
-          <td>关系</td>
-          <td>目标表字段</td>
-          <td>操作</td>
-        </tr>
-        </thead>
-        <tr *ngFor="let item of rule.updates; let i=index">
-          <td>
-            <p-dropdown [options]="rule.sourceFieldList"
-                        [(ngModel)]="item.sourceField" placeholder="请选择"></p-dropdown>
-          </td>
-          <td>
-            <p-dropdown [options]="rule.compileTypes" align="left"
-                        [(ngModel)]="item.updateType" width="auto"></p-dropdown>
-          </td>
-          <td>
-            <p-dropdown [options]="rule.targetFieldList"
-                        [(ngModel)]="item.targetField" placeholder="请选择"></p-dropdown>
-          </td>
-          <td *ngIf="rule.updates.length > 1" class="last-td"><span
-            class="btn-add" (click)="rule.addUpdateDictRow(i)">+</span> <span
-            class="btn-add" (click)="rule.removeUpdateDictRow(i)">-</span></td>
-          <td *ngIf="rule.updates.length == 1" class="last-td"><span
-            class="btn-add" (click)="rule.addUpdateDictRow(i)">+</span> <span
-            class="btn-add" style="visibility:hidden">-</span></td>
-        </tr>
-      </table>
-    </div>
-    <p-footer>
-      <button type="button" pButton (click)="rule.onUpdateDictOk()" label="确认"></button>
-      <button type="button" pButton
-              (click)="rule.closeUpdateDict()" label="取消"></button>
-    </p-footer>
-  </p-dialog>
-</ng-container>-->
-

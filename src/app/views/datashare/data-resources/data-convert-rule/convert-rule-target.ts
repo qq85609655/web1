@@ -16,6 +16,15 @@ export class ConvertRuleTarget extends ConvertRuleSource {
       // {label: '按照主键更新插入', value: 2},
       {label: '自定义更新条件', value: -1}
     ];
+//订阅的时候 需要针对第三方库的表 来生成主键
+  // 如果第三方表 主键是int 递增 那么 我们这么需要插入null 即可
+  //如果第三方表主键是varchar
+  // 需要用户自己来配置： 根据主键的长度来决定生成的 uuid 的长度
+  keyCreateList = [
+    {lable: '系统生成uuid', value: 0},
+    {lable: '插入null', value: 1},
+  ];
+
   public primaryFlagList = [{value: 'N', label: '否'}, {value: 'Y', label: '是'}];
 
 
@@ -54,7 +63,7 @@ export class ConvertRuleTarget extends ConvertRuleSource {
 
 
   public getData() {
-   // debugger;
+    // debugger;
     let conditions = [];
     //alert(this.data.updateType);
     if (this.data.updateType == -1) {
