@@ -2,11 +2,22 @@ import {ConvertRuleSource} from './convert-rule-source';
 
 export class ConvertRuleTarget extends ConvertRuleSource {
 
-  public conditionss = '暂无';
+  public conditionss = [];
   public mappings: any = [];
   public updates: any = [];
   public sourceFieldList = [];
   public targetFieldList = [];
+
+
+  updateTypeList =
+    [
+      {label: '请选择', value: 0},
+      {label: '全表插入', value: 1},
+      // {label: '按照主键更新插入', value: 2},
+      {label: '自定义更新条件', value: -1}
+    ];
+  public primaryFlagList = [{value: 'N', label: '否'}, {value: 'Y', label: '是'}];
+
 
   public maxMappingLength = 50;
   public initMappingLength = 10;
@@ -19,13 +30,16 @@ export class ConvertRuleTarget extends ConvertRuleSource {
     targetType: '',
     source: {},
     target: {},
-    status: 0
+    status: 0,
+    primaryFlag: 'N' //默认为否
   };
+
 
   public defaultUpdateData = {
     sourceField: '',
     targetField: '',
-    updateType: 1
+    updateType: 1,
+    primaryFlag: 'N'
   };
 
 
@@ -40,18 +54,59 @@ export class ConvertRuleTarget extends ConvertRuleSource {
 
 
   public getData() {
-    debugger;
+   // debugger;
     let conditions = [];
-    alert(this.data.updateType);
-    if (this.data.updateType == 2) {
+    //alert(this.data.updateType);
+    if (this.data.updateType == -1) {
       for (let t of this.data.mappings) {
-        if (t.target.primarykey == 1) {
+        // if (t.target.primarykey == 1) {
+        //   conditions.push({sourceField: t.sourceField, targetField: t.targetField, keyCondition: '='});
+        //   }else {
+        if (t.primaryFlag == 'Y' && this.data.updateType != -1) {
           conditions.push({sourceField: t.sourceField, targetField: t.targetField, keyCondition: '='});
         }
+        // }
       }
     }
+
+
     return {data: Object.assign({}, this.data, {conditions: conditions}), targetList: this.targetList};
   }
+
+
+  /**
+   * 此处加上一列 为的是 将 这一行的源字段与目标字段作为更新条件 的 condition ==  此时就不需要用主键来更新了
+   * （如果勾选了 任意一个字段为是的话 就需要废掉主键更新了）
+   * 每一次 change 都需要刷新condition
+   * @param index
+   */
+  /*setPrimaryKey(index) {
+    alert('index=====' + index);
+    let row = this.mappings[index];
+    let sourceField = row.sourceField;
+    let targetField = row.targetField;
+
+    alert('sourceField=====' + sourceField);
+    alert('targetField=====' + targetField);
+
+    if (sourceField == '') {
+      this.tipWarnMessage('请选择源字段');
+      return false;
+    }
+
+    if (targetField == '') {
+      this.tipWarnMessage('请选择目标字段');
+      return false;
+    }
+    let primaryKeyFlag = row.primaryFlag;
+    alert(primaryKeyFlag);
+    if (primaryKeyFlag == 'Y') {
+      this.conditionss.push({sourceField: sourceField, targetField: targetField, keyCondition: '='});
+    }else{
+
+    }
+    return true;
+  }*/
 
   /*onUpdateDictOk() {
     debugger;
@@ -76,19 +131,10 @@ export class ConvertRuleTarget extends ConvertRuleSource {
    }*/
 
 
-  updateTypeList =
-    [
-      {label: '请选择', value: 0},
-      {label: '全表插入', value: 1},
-      {label: '按照主键更新插入', value: 2},
-      //  {label: '自定义更新条件', value: 3}
-    ];
-
-
-  compileTypes = [{label: '>', value: '>'}, {label: '<', value: '<'}, {label: '=', value: '='}, {
-    label: '>=',
-    value: '>='
-  }, {label: '<=', value: '<='}];
+  /*  compileTypes = [{label: '>', value: '>'}, {label: '<', value: '<'}, {label: '=', value: '='}, {
+      label: '>=',
+      value: '>='
+    }, {label: '<=', value: '<='}];*/
 
   /*
     private String field;//字段名称
@@ -108,10 +154,10 @@ export class ConvertRuleTarget extends ConvertRuleSource {
 
   }
 
-  initCondition(param: any) {
-    //  debugger;
-    //  console.info(param.data.conditions);
-  }
+  // initCondition(param: any) {
+  //  debugger;
+  //  console.info(param.data.conditions);
+  // }
 
   protected isSource() {
     return false;
@@ -163,6 +209,7 @@ export class ConvertRuleTarget extends ConvertRuleSource {
     row.source = this.sourceList[fieldIndex];
     this.checkRowDataStatus(row);
   }
+
 
   onTargetChange(index) {
     let row = this.mappings[index];
@@ -330,9 +377,14 @@ export class ConvertRuleTarget extends ConvertRuleSource {
 
   checkMustFields(list: Array<any>): Array<any> {
     let mustFields = [];
-    for (let t of this.targetList) {
-      if (t.primarykey == 1 || t.nullable == 0) {
-        mustFields.push(t.field);
+    //当为发布的时候 加上主键的必选
+    debugger;
+    console.log(this.businessType);
+    if (this.businessType == 1) {
+      for (let t of this.targetList) {
+        if (t.primarykey == 1 || t.nullable == 0) {
+          mustFields.push(t.field);
+        }
       }
     }
     let notExistsFields = [];

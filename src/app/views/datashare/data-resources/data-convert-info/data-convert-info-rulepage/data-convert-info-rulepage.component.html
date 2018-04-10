@@ -928,9 +928,9 @@
       <!--<button type="button" (click)="rule.showMyCaption(1)">全表插入</button>-->
       <!--<button type="button" (click)="rule.showMyCaption(2)">按照主键更新插入</button>-->
       <!--<button type="button" (click)="rule.showMyCaption(3)">自定义更新条件</button>-->
-
+     <!-- [disabled]="!rule.hasPrimarykey"-->
      <p-dropdown [options]="rule.updateTypeList" align="left"
-                  [(ngModel)]="rule.data.updateType"  [disabled]="!rule.hasPrimarykey"
+                  [(ngModel)]="rule.data.updateType"
       ></p-dropdown>
       <button type="button" (click)="rule.onAutoMapping()">自动映射</button>
     </div>
@@ -947,7 +947,8 @@
         <td>类型</td>
         <td width="60">长度</td>
         <td width="75">主键/非空</td>
-        <td class="tipStatus" width="40"></td>
+        <td class="tipStatus" width="40">效验结果</td>
+        <td width="40">设为更新条件</td>
         <td width="150">输出字段</td>
         <td>名称</td>
         <td>类型</td>
@@ -978,12 +979,19 @@
           class="spandef">否</span> <span
           *ngIf="item.source.hasOwnProperty('nullable')  && item.source.nullable != 1"
           class="spandef spanred">是</span></td>
-        <td class="tipStatus"><img src="./assets/img/ok.png"
-                                   style="visibility:hidden" *ngIf="item.status == 0">
-          <!-- 占个空间 --> <img src="./assets/img/error.png" alt="错误"
-                             *ngIf="item.status == -1"> <img
-            src="./assets/img/warning.png" alt="提醒" *ngIf="item.status==2">
+        <td class="tipStatus">
+          <img src="./assets/img/ok.png" style="visibility:hidden" *ngIf="item.status == 0">
+          <!-- 占个空间 -->
+          <img src="./assets/img/error.png" alt="错误"  *ngIf="item.status == -1">
+          <img src="./assets/img/warning.png" alt="提醒" *ngIf="item.status==2">
           <img src="./assets/img/ok.png" alt="正确" *ngIf="item.status===1">
+        </td>
+        <td>
+          <p-dropdown [options]="rule.primaryFlagList"
+                      [(ngModel)]="item.primaryFlag"
+                      [disabled]="rule.data.updateType!=-1"
+                     ></p-dropdown>
+          <!-- (onChange)="rule.setPrimaryKey(i)"-->
         </td>
         <td>
           <p-dropdown [options]="rule.targetFieldList"
