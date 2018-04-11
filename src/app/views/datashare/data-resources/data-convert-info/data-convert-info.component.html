@@ -19,7 +19,8 @@
           <th>所属机构：</th>
           <td>{{taskData.orgName}}</td>
           <th><em>*</em>{{getFunctionShortName()}}资源名称：</th>
-          <td><input type="text" [(ngModel)]="taskData.taskName" maxlength="20" [ngClass]="{error:valid.taskData.taskName.status}"></td>
+          <td><input type="text" [(ngModel)]="taskData.taskName" maxlength="20"
+                     [ngClass]="{error:valid.taskData.taskName.status}"></td>
           <td></td>
         </tr>
         <tr>
@@ -29,8 +30,9 @@
           </td>-->
           <th><em>*</em>同步时间：</th>
           <td>
-            <p-dropdown length="equate" [options]="runTypeList" [(ngModel)]="runValue" [ngClass]="{error: valid.taskData.runType.status}"
-              placeholder="请选择" (onChange)="onRuleTypeChange($event)"></p-dropdown>
+            <p-dropdown length="equate" [options]="runTypeList" [(ngModel)]="runValue"
+                        [ngClass]="{error: valid.taskData.runType.status}"
+                        placeholder="请选择" (onChange)="onRuleTypeChange($event)"></p-dropdown>
             <a class="c_blue title" (click)="onRuleTypeAdvanced()" *ngIf="runValue && runValue.runType >= 3">高级</a>
             <a class="c_blue disabled title" *ngIf="!runValue || runValue.runType < 3">高级</a>
           </td>
@@ -61,24 +63,29 @@
           <div *ngIf="isIssue()">
             <span>编号：1&nbsp;&nbsp;</span>
             <span>数据源：</span>
-            <p-dropdown [options]="sourceRule.dataSourceList" [(ngModel)]="sourceRule.data.thirdConnectionId" (onChange)="sourceRule.onDataSourceChange()"
-              [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
+            <p-dropdown [options]="sourceRule.dataSourceList" [(ngModel)]="sourceRule.data.thirdConnectionId"
+                        (onChange)="sourceRule.onDataSourceChange()"
+                        [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
             <span>数据表：</span>
-            <p-dropdown [options]="sourceRule.dataTableList" [(ngModel)]="sourceRule.data.thirdTablename" (onChange)="sourceRule.onDataTableChange()"
-              [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
+            <p-dropdown [options]="sourceRule.dataTableList" [(ngModel)]="sourceRule.data.thirdTablename"
+                        (onChange)="sourceRule.onDataTableChange()"
+                        [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
             <span class="error-tip" *ngIf="sourceRule.error.status" [title]="sourceRule.error.msg"></span>
           </div>
           <div *ngIf="!isIssue()">
             <span>编号：1&nbsp;&nbsp;</span>
             <span>数据子集：</span>
-            <p-dropdown [options]="sourceRule.subsetList" [(ngModel)]="sourceRule.data.subsetCode" (onChange)="sourceRule.onSubsetChange()"
-              [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
+            <p-dropdown [options]="sourceRule.subsetList" [(ngModel)]="sourceRule.data.subsetCode"
+                        (onChange)="sourceRule.onSubsetChange()"
+                        [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
             <span>数据类：</span>
-            <p-dropdown [options]="sourceRule.classList" [(ngModel)]="sourceRule.data.classCode" (onChange)="sourceRule.onClassChange()"
-              [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
+            <p-dropdown [options]="sourceRule.classList" [(ngModel)]="sourceRule.data.classCode"
+                        (onChange)="sourceRule.onClassChange()"
+                        [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
             <span>数据子类：</span>
-            <p-dropdown [options]="sourceRule.subclassList" [(ngModel)]="sourceRule.data.subclassCode" (onChange)="sourceRule.onSubclassChange()"
-              [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
+            <p-dropdown [options]="sourceRule.subclassList" [(ngModel)]="sourceRule.data.subclassCode"
+                        (onChange)="sourceRule.onSubclassChange()"
+                        [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
             <span class="error-tip" *ngIf="sourceRule.error.status" [title]="sourceRule.error.msg"></span>
           </div>
         </div>
@@ -115,7 +122,8 @@
 
             <div class="ruleli last-ruleli">
               <a class="disabled" *ngIf="rule && rule.type >= 0"><img src="./assets/img/adddisabled.png" alt="添加规则"></a>
-              <a (click)="onRuleAdd()" *ngIf="!rule || rule.type < 0"><img src="./assets/img/adddisabled.png" alt="添加规则"></a>
+              <a (click)="onRuleAdd()" *ngIf="!rule || rule.type < 0"><img src="./assets/img/adddisabled.png"
+                                                                           alt="添加规则"></a>
             </div>
           </div>
 
@@ -137,32 +145,41 @@
             <div *ngIf="!isIssue()">
               <span>编号：2&nbsp;&nbsp;</span>
               <span>数据源：</span>
-              <p-dropdown [options]="targetRule.dataSourceList" [(ngModel)]="targetRule.data.thirdConnectionId" (onChange)="targetRule.onDataSourceChange()"
-                [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
+              <p-dropdown [options]="targetRule.dataSourceList" [(ngModel)]="targetRule.data.thirdConnectionId"
+                          (onChange)="targetRule.onDataSourceChange()"
+                          [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
               <span>数据表：</span>
-              <p-dropdown [options]="targetRule.dataTableList" [(ngModel)]="targetRule.data.thirdTablename" (onChange)="targetRule.onDataTableChange()"
-                [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
+              <p-dropdown [options]="targetRule.dataTableList" [(ngModel)]="targetRule.data.thirdTablename"
+                          (onChange)="targetRule.onDataTableChange()"
+                          [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
               <span class="error-tip" *ngIf="targetRule.error.status" [title]="targetRule.error.msg"></span>
-              <span>当前表的主键信息:<p id="primaryKeyInfo"> </p></span>
+              <div>
+                <span>当前表的主键信息:<p id="primaryKeyInfo"> </p></span>
+              </div>
             </div>
             <div *ngIf="isIssue()">
               <span>编号：2&nbsp;&nbsp;</span>
               <span>数据子集：</span>
-              <p-dropdown [options]="targetRule.subsetList" [(ngModel)]="targetRule.data.subsetCode" (onChange)="targetRule.onSubsetChange()"
-                [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
+              <p-dropdown [options]="targetRule.subsetList" [(ngModel)]="targetRule.data.subsetCode"
+                          (onChange)="targetRule.onSubsetChange()"
+                          [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
               <span>数据类：</span>
-              <p-dropdown [options]="targetRule.classList" [(ngModel)]="targetRule.data.classCode" (onChange)="targetRule.onClassChange()"
-                [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
+              <p-dropdown [options]="targetRule.classList" [(ngModel)]="targetRule.data.classCode"
+                          (onChange)="targetRule.onClassChange()"
+                          [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
               <span>数据子类：</span>
-              <p-dropdown [options]="targetRule.subclassList" [(ngModel)]="targetRule.data.subclassCode" (onChange)="targetRule.onSubclassChange()"
-                [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
+              <p-dropdown [options]="targetRule.subclassList" [(ngModel)]="targetRule.data.subclassCode"
+                          (onChange)="targetRule.onSubclassChange()"
+                          [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
               <span class="error-tip" *ngIf="targetRule.error.status" [title]="targetRule.error.msg"></span>
             </div>
           </div>
           <button class="fr" (click)="targetRule.openTableDetail(2)">详情</button>
         </div>
         <div class="thirds-operate">
-          <button (click)="onRuleUpdate(targetRule)" [disabled]="rule?.type > 0" [ngClass]="{ disabled: rule?.type > 0}">关联映射</button>
+          <button (click)="onRuleUpdate(targetRule)" [disabled]="rule?.type > 0"
+                  [ngClass]="{ disabled: rule?.type > 0}">关联映射
+          </button>
           <span>选择目标表后，点击关联映射进行数据映射！</span>
         </div>
 
@@ -195,8 +212,8 @@
 </div>
 
 
-
-<p-dialog header="{{dialogOpts.select.title}}" [(visible)]="dialogOpts.select.visible" width="702" height="auto" modal="true">
+<p-dialog header="{{dialogOpts.select.title}}" [(visible)]="dialogOpts.select.visible" width="702" height="auto"
+          modal="true">
   <div class="ruleTypeSelect">
     <ul>
       <li *ngFor="let item of ruleTypeList;let i=index" [ngClass]="{'selected': item?.selected}">
@@ -211,13 +228,15 @@
 </p-dialog>
 
 
-<p-dialog header="{{dialogOpts.runtime.title}}" [(visible)]="dialogOpts.runtime.visible" width="610" height="auto" modal="true">
+<p-dialog header="{{dialogOpts.runtime.title}}" [(visible)]="dialogOpts.runtime.visible" width="610" height="auto"
+          modal="true">
   <div class="project">
     <table>
       <tr>
         <td width="100">同步时间：</td>
         <td>
-          <p-dropdown [options]="runTypeList" [(ngModel)]="dialogOpts.runtime.data.runValue" (onChange)="onRuleTypeChangeAdvanced($event)"></p-dropdown>
+          <p-dropdown [options]="runTypeList" [(ngModel)]="dialogOpts.runtime.data.runValue"
+                      (onChange)="onRuleTypeChangeAdvanced($event)"></p-dropdown>
         </td>
       </tr>
       <tr *ngIf="dialogOpts.runtime.data.runType >= 3">
@@ -230,7 +249,8 @@
           时：
           <p-dropdown length="80" [options]="runHourList" [(ngModel)]="dialogOpts.runtime.data.runHour"></p-dropdown>
           分：
-          <p-dropdown length="80" [options]="runMinuteList" [(ngModel)]="dialogOpts.runtime.data.runMinute"></p-dropdown>
+          <p-dropdown length="80" [options]="runMinuteList"
+                      [(ngModel)]="dialogOpts.runtime.data.runMinute"></p-dropdown>
         </td>
       </tr>
       <tr *ngIf="dialogOpts.runtime.data.runType >= 4">
@@ -268,35 +288,40 @@
 </p-dialog>
 
 
-<p-dialog header="{{dialogOpts.tabledetail.title}}" [(visible)]="dialogOpts.tabledetail.visible" width="800" height="auto"
-  modal="true" ovflow="auto">
+<p-dialog header="{{dialogOpts.tabledetail.title}}" [(visible)]="dialogOpts.tabledetail.visible" width="800"
+          height="auto"
+          modal="true" ovflow="auto">
   <div>
     <div>表名：{{dialogOpts.tabledetail.tableInfo.name}}</div>
     <table class="ruletable mt10" style="table-layout: auto;">
       <thead>
-        <tr>
-          <td width="40">序号</td>
-          <td>字段</td>
-          <td>注释</td>
-          <td>类型</td>
-          <td>长度</td>
-          <td width="80">主键/非空</td>
-        </tr>
+      <tr>
+        <td width="40">序号</td>
+        <td>字段</td>
+        <td>注释</td>
+        <td>类型</td>
+        <td>长度</td>
+        <td width="80">主键/非空</td>
+        <td>是否递增</td>
+      </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of dialogOpts.tabledetail.fieldList; let i=index">
-          <td>{{i+1}}</td>
-          <td>{{item.field}}</td>
-          <td>{{item.comment}}</td>
-          <td>{{item.dataType}}</td>
-          <td>{{item.length}}<ng-container *ngIf="dialogOpts.tabledetail.typeList[i]=='N'">,{{item.decimalLength}}</ng-container></td>
-          <td>
-            <span *ngIf="item.primarykey == 1" class="spandef spanred">是</span>
-            <span *ngIf="item.primarykey != 1" class="spandef">否</span> /
-            <span *ngIf="!item.hasOwnProperty('nullable') || item.nullable == 1" class="spandef">否</span>
-            <span *ngIf="item.hasOwnProperty('nullable')  && item.nullable != 1" class="spandef spanred">是</span>
-          </td>
-        </tr>
+      <tr *ngFor="let item of dialogOpts.tabledetail.fieldList; let i=index">
+        <td>{{i+1}}</td>
+        <td>{{item.field}}</td>
+        <td>{{item.comment}}</td>
+        <td>{{item.dataType}}</td>
+        <td>{{item.length}}
+          <ng-container *ngIf="dialogOpts.tabledetail.typeList[i]=='N'">,{{item.decimalLength}}</ng-container>
+        </td>
+        <td>
+          <span *ngIf="item.primarykey == 1" class="spandef spanred">是</span>
+          <span *ngIf="item.primarykey != 1" class="spandef">否</span> /
+          <span *ngIf="!item.hasOwnProperty('nullable') || item.nullable == 1" class="spandef">否</span>
+          <span *ngIf="item.hasOwnProperty('nullable')  && item.nullable != 1" class="spandef spanred">是</span>
+        </td>
+        <td>{{item.isAutoCreate}}</td>
+      </tr>
       </tbody>
     </table>
   </div>

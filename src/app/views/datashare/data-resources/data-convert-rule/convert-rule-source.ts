@@ -205,6 +205,7 @@ export class ConvertRuleSource extends ConvertRule{
       if(this.isSource() && this.getNextRule()){
         this.getNextRule().checkAllAfter();
       }
+      $("#primaryKeyInfo").html("aaaaaaaaaaaaaaaaaaaaa")
     });
   }
 

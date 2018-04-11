@@ -108,12 +108,12 @@ export class DataConvertInfoComponent extends BaseComponent implements OnInit, O
     runSpace: 5,
     runSpaces: '',
     runTime: '',
-  }
+  };
   public runValue: any = null;
   pageParam = {
     appendAdd: false,
     startTask: false
-  }
+  };
 
 
 

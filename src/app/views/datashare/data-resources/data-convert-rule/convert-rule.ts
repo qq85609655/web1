@@ -1,4 +1,4 @@
-import {BaseComponent} from "../../../../components/base/base.component";
+import {BaseComponent} from '../../../../components/base/base.component';
 
 export abstract class ConvertRule extends BaseComponent {
   public name: string;
@@ -9,12 +9,12 @@ export abstract class ConvertRule extends BaseComponent {
   public error = {
     status: false,
     msg: ''
-  }
+  };
   public prevRule: any = null;
   public nextRule: any = null;
   public allRules: Array<ConvertRule>;
 
-  defaultField={
+  defaultField = {
     field: '',//字段名称
     comment: '',//注释
     dataType: 'C',//数据类型
@@ -22,8 +22,9 @@ export abstract class ConvertRule extends BaseComponent {
     decimalLength: 0,//小数长度，根据实际情况，后续考虑是否使用
     primarykey: 0,//0非主键，1主键
     nullable: 1,//0不可空，1可空
-    ruleType: 1//规则类型,数据来源类型
-  }
+    ruleType: 1,//规则类型,数据来源类型
+    isAutoCreate: ''//是否自增
+  };
 
   public setNextRule(next: any, allRules: Array<ConvertRule>) {
     this.allRules = allRules;
@@ -149,32 +150,32 @@ export abstract class ConvertRule extends BaseComponent {
       let thisRule = this.allRules[i];
       let output = this.allRules[i].getOutputs();
       if (output) {
-        this.pushAll(fieldList, this.packFieldOptions(output,thisRule));
-        this.pushAll(outputs , output);
+        this.pushAll(fieldList, this.packFieldOptions(output, thisRule));
+        this.pushAll(outputs, output);
       }
     }
     if (!fieldList || fieldList.length == 0) {
-      if(tip !== false) {
-        this.tipWarnMessage("当前规则没有输入字段，请检查前面所有规则及源表！");
+      if (tip !== false) {
+        this.tipWarnMessage('当前规则没有输入字段，请检查前面所有规则及源表！');
       }
-      return {status:false, fieldList: fieldList, outputs: outputs};
+      return {status: false, fieldList: fieldList, outputs: outputs};
     }
-    return {status:true, fieldList: fieldList, outputs: outputs};
+    return {status: true, fieldList: fieldList, outputs: outputs};
   }
 
-  packFieldOptions(fieldList, thisRule): Array<any>{
+  packFieldOptions(fieldList, thisRule): Array<any> {
     //数据源不需要显示规则名称
-    let typeNameMsg = "源表";
-    if(thisRule.type == 2){
-      typeNameMsg = "目标表";
-    }else if(thisRule.type > 2){
-      typeNameMsg = thisRule.id + "-"+thisRule.typeName;
+    let typeNameMsg = '源表';
+    if (thisRule.type == 2) {
+      typeNameMsg = '目标表';
+    } else if (thisRule.type > 2) {
+      typeNameMsg = thisRule.id + '-' + thisRule.typeName;
     }
     let result = [];
-    if(!fieldList) return result;
+    if (!fieldList) return result;
     for (let outField of fieldList) {
       let option = {value: outField.field, label: ''};
-      option.label = outField.field + '('+ typeNameMsg + ')' + outField.comment;
+      option.label = outField.field + '(' + typeNameMsg + ')' + outField.comment;
       result.push(option);
     }
     return result;
@@ -184,40 +185,40 @@ export abstract class ConvertRule extends BaseComponent {
    * @param {Array<string>} fields
    * @returns {boolean}  ture检查正确，无重复字段
    */
-  public checkFieldNoRepeat(fields:Array<string>): boolean{
-    if(!fields || fields.length == 0) return true;
+  public checkFieldNoRepeat(fields: Array<string>): boolean {
+    if (!fields || fields.length == 0) return true;
     let fieldList = [];
     let fieldExtends = [];
     for (let i = 0; i < this.allRules.length; i++) {
-        if (this.allRules[i].id == this.id) {
-          //向前查找错误，kettle的模式也是仅向前查找
-          break;
-        }
-        let output = this.allRules[i].getOutputs();
-        let extend = {id: this.allRules[i].id};
-        if(output){
-          for(let out of output){
-            fieldList.push(out);
-            fieldExtends.push(extend);
-          }
-        }
-    }
-    let errorFields=[];
-    let msg = "";
-    for(let i=0;i<fields.length;i++){
-      let field = fields[i];
-      let fieldIndex = this.findFieldIndex(fieldList, field)
-      if(fieldIndex >= 0){
-        errorFields.push(field);
-
-        if(fieldExtends[fieldIndex].id == 1){
-          msg += "字段[" + field + "]在数据源表中已存在！\n";
-        }else {
-          msg += "字段[" + field + "]在编号为" + fieldExtends[fieldIndex].id + "的步骤中已存在！\n";
+      if (this.allRules[i].id == this.id) {
+        //向前查找错误，kettle的模式也是仅向前查找
+        break;
+      }
+      let output = this.allRules[i].getOutputs();
+      let extend = {id: this.allRules[i].id};
+      if (output) {
+        for (let out of output) {
+          fieldList.push(out);
+          fieldExtends.push(extend);
         }
       }
     }
-    if(msg){
+    let errorFields = [];
+    let msg = '';
+    for (let i = 0; i < fields.length; i++) {
+      let field = fields[i];
+      let fieldIndex = this.findFieldIndex(fieldList, field);
+      if (fieldIndex >= 0) {
+        errorFields.push(field);
+
+        if (fieldExtends[fieldIndex].id == 1) {
+          msg += '字段[' + field + ']在数据源表中已存在！\n';
+        } else {
+          msg += '字段[' + field + ']在编号为' + fieldExtends[fieldIndex].id + '的步骤中已存在！\n';
+        }
+      }
+    }
+    if (msg) {
       this.dialogMessage(msg);
     }
     return errorFields.length == 0;
@@ -278,7 +279,7 @@ export abstract class ConvertRule extends BaseComponent {
 
   public getNewId() {
     if (!this.id || this.id <= 0) {
-      console.log("error error error error,新建的转换规则不能获取newid");
+      console.log('error error error error,新建的转换规则不能获取newid');
       return -1;
     }
     let maxId = 3;
@@ -291,36 +292,36 @@ export abstract class ConvertRule extends BaseComponent {
   }
 
   public static Type_Source = 1;
-  public static Name_Source = "选择源表";
+  public static Name_Source = '选择源表';
   public static Type_Target = 2;
-  public static Name_Target = "选择目标表";
+  public static Name_Target = '选择目标表';
 
   public static Type_StringOper = 3;
-  public static Name_StringOper = "字符串操作";
+  public static Name_StringOper = '字符串操作';
   public static Type_StringCut = 4;
-  public static Name_StringCut = "字符串剪切";
+  public static Name_StringCut = '字符串剪切';
   public static Type_Stringreplace = 5;
-  public static Name_Stringreplace = "字符串替换";
+  public static Name_Stringreplace = '字符串替换';
   public static Type_AddConstant = 6;
-  public static Name_AddConstant = "增加常量";
+  public static Name_AddConstant = '增加常量';
 
   public static Type_ValueMapper = 7;
-  public static Name_ValueMapper = "值映射";
+  public static Name_ValueMapper = '值映射';
   public static Type_Split = 8;
-  public static Name_Split = "拆分字段";
+  public static Name_Split = '拆分字段';
   public static Type_Concat = 9;
-  public static Name_Concat = "合并字段";
+  public static Name_Concat = '合并字段';
   public static Type_Numberrange = 10;
-  public static Name_Numberrange = "数值范围";
+  public static Name_Numberrange = '数值范围';
 
   public static Type_TypeConvert = 11;
-  public static Name_TypeConvert = "类型转换";
+  public static Name_TypeConvert = '类型转换';
   public static Type_Splitfieldtorows = 12;
-  public static Name_Splitfieldtorows = "列拆分为多行";
+  public static Name_Splitfieldtorows = '列拆分为多行';
   public static Type_Calculator = 13;
-  public static Name_Calculator = "计算器";
+  public static Name_Calculator = '计算器';
   public static Type_UniqueRows = 14;
-  public static Name_UniqueRows = "去除重复记录";
+  public static Name_UniqueRows = '去除重复记录';
 
   public static ruleTypeList = [
     {type: ConvertRule.Type_StringOper, name: ConvertRule.Name_StringOper, description: '字符串操作的一堆描述，是一大串的信息哦'},
@@ -441,18 +442,19 @@ export abstract class ConvertRule extends BaseComponent {
       'CHAR': 'C',
       'NCHAR': 'C'
     },
-    status:false
+    status: false
 
   };
-  static initSupportDbFieldType(){
-    if(ConvertRule.supportDbFieldType.status){
+
+  static initSupportDbFieldType() {
+    if (ConvertRule.supportDbFieldType.status) {
       return;
     }
-    for(let id in ConvertRule.supportDbFieldType){
-      if(id == 'status') continue;
+    for (let id in ConvertRule.supportDbFieldType) {
+      if (id == 'status') continue;
       let old = ConvertRule.supportDbFieldType[id];
       let types: any = {};
-      for(let type in old){
+      for (let type in old) {
         types[type.toUpperCase()] = old[type];
       }
       ConvertRule.supportDbFieldType[id] = types;
@@ -462,21 +464,21 @@ export abstract class ConvertRule extends BaseComponent {
 
   //将目标数据类型转换成源字段类型
   getFieldChangeType(type, dbtype) {
-    if(!dbtype || dbtype <= 0 || !type || type == '') return '';
-    var changeType = ConvertRule.supportDbFieldType[dbtype + ''][type.toUpperCase()] ;
-    if(changeType){
+    if (!dbtype || dbtype <= 0 || !type || type == '') return '';
+    var changeType = ConvertRule.supportDbFieldType[dbtype + ''][type.toUpperCase()];
+    if (changeType) {
       return changeType;
-    }else{
+    } else {
       return '';
     }
   }
 
   //检查是否为定长字符串
-  checkIsFix(type, dbtype){
+  checkIsFix(type, dbtype) {
     var changeType = ConvertRule.supportDbFieldType['fix'][type.toUpperCase()];
-    if( changeType){
+    if (changeType) {
       return true;
-    }else{
+    } else {
       return false;
     }
   }
