@@ -153,9 +153,7 @@
                           (onChange)="targetRule.onDataTableChange()"
                           [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
               <span class="error-tip" *ngIf="targetRule.error.status" [title]="targetRule.error.msg"></span>
-              <div>
-                <span>当前表的主键信息:<p id="primaryKeyInfo"> </p></span>
-              </div>
+              <span><p id="primaryKeyInfo"></p></span>
             </div>
             <div *ngIf="isIssue()">
               <span>编号：2&nbsp;&nbsp;</span>
@@ -302,7 +300,7 @@
         <td>类型</td>
         <td>长度</td>
         <td width="80">主键/非空</td>
-        <td>是否递增</td>
+        <td *ngIf="dialogOpts.tabledetail.type==2">是否递增</td>
       </tr>
       </thead>
       <tbody>
@@ -320,7 +318,7 @@
           <span *ngIf="!item.hasOwnProperty('nullable') || item.nullable == 1" class="spandef">否</span>
           <span *ngIf="item.hasOwnProperty('nullable')  && item.nullable != 1" class="spandef spanred">是</span>
         </td>
-        <td>{{item.isAutoCreate}}</td>
+        <td *ngIf="dialogOpts.tabledetail.type==2">{{item.isAutoCreate}}</td>
       </tr>
       </tbody>
     </table>

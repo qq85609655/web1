@@ -927,10 +927,6 @@
      <p-dropdown [options]="rule.updateTypeList" align="left"
                   [(ngModel)]="rule.data.updateType"
       ></p-dropdown>
-      主键生成策略：
-      <p-dropdown [options]="rule.keyCreateList" align="left"
-                  [(ngModel)]="rule.data.keyCreate"
-    ></p-dropdown>
       <button type="button" (click)="rule.onAutoMapping()">自动映射</button>
     </div>
     <table class="ruletable mt10" style="table-layout: auto;">
