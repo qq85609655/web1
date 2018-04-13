@@ -16,14 +16,6 @@ export class ConvertRuleTarget extends ConvertRuleSource {
       // {label: '按照主键更新插入', value: 2},
       {label: '自定义更新条件', value: -1}
     ];
-//订阅的时候 需要针对第三方库的表 来生成主键
-  // 如果第三方表 主键是int 递增 那么 我们这么需要插入null 即可
-  //如果第三方表主键是varchar
-  // 需要用户自己来配置： 根据主键的长度来决定生成的 uuid 的长度
-  keyCreateList = [
-    {lable: '系统生成uuid', value: 0},
-    {lable: '插入null', value: 1},
-  ];
 
   public primaryFlagList = [{value: 'N', label: '否'}, {value: 'Y', label: '是'}];
   public relationList = [{value: '=', label: '='}, {value: '>', label: '>'}, {value: '<', label: '<'}, {
@@ -73,8 +65,6 @@ export class ConvertRuleTarget extends ConvertRuleSource {
         // }
       }
     }
-
-
     return {data: Object.assign({}, this.data, {conditions: conditions}), targetList: this.targetList};
   }
 
@@ -83,14 +73,7 @@ export class ConvertRuleTarget extends ConvertRuleSource {
   constructor(param: any) {
     super(param);
     this.initRule();
-    // this.initCondition(param);
-
   }
-
-  // initCondition(param: any) {
-  //  debugger;
-  //  console.info(param.data.conditions);
-  // }
 
   protected isSource() {
     return false;
@@ -398,20 +381,9 @@ export class ConvertRuleTarget extends ConvertRuleSource {
   //切换表及表上级选择时候，清理已存在的字段
   cleanFieldListData() {
     this.targetList.splice(0, this.targetList.length);
-    //this.mappings.splice(0, this.mappings.length);
     this.targetFieldList = [];
   }
 
-  addUpdateDictRow(i) {
-    // debugger;
-    this._addDataRow(i, this.updates, this.defaultUpdateData, this.maxMappingLength);
-  }
-
-
-  removeUpdateDictRow(i) {
-    //debugger;
-    this._removeDataRow(i, this.updates);
-  }
 
   addDataRow(i) {
     this._addDataRow(i, this.mappings, this.defaultData, this.maxMappingLength);
@@ -421,98 +393,3 @@ export class ConvertRuleTarget extends ConvertRuleSource {
     this._removeDataRow(i, this.mappings);
   }
 }
-
-
-
-
-/**
- * 此处加上一列 为的是 将 这一行的源字段与目标字段作为更新条件 的 condition ==  此时就不需要用主键来更新了
- * （如果勾选了 任意一个字段为是的话 就需要废掉主键更新了）
- * 每一次 change 都需要刷新condition
- * @param index
- */
-/*setPrimaryKey(index) {
-  alert('index=====' + index);
-  let row = this.mappings[index];
-  let sourceField = row.sourceField;
-  let targetField = row.targetField;
-
-  alert('sourceField=====' + sourceField);
-  alert('targetField=====' + targetField);
-
-  if (sourceField == '') {
-    this.tipWarnMessage('请选择源字段');
-    return false;
-  }
-
-  if (targetField == '') {
-    this.tipWarnMessage('请选择目标字段');
-    return false;
-  }
-  let primaryKeyFlag = row.primaryFlag;
-  alert(primaryKeyFlag);
-  if (primaryKeyFlag == 'Y') {
-    this.conditionss.push({sourceField: sourceField, targetField: targetField, keyCondition: '='});
-  }else{
-
-  }
-  return true;
-}*/
-
-/*onUpdateDictOk() {
-  debugger;
-  for (let d of this.updates) {
-    let sourceField = d.sourceField;
-    let targetField = d.targetField;
-    if (sourceField == '' || targetField == '') {
-      this.tipWarnMessage('请选择');
-      return false;
-    }
-  }
-  this.pushAll(this.data.conditions, this.updates, true);
-  this.dialogOpts.updateDict.visible = false;
-  return true;
-}*/
-
-/* closeUpdateDict() {
-   //this.data.conditions=[];
-   this.pushAll(this.data.conditions, this.updates, true);
-   this.dialogOpts.updateDict.visible = false;
-   this.data.updateType = 0;
- }*/
-
-
-/*  compileTypes = [{label: '>', value: '>'}, {label: '<', value: '<'}, {label: '=', value: '='}, {
-    label: '>=',
-    value: '>='
-  }, {label: '<=', value: '<='}];*/
-
-/*
-  private String field;//字段名称
-  private String comment;//注释
-  private String dataType;//数据类型
-  private int length;//总长度
-  private int decimalLength = 0;//小数长度，根据实际情况，后续考虑是否使用
-  private int primarykey;//0非主键，1主键
-  private int nullable;//0不可空，1可空
-  private int ruleType = 1;//规则类型,数据来源类型
- */
-
-
-/*showMyCaption(index) {
-
-  alert(index);
-
-  this.tipMessage('开始进行自定义更新条件.....');
-  /!*
-   需要根据选择  源表 和 目标表字段 列出来
-   *!/
-  if (!this.dialogOpts.updateDict.visible) {
-    if (this.data.updateType == 3) {
-      if (this.updates.length == 0) {
-        this.updates.push(Object.assign({}, this.defaultUpdateData));
-      }
-      this.dialogOpts.updateDict.visible = true;
-    }
-  }
-}*/
