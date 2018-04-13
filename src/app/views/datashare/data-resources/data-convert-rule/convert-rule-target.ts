@@ -26,6 +26,10 @@ export class ConvertRuleTarget extends ConvertRuleSource {
   ];
 
   public primaryFlagList = [{value: 'N', label: '否'}, {value: 'Y', label: '是'}];
+  public relationList = [{value: '=', label: '='}, {value: '>', label: '>'}, {value: '<', label: '<'}, {
+    value: '>=',
+    label: '>='
+  }, {value: '<=', label: '<='}, {value: '<>', label: '<>'}];
 
 
   public maxMappingLength = 50;
@@ -40,6 +44,7 @@ export class ConvertRuleTarget extends ConvertRuleSource {
     source: {},
     target: {},
     status: 0,
+    updateRelation: '=',
     primaryFlag: 'N' //默认为否
   };
 
@@ -48,18 +53,9 @@ export class ConvertRuleTarget extends ConvertRuleSource {
     sourceField: '',
     targetField: '',
     updateType: 1,
+    updateRelation: '=',
     primaryFlag: 'N'
   };
-
-
-  // public dialogOpts = {
-  //   updateDict: {
-  //     title: '自定义更新条件',
-  //     visible: false,
-  //     fieldList: [],
-  //     typeList: []
-  //   }
-  // };
 
 
   public getData() {
@@ -72,7 +68,7 @@ export class ConvertRuleTarget extends ConvertRuleSource {
         //   conditions.push({sourceField: t.sourceField, targetField: t.targetField, keyCondition: '='});
         //   }else {
         if (t.primaryFlag == 'Y' && this.data.updateType != -1) {
-          conditions.push({sourceField: t.sourceField, targetField: t.targetField, keyCondition: '='});
+          conditions.push({sourceField: t.sourceField, targetField: t.targetField, keyCondition: t.updateRelation});
         }
         // }
       }
@@ -83,78 +79,6 @@ export class ConvertRuleTarget extends ConvertRuleSource {
   }
 
 
-  /**
-   * 此处加上一列 为的是 将 这一行的源字段与目标字段作为更新条件 的 condition ==  此时就不需要用主键来更新了
-   * （如果勾选了 任意一个字段为是的话 就需要废掉主键更新了）
-   * 每一次 change 都需要刷新condition
-   * @param index
-   */
-  /*setPrimaryKey(index) {
-    alert('index=====' + index);
-    let row = this.mappings[index];
-    let sourceField = row.sourceField;
-    let targetField = row.targetField;
-
-    alert('sourceField=====' + sourceField);
-    alert('targetField=====' + targetField);
-
-    if (sourceField == '') {
-      this.tipWarnMessage('请选择源字段');
-      return false;
-    }
-
-    if (targetField == '') {
-      this.tipWarnMessage('请选择目标字段');
-      return false;
-    }
-    let primaryKeyFlag = row.primaryFlag;
-    alert(primaryKeyFlag);
-    if (primaryKeyFlag == 'Y') {
-      this.conditionss.push({sourceField: sourceField, targetField: targetField, keyCondition: '='});
-    }else{
-
-    }
-    return true;
-  }*/
-
-  /*onUpdateDictOk() {
-    debugger;
-    for (let d of this.updates) {
-      let sourceField = d.sourceField;
-      let targetField = d.targetField;
-      if (sourceField == '' || targetField == '') {
-        this.tipWarnMessage('请选择');
-        return false;
-      }
-    }
-    this.pushAll(this.data.conditions, this.updates, true);
-    this.dialogOpts.updateDict.visible = false;
-    return true;
-  }*/
-
-  /* closeUpdateDict() {
-     //this.data.conditions=[];
-     this.pushAll(this.data.conditions, this.updates, true);
-     this.dialogOpts.updateDict.visible = false;
-     this.data.updateType = 0;
-   }*/
-
-
-  /*  compileTypes = [{label: '>', value: '>'}, {label: '<', value: '<'}, {label: '=', value: '='}, {
-      label: '>=',
-      value: '>='
-    }, {label: '<=', value: '<='}];*/
-
-  /*
-    private String field;//字段名称
-    private String comment;//注释
-    private String dataType;//数据类型
-    private int length;//总长度
-    private int decimalLength = 0;//小数长度，根据实际情况，后续考虑是否使用
-    private int primarykey;//0非主键，1主键
-    private int nullable;//0不可空，1可空
-    private int ruleType = 1;//规则类型,数据来源类型
-   */
 
   constructor(param: any) {
     super(param);
@@ -244,23 +168,6 @@ export class ConvertRuleTarget extends ConvertRuleSource {
     this.checkRowDataStatus(row);
   }
 
-  /*showMyCaption(index) {
-
-    alert(index);
-
-    this.tipMessage('开始进行自定义更新条件.....');
-    /!*
-     需要根据选择  源表 和 目标表字段 列出来
-     *!/
-    if (!this.dialogOpts.updateDict.visible) {
-      if (this.data.updateType == 3) {
-        if (this.updates.length == 0) {
-          this.updates.push(Object.assign({}, this.defaultUpdateData));
-        }
-        this.dialogOpts.updateDict.visible = true;
-      }
-    }
-  }*/
 
   onAutoMapping() {
     let autoMappings = [];
@@ -514,3 +421,98 @@ export class ConvertRuleTarget extends ConvertRuleSource {
     this._removeDataRow(i, this.mappings);
   }
 }
+
+
+
+
+/**
+ * 此处加上一列 为的是 将 这一行的源字段与目标字段作为更新条件 的 condition ==  此时就不需要用主键来更新了
+ * （如果勾选了 任意一个字段为是的话 就需要废掉主键更新了）
+ * 每一次 change 都需要刷新condition
+ * @param index
+ */
+/*setPrimaryKey(index) {
+  alert('index=====' + index);
+  let row = this.mappings[index];
+  let sourceField = row.sourceField;
+  let targetField = row.targetField;
+
+  alert('sourceField=====' + sourceField);
+  alert('targetField=====' + targetField);
+
+  if (sourceField == '') {
+    this.tipWarnMessage('请选择源字段');
+    return false;
+  }
+
+  if (targetField == '') {
+    this.tipWarnMessage('请选择目标字段');
+    return false;
+  }
+  let primaryKeyFlag = row.primaryFlag;
+  alert(primaryKeyFlag);
+  if (primaryKeyFlag == 'Y') {
+    this.conditionss.push({sourceField: sourceField, targetField: targetField, keyCondition: '='});
+  }else{
+
+  }
+  return true;
+}*/
+
+/*onUpdateDictOk() {
+  debugger;
+  for (let d of this.updates) {
+    let sourceField = d.sourceField;
+    let targetField = d.targetField;
+    if (sourceField == '' || targetField == '') {
+      this.tipWarnMessage('请选择');
+      return false;
+    }
+  }
+  this.pushAll(this.data.conditions, this.updates, true);
+  this.dialogOpts.updateDict.visible = false;
+  return true;
+}*/
+
+/* closeUpdateDict() {
+   //this.data.conditions=[];
+   this.pushAll(this.data.conditions, this.updates, true);
+   this.dialogOpts.updateDict.visible = false;
+   this.data.updateType = 0;
+ }*/
+
+
+/*  compileTypes = [{label: '>', value: '>'}, {label: '<', value: '<'}, {label: '=', value: '='}, {
+    label: '>=',
+    value: '>='
+  }, {label: '<=', value: '<='}];*/
+
+/*
+  private String field;//字段名称
+  private String comment;//注释
+  private String dataType;//数据类型
+  private int length;//总长度
+  private int decimalLength = 0;//小数长度，根据实际情况，后续考虑是否使用
+  private int primarykey;//0非主键，1主键
+  private int nullable;//0不可空，1可空
+  private int ruleType = 1;//规则类型,数据来源类型
+ */
+
+
+/*showMyCaption(index) {
+
+  alert(index);
+
+  this.tipMessage('开始进行自定义更新条件.....');
+  /!*
+   需要根据选择  源表 和 目标表字段 列出来
+   *!/
+  if (!this.dialogOpts.updateDict.visible) {
+    if (this.data.updateType == 3) {
+      if (this.updates.length == 0) {
+        this.updates.push(Object.assign({}, this.defaultUpdateData));
+      }
+      this.dialogOpts.updateDict.visible = true;
+    }
+  }
+}*/

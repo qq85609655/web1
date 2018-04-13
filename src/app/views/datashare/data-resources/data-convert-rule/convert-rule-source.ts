@@ -191,7 +191,8 @@ export class ConvertRuleSource extends ConvertRule {
     let tableName = this.data.thirdTablename;
     let queryParam = {
       connectionId: this.data.thirdConnectionId,
-      tableName: tableName
+      tableName: tableName,
+      busType:this.businessType
     };
     this.getHttpClient().get('datasource/queryTableFields', queryParam, (data) => {
       console.info(data.ketAutoAddCount);
