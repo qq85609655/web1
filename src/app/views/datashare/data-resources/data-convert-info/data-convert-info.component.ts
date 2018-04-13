@@ -179,6 +179,7 @@ export class DataConvertInfoComponent extends BaseComponent implements OnInit, O
       this.rules.push(this.targetRule);
       this.sourceRule.setNextRule(this.targetRule, this.rules);
     } else {
+
       //源规则
       let sourceData = JSON.parse(this.taskData.steps[0]);
       if (sourceData.type != ConvertRule.Type_Source) {
@@ -192,12 +193,14 @@ export class DataConvertInfoComponent extends BaseComponent implements OnInit, O
 
       //目标规则
       let targetData = JSON.parse(this.taskData.steps[this.taskData.steps.length - 1]);
+      debugger;
       if (targetData.type != ConvertRule.Type_Target) {
         this.tipWarnMessage('当前数据资源任务目标数据格式错误!');
         return false;
       }
       this.targetRule = new ConvertRuleTarget(Object.assign({}, targetData, taskInfo));
       this.targetRule.setNextRule(null, this.rules);
+      // this.rule.data.updateType=targetData.
       this.rules.push(this.targetRule);
 
 
@@ -211,6 +214,7 @@ export class DataConvertInfoComponent extends BaseComponent implements OnInit, O
         prevRule = newRule;
       }
       prevRule.setNextRule(this.targetRule, this.rules);
+
     }
   }
 
@@ -256,7 +260,7 @@ export class DataConvertInfoComponent extends BaseComponent implements OnInit, O
     this.taskData.runType = this.dialogOpts.runtime.data.runType;
     this.taskData.runSpace = this.dialogOpts.runtime.data.runSpace;
     this.taskData.runSpaces = spaces.length == 0 ? '' : spaces.join(',');
-    this.taskData.runTime = '2017-01-';
+    this.taskData.runTime = '2018-01-';
     this.taskData.runTime += this.dialogOpts.runtime.data.runDay + ' ';
     this.taskData.runTime += this.dialogOpts.runtime.data.runHour + ':';
     this.taskData.runTime += this.dialogOpts.runtime.data.runMinute + ':00';

@@ -52,6 +52,7 @@ export class ConvertRuleTarget extends ConvertRuleSource {
 
 
   public getData() {
+
     debugger;
     let conditions = [];
     //alert(this.data.updateType);
@@ -113,6 +114,7 @@ export class ConvertRuleTarget extends ConvertRuleSource {
     for (let i = this.mappings.length; i < this.initMappingLength; i++) {
       this.mappings.push(Object.assign({}, this.defaultData));
     }
+
     return true;
   }
 
