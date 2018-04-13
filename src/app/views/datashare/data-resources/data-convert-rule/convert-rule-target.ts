@@ -31,6 +31,7 @@ export class ConvertRuleTarget extends ConvertRuleSource {
   public defaultData = {
     sourceField: '',
     targetField: '',
+    updateType:0,
     sourceType: '',
     targetType: '',
     source: {},
@@ -41,17 +42,17 @@ export class ConvertRuleTarget extends ConvertRuleSource {
   };
 
 
-  public defaultUpdateData = {
+/*  public defaultUpdateData = {
     sourceField: '',
     targetField: '',
-    updateType: 1,
+    updateType:0,
     updateRelation: '=',
     primaryFlag: 'N'
-  };
+  };*/
 
 
   public getData() {
-    // debugger;
+    debugger;
     let conditions = [];
     //alert(this.data.updateType);
     if (this.data.updateType == -1) {
@@ -59,7 +60,7 @@ export class ConvertRuleTarget extends ConvertRuleSource {
         // if (t.target.primarykey == 1) {
         //   conditions.push({sourceField: t.sourceField, targetField: t.targetField, keyCondition: '='});
         //   }else {
-        if (t.primaryFlag == 'Y' && this.data.updateType != -1) {
+        if (t.primaryFlag == 'Y' && this.data.updateType == -1) {
           conditions.push({sourceField: t.sourceField, targetField: t.targetField, keyCondition: t.updateRelation});
         }
         // }

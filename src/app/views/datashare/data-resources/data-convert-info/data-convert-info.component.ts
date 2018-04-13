@@ -73,16 +73,16 @@ export class DataConvertInfoComponent extends BaseComponent implements OnInit, O
   public dataTypeList = [{value: 1, label: '结构化数据'}, {value: 2, label: '非结构化数据'}];
   public ruleTypeList = [];
   public runTypeList = [
-    {label: '1分钟', value: {runType: 1, runSpace: 1, runSpaces: '', runTime: '2017-01-01 01:00:00'}},
-    {label: '5分钟', value: {runType: 1, runSpace: 5, runSpaces: '', runTime: '2017-01-01 01:00:00'}},
-    {label: '30分钟', value: {runType: 1, runSpace: 30, runSpaces: '', runTime: '2017-01-01 01:00:00'}},
-    {label: '1小时', value: {runType: 2, runSpace: 1, runSpaces: '', runTime: '2017-01-01 01:00:00'}},
-    {label: '2小时', value: {runType: 2, runSpace: 2, runSpaces: '', runTime: '2017-01-01 01:00:00'}},
-    {label: '6小时', value: {runType: 2, runSpace: 6, runSpaces: '', runTime: '2017-01-01 01:00:00'}},
-    {label: '每天', value: {runType: 3, runSpace: 1, runSpaces: '', runTime: '2017-01-01 01:00:00'}},
-    {label: '每周', value: {runType: 4, runSpace: 1, runSpaces: '1', runTime: '2017-01-01 01:30:00'}},
-    {label: '每月', value: {runType: 5, runSpace: 1, runSpaces: '1', runTime: '2017-01-01 01:40:00'}},
-    {label: '每年', value: {runType: 6, runSpace: 1, runSpaces: '1', runTime: '2017-01-01 01:50:00'}}
+    {label: '1分钟', value: {runType: 1, runSpace: 1, runSpaces: '', runTime: '2018-01-01 01:00:00'}},
+    {label: '5分钟', value: {runType: 1, runSpace: 5, runSpaces: '', runTime: '2018-01-01 01:00:00'}},
+    {label: '30分钟', value: {runType: 1, runSpace: 30, runSpaces: '', runTime: '2018-01-01 01:00:00'}},
+    {label: '1小时', value: {runType: 2, runSpace: 1, runSpaces: '', runTime: '2018-01-01 01:00:00'}},
+    {label: '2小时', value: {runType: 2, runSpace: 2, runSpaces: '', runTime: '2018-01-01 01:00:00'}},
+    {label: '6小时', value: {runType: 2, runSpace: 6, runSpaces: '', runTime: '2018-01-01 01:00:00'}},
+    {label: '每天', value: {runType: 3, runSpace: 1, runSpaces: '', runTime: '2018-01-01 01:00:00'}},
+    {label: '每周', value: {runType: 4, runSpace: 1, runSpaces: '1', runTime: '2018-01-01 01:30:00'}},
+    {label: '每月', value: {runType: 5, runSpace: 1, runSpaces: '1', runTime: '2018-01-01 01:40:00'}},
+    {label: '每年', value: {runType: 6, runSpace: 1, runSpaces: '1', runTime: '2018-01-01 01:50:00'}}
   ];
 
   public operType = 1;
