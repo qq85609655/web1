@@ -52,7 +52,10 @@ export class MenuManagerComponent extends BaseComponent implements OnInit, OnDes
       {name: '描述', field: 'remark', title: true},
       {name: '操作', type: 'button', buttonOptions: 'buttonOptions'}
     ],
-    buttonOptions: [],
+    buttonOptions: [
+
+
+    ],
     selections: [],
     emptyMessage: '暂无数据',
     tableEvent: this.tableEvent
