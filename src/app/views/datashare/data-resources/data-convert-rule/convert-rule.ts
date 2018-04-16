@@ -26,6 +26,31 @@ export abstract class ConvertRule extends BaseComponent {
     isAutoCreate: ''//是否自增
   };
 
+
+  //默认最大初始化 映射字段长度为 50
+  public maxMappingLength = 300;
+  //默认初始化 映射字段长度 为10
+  public initMappingLength = 10;
+  public hasPrimarykey = false;
+  // 默默认更新条件 为请选择
+  public updateType = 0;
+
+
+  public updateTypeList =
+    [
+      {label: '请选择', value: 0},
+      {label: '全表插入', value: 1},
+      // {label: '按照主键更新插入', value: 2},
+      {label: '自定义更新条件', value: -1}
+    ];
+
+  public primaryFlagList = [{value: 'N', label: '否'}, {value: 'Y', label: '是'}];
+  public relationList = [{value: '=', label: '='}, {value: '>', label: '>'}, {value: '<', label: '<'}, {
+    value: '>=',
+    label: '>='
+  }, {value: '<=', label: '<='}, {value: '<>', label: '<>'}];
+
+
   public setNextRule(next: any, allRules: Array<ConvertRule>) {
     this.allRules = allRules;
     if (next) {

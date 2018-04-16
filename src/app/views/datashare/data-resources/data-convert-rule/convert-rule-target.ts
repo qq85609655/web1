@@ -2,36 +2,13 @@ import {ConvertRuleSource} from './convert-rule-source';
 
 export class ConvertRuleTarget extends ConvertRuleSource {
 
-  public conditionss = [];
   public mappings: any = [];
-  public updates: any = [];
   public sourceFieldList = [];
   public targetFieldList = [];
-
-
-  updateTypeList =
-    [
-      {label: '请选择', value: 0},
-      {label: '全表插入', value: 1},
-      // {label: '按照主键更新插入', value: 2},
-      {label: '自定义更新条件', value: -1}
-    ];
-
-  public primaryFlagList = [{value: 'N', label: '否'}, {value: 'Y', label: '是'}];
-  public relationList = [{value: '=', label: '='}, {value: '>', label: '>'}, {value: '<', label: '<'}, {
-    value: '>=',
-    label: '>='
-  }, {value: '<=', label: '<='}, {value: '<>', label: '<>'}];
-
-
-  public maxMappingLength = 50;
-  public initMappingLength = 10;
-  public hasPrimarykey = false;
 
   public defaultData = {
     sourceField: '',
     targetField: '',
-    updateType:0,
     sourceType: '',
     targetType: '',
     source: {},
@@ -41,27 +18,14 @@ export class ConvertRuleTarget extends ConvertRuleSource {
     primaryFlag: 'N' //默认为否
   };
 
-
-/*  public defaultUpdateData = {
-    sourceField: '',
-    targetField: '',
-    updateType:0,
-    updateRelation: '=',
-    primaryFlag: 'N'
-  };*/
-
-
   public getData() {
-
-    debugger;
     let conditions = [];
-    //alert(this.data.updateType);
-    if (this.data.updateType == -1) {
+    if (this.updateType == -1) {
       for (let t of this.data.mappings) {
         // if (t.target.primarykey == 1) {
         //   conditions.push({sourceField: t.sourceField, targetField: t.targetField, keyCondition: '='});
         //   }else {
-        if (t.primaryFlag == 'Y' && this.data.updateType == -1) {
+        if (t.primaryFlag == 'Y' && this.updateType == -1) {
           conditions.push({sourceField: t.sourceField, targetField: t.targetField, keyCondition: t.updateRelation});
         }
         // }
@@ -69,7 +33,6 @@ export class ConvertRuleTarget extends ConvertRuleSource {
     }
     return {data: Object.assign({}, this.data, {conditions: conditions}), targetList: this.targetList};
   }
-
 
 
   constructor(param: any) {
@@ -83,7 +46,6 @@ export class ConvertRuleTarget extends ConvertRuleSource {
 
 
   public getOutputs() {
-    //无输出
     return [];
   }
 
@@ -376,7 +338,7 @@ export class ConvertRuleTarget extends ConvertRuleSource {
       }
     }
     if (!hasPri) {
-      this.data.updateType = 1;
+      this.updateType = 1;
     }
     this.hasPrimarykey = hasPri;
   }

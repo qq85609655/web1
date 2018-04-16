@@ -13,9 +13,9 @@ export class ConvertRuleSource extends ConvertRule {
     classCode: '',
     subclassCode: '',
     mappings: [],
-    updateType: 0,
     conditions: [],
-    comment: ''
+    comment: '',
+    updateType: 0
   };
   public businessType = 1;
   public orgId = '';
@@ -192,7 +192,7 @@ export class ConvertRuleSource extends ConvertRule {
     let queryParam = {
       connectionId: this.data.thirdConnectionId,
       tableName: tableName,
-      busType:this.businessType
+      busType: this.businessType
     };
     this.getHttpClient().get('datasource/queryTableFields', queryParam, (data) => {
       console.info(data.ketAutoAddCount);
@@ -367,7 +367,7 @@ export class ConvertRuleSource extends ConvertRule {
       tableInfo.comment = this.data.comment;
       tableInfo.dbType = this.data.targetDbtype;
     }
-    this.getSourceRule().getComponent().openTableDetail(fieldList, tableInfo,type);
+    this.getSourceRule().getComponent().openTableDetail(fieldList, tableInfo, type);
   }
 
   public getComponent(): DataConvertInfoComponent {

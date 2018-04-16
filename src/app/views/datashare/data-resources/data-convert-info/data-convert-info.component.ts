@@ -101,7 +101,8 @@ export class DataConvertInfoComponent extends BaseComponent implements OnInit, O
     runSpaces: '',
     runTime: '',
     runStatus: false,
-    steps: []
+    steps: [],
+    updateType: 0
   };
   public runData = {
     runType: 0,
@@ -165,6 +166,7 @@ export class DataConvertInfoComponent extends BaseComponent implements OnInit, O
   runYearList = [];
 
   initRules() {
+    // debugger;
     this.rules = [];
     let taskInfo = {businessType: this.businessType, orgId: this.taskData.orgId};
     if (this.operType == 1) {
@@ -191,18 +193,21 @@ export class DataConvertInfoComponent extends BaseComponent implements OnInit, O
       this.sourceRule.setNextRule(null, this.rules);
       this.rules.push(this.sourceRule);
 
+      // debugger;
       //目标规则
       let targetData = JSON.parse(this.taskData.steps[this.taskData.steps.length - 1]);
-      debugger;
+      //  console.info(targetData);
+      console.info(targetData.data.updateType);
+
       if (targetData.type != ConvertRule.Type_Target) {
         this.tipWarnMessage('当前数据资源任务目标数据格式错误!');
         return false;
       }
       this.targetRule = new ConvertRuleTarget(Object.assign({}, targetData, taskInfo));
       this.targetRule.setNextRule(null, this.rules);
-      // this.rule.data.updateType=targetData.
+      this.targetRule.updateType = targetData.data.updateType;
       this.rules.push(this.targetRule);
-
+     // alert('11111111111111=============' + this.taskData.updateType);
 
       //初始化其他规则
       let prevRule: any = this.sourceRule;
