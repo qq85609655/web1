@@ -51,8 +51,8 @@ export class DataConvertInfoComponent extends BaseComponent implements OnInit, O
     } else {
       this.getHttpClient().get('datatask/getDataTaskVo', {taskId: this.taskData.taskId}, data => {
         Object.assign(this.taskData, data);
-        debugger;
-        console.log(this.taskData);
+      //  debugger;
+      //  console.log(this.taskData);
         for (let run of this.runTypeList) {
           if (this.taskData.runType == run.value.runType && this.taskData.runSpace == run.value.runSpace) {
             this.runValue = run.value;

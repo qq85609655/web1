@@ -242,8 +242,8 @@ export class ConvertRuleTarget extends ConvertRuleSource {
   checkMustFields(list: Array<any>): Array<any> {
     let mustFields = [];
     //当为发布的时候 加上主键的必选
-    debugger;
-    console.log(this.businessType);
+    //debugger;
+  //  console.log(this.businessType);
     if (this.businessType == 1) {
       for (let t of this.targetList) {
         if (t.primarykey == 1 || t.nullable == 0) {

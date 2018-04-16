@@ -337,7 +337,7 @@ export class ConvertRuleSource extends ConvertRule {
   }
 
   openTableDetail(type) {
-    debugger;
+  //  debugger;
     let fieldList = null;
 
     let tableInfo = {name: '', dbType: 1, comment: '', type: type};
