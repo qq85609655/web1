@@ -200,9 +200,11 @@ export abstract class ConvertRule extends BaseComponent {
     if (!fieldList) return result;
     for (let outField of fieldList) {
       let option = {value: outField.field, label: ''};
-      option.label = outField.field + '(' + typeNameMsg + ')' + outField.comment;
+      // option.label = outField.field + '(' + typeNameMsg + ')' + outField.comment;
+      option.label = outField.field + '-' + outField.comment;
       result.push(option);
     }
+
     return result;
   }
 
@@ -331,7 +333,7 @@ export abstract class ConvertRule extends BaseComponent {
   public static Name_AddConstant = '增加常量';
 
   public static Type_ValueMapper = 7;
-  public static Name_ValueMapper = '值映射';
+  public static Name_ValueMapper = '静态值映射';
   public static Type_Split = 8;
   public static Name_Split = '拆分字段';
   public static Type_Concat = 9;
@@ -348,19 +350,32 @@ export abstract class ConvertRule extends BaseComponent {
   public static Type_UniqueRows = 14;
   public static Name_UniqueRows = '去除重复记录';
 
+  //add by 周刚
+  public static Name_ExecuteSql = '执行sql脚本';
+  public static Type_ExecuteSql = 15;
+
+  public static Name_DynamicValueMapping = '动态值隐射';
+  public static Type_DynamicValueMapping = 16;
+
   public static ruleTypeList = [
-    {type: ConvertRule.Type_StringOper, name: ConvertRule.Name_StringOper, description: '字符串操作的一堆描述，是一大串的信息哦'},
-    {type: ConvertRule.Type_StringCut, name: ConvertRule.Name_StringCut, description: '字符串剪切的一堆描述，是一大串的信息哦'},
-    {type: ConvertRule.Type_Stringreplace, name: ConvertRule.Name_Stringreplace, description: '字符串替换的功能描述哦 '},
-    {type: ConvertRule.Type_AddConstant, name: ConvertRule.Name_AddConstant, description: '增加常量的功能描述哦 '},
-    {type: ConvertRule.Type_ValueMapper, name: ConvertRule.Name_ValueMapper, description: '值映射 的功能描述哦 '},
-    {type: ConvertRule.Type_Concat, name: ConvertRule.Name_Concat, description: '合并字段 的功能描述哦 '},
-    {type: ConvertRule.Type_Split, name: ConvertRule.Name_Split, description: '拆分字段 的功能描述哦 '},
-    {type: ConvertRule.Type_Numberrange, name: ConvertRule.Name_Numberrange, description: '数值范围 的功能描述哦 '},
-    {type: ConvertRule.Type_TypeConvert, name: ConvertRule.Name_TypeConvert, description: '字段选择 的功能描述哦 '},
-    {type: ConvertRule.Type_Splitfieldtorows, name: ConvertRule.Name_Splitfieldtorows, description: '列拆分为多行 的功能描述哦 '},
-    {type: ConvertRule.Type_Calculator, name: ConvertRule.Name_Calculator, description: '计算器。。。的功能描述哦'},
-    {type: ConvertRule.Type_UniqueRows, name: ConvertRule.Name_UniqueRows, description: '去除重复记录的功能描述哦 '},
+    {type: ConvertRule.Type_StringOper, name: ConvertRule.Name_StringOper, description: '字符串操作'},
+    {type: ConvertRule.Type_StringCut, name: ConvertRule.Name_StringCut, description: '字符串剪切'},
+    {type: ConvertRule.Type_Stringreplace, name: ConvertRule.Name_Stringreplace, description: '字符串替换'},
+    {type: ConvertRule.Type_AddConstant, name: ConvertRule.Name_AddConstant, description: '增加常量'},
+    {type: ConvertRule.Type_ValueMapper, name: ConvertRule.Name_ValueMapper, description: '静态值映射'},
+    {type: ConvertRule.Type_Concat, name: ConvertRule.Name_Concat, description: '合并字段'},
+    {type: ConvertRule.Type_Split, name: ConvertRule.Name_Split, description: '拆分字段'},
+    {type: ConvertRule.Type_Numberrange, name: ConvertRule.Name_Numberrange, description: '数值范围'},
+    {type: ConvertRule.Type_TypeConvert, name: ConvertRule.Name_TypeConvert, description: '字段选择'},
+    {type: ConvertRule.Type_Splitfieldtorows, name: ConvertRule.Name_Splitfieldtorows, description: '列拆分为多行'},
+    {type: ConvertRule.Type_Calculator, name: ConvertRule.Name_Calculator, description: '计算器'},
+    {type: ConvertRule.Type_UniqueRows, name: ConvertRule.Name_UniqueRows, description: '去除重复记录'},
+    {type: ConvertRule.Type_ExecuteSql, name: ConvertRule.Name_ExecuteSql, description: '执行脚本(包括sql查询语句、自定义函数、存储过程等)'},
+    {
+      type: ConvertRule.Type_DynamicValueMapping,
+      name: ConvertRule.Name_DynamicValueMapping,
+      description: '动态值隐射(类似静态值映射，区别在于映射的值来源于目标库的某个表某个对应字段)'
+    },
   ];
 
   public static supportDbFieldType = {

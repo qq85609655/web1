@@ -560,6 +560,112 @@
   </div>
 </div>
 
+
+<!--  执行sql脚本  操作  -->
+<div id="ExecuteSql" *ngIf="rule?.type == 15">
+  <div class="rule-title">{{rule.typeName}}</div>
+  <div class="rule-name">
+    <em>*</em>步骤名称： <input type="text" [maxlength]="stepNameLength"
+                           [(ngModel)]="rule.modifyName"
+                           [ngClass]="{error:rule.valid.modifyName.status}"/> 编号： {{rule.id}}
+  </div>
+  <div class="rule-detail">
+    <table class="mt10">
+      <thead>
+      <tr>
+        <td width="40">序号</td>
+        <td>输入参数</td>
+        <td>sql脚本</td>
+        <td width="100">操作</td>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngIf="rule.dataList.length == 0">
+        <td colspan="6">暂无数据</td>
+      </tr>
+      <tr *ngFor="let item of rule.dataList; let i=index">
+        <td>{{i+1}}</td>
+        <td>
+          <ng-container
+            *ngFor="let f of item.paramFields;let ii = index">
+            <ng-container *ngIf="ii>0">,</ng-container>
+            {{f.sourceField}}
+          </ng-container>
+        </td>
+        <td>{{item.sqlStr}}</td>
+        <td><a (click)="rule.onUpdate(item, i)">修改</a> <a
+          (click)="rule.onDelete(item, i)">删除</a></td>
+      </tr>
+      </tbody>
+    </table>
+    <table class="mt10 ruletable " style="width: 500px;">
+      <thead>
+      <tr>
+        <td width="40">序号</td>
+        <td><em>*</em>输入字段</td>
+        <td width="65">操作</td>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of rule.rowData.paramFields; let i=index">
+        <td>{{i+1}}</td>
+        <td>
+          <p-dropdown [options]="rule.fieldList"
+                      [(ngModel)]="item.sourceField"
+                      placeholder="请选择"></p-dropdown>
+        </td>
+        <td *ngIf="rule.rowData.paramFields.length > 2" class="last-td">
+          <span class="btn-add" (click)="rule.addDataRow(i)">+</span> <span
+          class="btn-add" (click)="rule.removeDataRow(i)">-</span>
+        </td>
+        <td *ngIf="rule.rowData.paramFields.length <= 2" class="last-td">
+          <span class="btn-add" (click)="rule.addDataRow(i)">+</span> <span
+          class="btn-add" style="visibility:hidden">-</span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="valignTable form-table">
+      <table class="mt10">
+        <tr>
+          <td><em>*</em>sql脚本：</td>
+        </tr>
+        <tr>
+          <td>
+            <textarea
+              [(ngModel)]="rule.rowData.sqlStr"
+              id="sqlStr"
+              rows="10"
+              cols="50"
+              [ngClass]="{error:rule.valid.rowData.sqlStr.status}"
+            ></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <ng-container *ngIf="rule.rowData.rowIndex >= 0">{{rule.rowData.rowIndex
+              + 1}} <a (click)="rule.cancelUpdateData()">取消修改</a></ng-container>
+            <ng-container
+              *ngIf="rule.rowData.rowIndex < 0">新增
+            </ng-container>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="btn-group-center"
+         *ngIf="rule.rowData.sqlStr && rule.rowData.sqlStr != '' ">
+      <button type="button" (click)="rule.onExecuteOk()">确认</button>
+      <button type="button" class="btn-cancel" (click)="onRuleClose()">取消规则</button>
+    </div>
+    <div class="btn-group-center"
+         *ngIf="!rule.rowData.sqlStr || rule.rowData.sqlStr == '' ">
+      <button type="button" (click)="rule.onAllExecuteOk()">确认规则</button>
+      <button type="button" class="btn-cancel" (click)="onRuleClose()">取消规则</button>
+    </div>
+  </div>
+</div>
+
+
 <!--  增加常量  操作  -->
 <div id="AddConstant" *ngIf="rule?.type == 6">
   <div class="rule-title">{{rule.typeName}}</div>
@@ -920,7 +1026,7 @@
   <div class="rule-detail">
     <div class="mt10 textright">
       更新类型：
-     <p-dropdown [options]="rule.updateTypeList" align="left"
+      <p-dropdown [options]="rule.updateTypeList" align="left"
                   [(ngModel)]="rule.data.updateType"
       ></p-dropdown>
       <button type="button" (click)="rule.onAutoMapping()">自动映射</button>
@@ -1020,3 +1126,112 @@
     </div>
   </div>
 </div>
+
+
+<!-- 动态值隐射  操作  -->
+<div id="DynamicValueMapping" *ngIf="rule?.type == 16">
+  <div class="rule-title">{{rule.typeName}}</div>
+  <div class="rule-name">
+    <em>*</em>步骤名称： <input type="text" [maxlength]="stepNameLength"
+                           [(ngModel)]="rule.modifyName"
+                           [ngClass]="{error:rule.valid.modifyName.status}"/> 编号： {{rule.id}}
+  </div>
+  <div class="rule-detail">
+    <table class="mt10">
+      <thead>
+      <tr>
+        <td width="40">序号</td>
+        <td>输入字段</td>
+        <td>输出字段</td>
+        <td>来源表名称</td>
+        <td>对应字段名称</td>
+        <td>是否有效</td>
+        <td width="100">操作</td>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngIf="rule.dataList.length == 0">
+        <td colspan="6">暂无数据</td>
+      </tr>
+      <tr *ngFor="let item of rule.dataList; let i=index">
+        <td>{{i+1}}</td>
+        <td>{{item.sourceField}}</td>
+        <td>{{item.targetField}}</td>
+        <td>{{item.mappings.length}}</td>
+        <td><img src="./assets/img/error.png" alt="错误"
+                 *ngIf="!item.status"> <img src="./assets/img/ok.png"
+                                            alt="正确" *ngIf="item.status"></td>
+        <td><a (click)="rule.onUpdate(item.sourceField)">修改</a> <a
+          (click)="rule.onDelete(item.sourceField)">删除</a></td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="valignTable form-table">
+      <table class="mt10">
+        <tr>
+          <th><em>*</em>输入字段：</th>
+          <td>
+            <p-dropdown [options]="rule.fieldList"
+                        [(ngModel)]="rule.rowData.sourceField"
+                        [ngClass]="{error:rule.valid.rowData.sourceField.status}"
+                        placeholder="请选择" (onChange)="rule.onUpdate($event.value)"></p-dropdown>
+          </td>
+        </tr>
+        <tr>
+          <th><em>*</em>输出字段：</th>
+          <td><input type="text" [(ngModel)]="rule.rowData.targetField"
+                     [ngClass]="{error:rule.valid.rowData.targetField.status}"
+                     maxlength="20"/></td>
+        </tr>
+        <tr>
+          <th>缺省值：</th>
+          <td><input type="text" [(ngModel)]="rule.rowData.defValue"
+                     maxlength="10"/></td>
+        </tr>
+      </table>
+    </div>
+    <table class="mt10 ruletable " style="width: 500px;">
+      <thead>
+      <tr>
+        <td width="40">序号</td>
+        <td><em>*</em>源值</td>
+        <td><em>*</em>目标值</td>
+        <td width="80">操作</td>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let item of rule.rowData.mappings; let i=index">
+        <td>{{i+1}}</td>
+        <td><input type="text" [(ngModel)]="item.sourceValue"
+                   [ngClass]="{error:rule.valid.rowData?.mappings[i]?.sourceValue.status}"
+                   maxlength="10"/></td>
+        <td><input type="text" [(ngModel)]="item.targetValue"
+                   [ngClass]="{error:rule.valid.rowData?.mappings[i]?.targetValue.status}"
+                   maxlength="10"/></td>
+        <td *ngIf="rule.rowData.mappings.length > 1" class="last-td">
+          <span class="btn-add" (click)="rule.addDataRow(i)">+</span> <span
+          class="btn-add" (click)="rule.removeDataRow(i)">-</span>
+        </td>
+        <td *ngIf="rule.rowData.mappings.length == 1" class="last-td">
+          <span class="btn-add" (click)="rule.addDataRow(i)">+</span> <span
+          class="btn-add" style="visibility:hidden">-</span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="btn-group-center"
+         *ngIf="rule.rowData.sourceField && rule.rowData.sourceField != '' ">
+      <button type="button" (click)="rule.onMapperOk()">确认</button>
+      <button type="button" class="btn-cancel" (click)="onRuleClose()">取消规则</button>
+    </div>
+    <div class="btn-group-center"
+         *ngIf="!rule.rowData.sourceField || rule.rowData.sourceField == '' ">
+      <button type="button" (click)="rule.onAllMappingOk()">确认规则</button>
+      <button type="button" class="btn-cancel" (click)="onRuleClose()">取消规则</button>
+    </div>
+  </div>
+</div>
+
+
+
+

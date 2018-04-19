@@ -16,6 +16,8 @@ import {ConvertRuleSplitfield} from '../data-convert-rule/convert-rule-splitfiel
 import {ConvertRuleConcatfield} from '../data-convert-rule/convert-rule-concatfield';
 import {ConvertRuleTypeconvert} from '../data-convert-rule/convert-rule-typeconvert';
 import {ConvertRuleStringcut} from '../data-convert-rule/convert-rule-stringcut';
+import {ConvertRuleDynamicValuemapper} from '../data-convert-rule/convert-rule-dynamic-valuemapper';
+import {ConvertRuleExecuteSql} from '../data-convert-rule/convert-rule-executesql';
 
 @Component({
   selector: 'app-data-convert-info',
@@ -51,8 +53,8 @@ export class DataConvertInfoComponent extends BaseComponent implements OnInit, O
     } else {
       this.getHttpClient().get('datatask/getDataTaskVo', {taskId: this.taskData.taskId}, data => {
         Object.assign(this.taskData, data);
-      //  debugger;
-      //  console.log(this.taskData);
+        //  debugger;
+        //  console.log(this.taskData);
         for (let run of this.runTypeList) {
           if (this.taskData.runType == run.value.runType && this.taskData.runSpace == run.value.runSpace) {
             this.runValue = run.value;
@@ -207,7 +209,7 @@ export class DataConvertInfoComponent extends BaseComponent implements OnInit, O
       this.targetRule.setNextRule(null, this.rules);
       this.targetRule.updateType = targetData.data.updateType;
       this.rules.push(this.targetRule);
-     // alert('11111111111111=============' + this.taskData.updateType);
+      // alert('11111111111111=============' + this.taskData.updateType);
 
       //初始化其他规则
       let prevRule: any = this.sourceRule;
@@ -452,6 +454,10 @@ export class DataConvertInfoComponent extends BaseComponent implements OnInit, O
       newRule = new ConvertRuleTypeconvert(param);
     } else if (type == ConvertRule.Type_StringCut) {
       newRule = new ConvertRuleStringcut(param);
+    }else if (type == ConvertRule.Type_DynamicValueMapping) {
+      newRule = new ConvertRuleDynamicValuemapper(param);
+    }else if (type == ConvertRule.Type_ExecuteSql) {
+      newRule = new ConvertRuleExecuteSql(param);
     } else {
       this.dialogMessage('功能开发中...');
       return null;

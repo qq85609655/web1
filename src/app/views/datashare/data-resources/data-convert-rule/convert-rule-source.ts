@@ -184,41 +184,51 @@ export class ConvertRuleSource extends ConvertRule {
   }
 
   onDataTableChange(initFlag?: boolean) {
+    debugger;
     $('#primaryKeyInfo').html('');
     if (initFlag !== true) {
       this.cleanFieldListData();//非初始化时，清空已存在的字段
     }
     let tableName = this.data.thirdTablename;
-    let queryParam = {
-      connectionId: this.data.thirdConnectionId,
-      tableName: tableName,
-      busType: this.businessType
-    };
-    this.getHttpClient().get('datasource/queryTableFields', queryParam, (data) => {
-      console.info(data.ketAutoAddCount);
-      if (!data || data.tableFieldVoList.length == 0) {
-        data = [];
-      }
-      if (this.businessType == 1) {
-        this.pushAll(this.sourceList, data.tableFieldVoList, true);
-        for (let f of this.sourceList) {
-          f.ruleType = 1;//源数据字段
+    console.info(tableName);
+    if (tableName != null) {
+      var taname = tableName.split('#');
+      var tType = taname[1];
+      var tname = taname[0];
+      console.info(tType + '---------' + tname);
+      let queryParam = {
+        connectionId: this.data.thirdConnectionId,
+        tableName: tname,
+        tType: tType,
+        busType: this.businessType
+      };
+
+      this.getHttpClient().get('datasource/queryTableFields', queryParam, (data) => {
+        console.info(data.ketAutoAddCount);
+        if (!data || data.tableFieldVoList.length == 0) {
+          data = [];
         }
-      } else {
-        this.pushAll(this.targetList, data.tableFieldVoList, true);
-        for (let f of this.targetList) {
-          f.ruleType = 2;//目标数据字段
+        if (this.businessType == 1) {
+          this.pushAll(this.sourceList, data.tableFieldVoList, true);
+          for (let f of this.sourceList) {
+            f.ruleType = 1;//源数据字段
+          }
+        } else {
+          this.pushAll(this.targetList, data.tableFieldVoList, true);
+          for (let f of this.targetList) {
+            f.ruleType = 2;//目标数据字段
+          }
+          this.flushTargetList();
         }
-        this.flushTargetList();
-      }
-      this.check();
-      if (this.isSource() && this.getNextRule()) {
-        this.getNextRule().checkAllAfter();
-      }
-      console.info(data.keyComment);
-      // 分三种情况： 1 有一个主键 2 多个主键（联合主键） 3 无主键
-      $('#primaryKeyInfo').html(data.keyComment);
-    });
+        this.check();
+        if (this.isSource() && this.getNextRule()) {
+          this.getNextRule().checkAllAfter();
+        }
+        console.info(data.keyComment);
+        // 分三种情况： 1 有一个主键 2 多个主键（联合主键） 3 无主键
+        $('#primaryKeyInfo').html(data.keyComment);
+      });
+    }
   }
 
   onSubsetChange(initFlag?: boolean) {
@@ -337,7 +347,7 @@ export class ConvertRuleSource extends ConvertRule {
   }
 
   openTableDetail(type) {
-  //  debugger;
+    //  debugger;
     let fieldList = null;
 
     let tableInfo = {name: '', dbType: 1, comment: '', type: type};
