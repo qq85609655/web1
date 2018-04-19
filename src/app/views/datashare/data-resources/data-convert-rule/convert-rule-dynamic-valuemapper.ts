@@ -1,7 +1,8 @@
-import {ConvertRule} from "./convert-rule";
+import {ConvertRule} from './convert-rule';
 
 /**
  * 动态值映射
+ * 最终还是 反馈到 静态值映射
  */
 export class ConvertRuleDynamicValuemapper extends ConvertRule {
 
@@ -10,18 +11,28 @@ export class ConvertRuleDynamicValuemapper extends ConvertRule {
   //当前操作的列表，仅操作时有效。当前规则操作时不能直接修改data.dataList的数据，故定义俩个数组
   public dataList = [];//操作的数据列表
 
-  public rowData: any={
-    sourceField:'',
-    targetField: '',
-    mappings: [{sourceValue:'',targetValue:''}]
+  // 动态值映射：主要是解决 值隐射 的值和目标 来源于第三方库的某张表 和 某个字段的关系
+  // select a from t where t.b=p
+  public rowData: any = {
+    sourceField: '',//输入字段 p
+    targetField: '',//输出字段
+    releaseTableName: '',//对应的表名 t
+    releaseFieldName: '',//对应的字段名 b
+    targetFieldName: '',// 想要的字段名称 a
+    releaseRalation: '',//对应的关系 =
+    mappings: [{sourceValue: '', targetValue: ''}]
   };
 
   public defaultData = {
     sourceField: '',
     targetField: '',
-    defValue:'',
+    defValue: '',
     status: true,
-    mappings: [{sourceValue:'',targetValue:''}]
+    releaseTableName: '',//对应的表名 t
+    releaseFieldName: '',// 想要的字段名称 b
+    releaseRalation: '',//对应的关系 =
+    targetFieldName: '',// 想要的字段名称 a
+    mappings: [{sourceValue: '', targetValue: ''}]
   };
 
 
@@ -32,7 +43,7 @@ export class ConvertRuleDynamicValuemapper extends ConvertRule {
   };
 
   constructor(param: any) {
-    super(param, ConvertRule.Type_ValueMapper, ConvertRule.Name_ValueMapper);
+    super(param, ConvertRule.Type_DynamicValueMapping, ConvertRule.Name_DynamicValueMapping);
     this.pushAll(this.data.dataList, param.dataList, true);
     this.pushAll(this.data.outputs, param.outputs, true);
   }
@@ -55,26 +66,26 @@ export class ConvertRuleDynamicValuemapper extends ConvertRule {
       let d2 = this.newRowData(d);
       this.dataList.push(d2);
       //如果字段已被删除，则sourceField置空
-      if(this.findFieldIndex(this.sourceList, d2.sourceField) < 0){
+      if (this.findFieldIndex(this.sourceList, d2.sourceField) < 0) {
         d2.sourceField = '';
       }
     }
     this.checkRowDatas(this.dataList, this.sourceList);
     this.rowData = this.newRowData(null);
     this.modifyName = this.name;
-    this.validDataClean(this.valid,"rowData");
-    this.validDataClean(this.valid,"modifyName");
+    this.validDataClean(this.valid, 'rowData');
+    this.validDataClean(this.valid, 'modifyName');
     return true;
   }
 
   //创建一个新的row记录
-  newRowData(d): any{
-    if(! d ){
+  newRowData(d): any {
+    if (!d) {
       d = this.defaultData;
     }
     let d2 = Object.assign({}, d);
     let mappings = [];
-    for(let vo of d2.mappings){
+    for (let vo of d2.mappings) {
       mappings.push(Object.assign({}, vo));
     }
     d2.mappings = mappings;
@@ -87,11 +98,11 @@ export class ConvertRuleDynamicValuemapper extends ConvertRule {
   }
 
   //修改按钮
-  onUpdate(sourceField){
+  onUpdate(sourceField) {
     let fieldIndex = this.findDataIndex(sourceField);
-    this.validDataClean(this.valid,"rowData");
-    this.validDataClean(this.valid,"modifyName");
-    if(fieldIndex < 0){
+    this.validDataClean(this.valid, 'rowData');
+    this.validDataClean(this.valid, 'modifyName');
+    if (fieldIndex < 0) {
       this.rowData = this.newRowData(null);
       this.rowData.sourceField = sourceField;
       console.log(this.rowData);
@@ -102,33 +113,33 @@ export class ConvertRuleDynamicValuemapper extends ConvertRule {
   }
 
   //删除按钮
-  onDelete(sourceField){
+  onDelete(sourceField) {
     let fieldIndex = this.findDataIndex(sourceField);
-    if(fieldIndex < 0){
+    if (fieldIndex < 0) {
       return;
     }
-    this.dataList.splice(fieldIndex , 1);
+    this.dataList.splice(fieldIndex, 1);
   }
 
   //检查行数据正确性，返回错误编号
-  checkRowDatas(list:Array<any>, sourceList?: Array<any>): number {
-    if(!list) return;
-    if(!sourceList){
+  checkRowDatas(list: Array<any>, sourceList?: Array<any>): number {
+    if (!list) return;
+    if (!sourceList) {
       sourceList = this.getParentOutputs(false).outputs;
     }
     let flag = 0;
-    for(let row of list){
+    for (let row of list) {
       row.status = true;
       //检查输入是否存在
-      if(this.findFieldIndex(sourceList, row.sourceField) < 0){
+      if (this.findFieldIndex(sourceList, row.sourceField) < 0) {
         row.status = false;
-        flag = flag==0 ? 1 : flag;
+        flag = flag == 0 ? 1 : flag;
         break;
       }
       //检查输入是否不存在
-      if(this.findFieldIndex(sourceList, row.targetField) >= 0){
+      if (this.findFieldIndex(sourceList, row.targetField) >= 0) {
         row.status = false;
-        flag = flag==0 ? 2 : flag;
+        flag = flag == 0 ? 2 : flag;
         break;
       }
     }
@@ -137,12 +148,12 @@ export class ConvertRuleDynamicValuemapper extends ConvertRule {
     return flag;
   }
 
-  findDataIndex(sourceField){
+  findDataIndex(sourceField) {
     let index = -1;
     sourceField = sourceField.toLowerCase();
-    for(let i=0;i<this.dataList.length;i++){
-      if(this.dataList[i].sourceField.toLowerCase() == sourceField){
-        index = i ;
+    for (let i = 0; i < this.dataList.length; i++) {
+      if (this.dataList[i].sourceField.toLowerCase() == sourceField) {
+        index = i;
         break;
       }
     }
@@ -152,19 +163,19 @@ export class ConvertRuleDynamicValuemapper extends ConvertRule {
 
   public check(): boolean {
     if (this.data.dataList.length == 0) {
-      this.setError("请选择至少添加一个"+this.typeName+"操作！");
+      this.setError('请选择至少添加一个' + this.typeName + '操作！');
       return false;
     }
     let sources = this.getParentOutputs(false).outputs;
-    for(let data of this.data.dataList){
-      if(this.findFieldIndex(sources, data.sourceField) < 0){
-        this.setError("部分输入字段已丢失！");
+    for (let data of this.data.dataList) {
+      if (this.findFieldIndex(sources, data.sourceField) < 0) {
+        this.setError('部分输入字段已丢失！');
         return false;
       }
     }
-    for(let data of this.data.dataList){
-      if(this.findFieldIndex(sources, data.targetField) >= 0){
-        this.setError("部分输出字段已存在！");
+    for (let data of this.data.dataList) {
+      if (this.findFieldIndex(sources, data.targetField) >= 0) {
+        this.setError('部分输出字段已存在！');
         return false;
       }
     }
@@ -175,27 +186,27 @@ export class ConvertRuleDynamicValuemapper extends ConvertRule {
   //当做操作的行数据保存
   onMapperOk(): any {
     //检查操作列表
-    let flag = this.validData(this.valid,"rowData", this);
-    if(!flag)return false;
+    let flag = this.validData(this.valid, 'rowData', this);
+    if (!flag) return false;
     let sourceField = this.rowData.sourceField;
 
     //检查输出字段是否被前面的规则使用过
-    if(!this.checkFieldNoRepeat([this.rowData.targetField])){
+    if (!this.checkFieldNoRepeat([this.rowData.targetField])) {
       return false;
     }
     let fieldIndex = this.findDataIndex(sourceField);
     //检查在当前规则是否被使用
-    for(let i=0;i < this.dataList.length;i++){
-      if(i == fieldIndex) continue;
-      if(this.dataList[i].targetField == this.rowData.targetField){
-        this.dialogMessage("字段["+this.rowData.targetField+"]已被当前规则其他映射关系使用！");
+    for (let i = 0; i < this.dataList.length; i++) {
+      if (i == fieldIndex) continue;
+      if (this.dataList[i].targetField == this.rowData.targetField) {
+        this.dialogMessage('字段[' + this.rowData.targetField + ']已被当前规则其他映射关系使用！');
         return false;
       }
     }
-    if(fieldIndex < 0){
+    if (fieldIndex < 0) {
       this.dataList.push(this.rowData);
-    }else{
-      Object.assign(this.dataList[fieldIndex] , this.rowData);
+    } else {
+      Object.assign(this.dataList[fieldIndex], this.rowData);
     }
     //修改的字段，状态均为成功，因为以上代码已验证完整性
     this.rowData.status = true;
@@ -203,12 +214,12 @@ export class ConvertRuleDynamicValuemapper extends ConvertRule {
   }
 
   //保存当前整个规则
-  onAllMappingOk(){
+  onAllMappingOk() {
     //检查步骤名称
-    let flag = this.validData(this.valid,"modifyName", this);
-    if(!flag)return false;
+    let flag = this.validData(this.valid, 'modifyName', this);
+    if (!flag) return false;
     if (this.dataList.length == 0) {
-      this.tipWarnMessage("请选择至少添加一个字段的值映射操作！");
+      this.tipWarnMessage('请选择至少添加一个字段的值映射操作！');
       return false;
     }
     let outs = [];
@@ -219,14 +230,14 @@ export class ConvertRuleDynamicValuemapper extends ConvertRule {
         field: d.targetField,
         ruleType: this.type,
         dataType: 'C',
-        length:0
+        length: 0
       };
       //计算字段长度
-      if(d.defValue.length > updateField.length){
+      if (d.defValue.length > updateField.length) {
         updateField.length = d.defValue.length;
       }
-      for(let m of d.mappings){
-        if(m.targetValue.length > updateField.length){
+      for (let m of d.mappings) {
+        if (m.targetValue.length > updateField.length) {
           updateField.length = m.targetValue.length;
         }
       }
@@ -241,7 +252,7 @@ export class ConvertRuleDynamicValuemapper extends ConvertRule {
   }
 
   public valid = {
-    modifyName:{
+    modifyName: {
       status: false,
       msg: '',
       valids: [
@@ -249,7 +260,7 @@ export class ConvertRuleDynamicValuemapper extends ConvertRule {
       ]
     },
     rowData: {
-      _fields: ['sourceField', 'targetField', "mappings.$"],
+      _fields: ['sourceField', 'targetField', 'mappings.$'],
       sourceField: {
         status: false,
         msg: '',
@@ -272,7 +283,7 @@ export class ConvertRuleDynamicValuemapper extends ConvertRule {
           {required: true, msg: '缺省值不能为空！'},
         ]
       },*/
-      "mappings.$": {
+      'mappings.$': {
         valids: [
           {norepeat: 'sourceValue', msg: '源值不能重复'}
         ],
@@ -297,7 +308,7 @@ export class ConvertRuleDynamicValuemapper extends ConvertRule {
   };
 
   addDataRow(i) {
-    this._addDataRow(i, this.rowData.mappings, {sourceValue:'',targetValue:''});
+    this._addDataRow(i, this.rowData.mappings, {sourceValue: '', targetValue: ''});
     this._addDataRow(i, this.valid.rowData.mappings, null);
 
   }

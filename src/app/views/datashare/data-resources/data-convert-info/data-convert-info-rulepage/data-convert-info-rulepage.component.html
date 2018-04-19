@@ -1135,16 +1135,20 @@
     <em>*</em>步骤名称： <input type="text" [maxlength]="stepNameLength"
                            [(ngModel)]="rule.modifyName"
                            [ngClass]="{error:rule.valid.modifyName.status}"/> 编号： {{rule.id}}
+    <div>示例：select t.a from t where t.b = p</div>
   </div>
   <div class="rule-detail">
     <table class="mt10">
       <thead>
       <tr>
         <td width="40">序号</td>
-        <td>输入字段</td>
+        <td>输入字段(p)</td>
         <td>输出字段</td>
-        <td>来源表名称</td>
-        <td>对应字段名称</td>
+        <td>来源表名称(t)</td>
+        <td>对应字段名称(b)</td>
+        <td>对应关系(=)</td>
+        <td>目标字段(a)</td>
+        <td>缺省值(a)</td>
         <td>是否有效</td>
         <td width="100">操作</td>
       </tr>
@@ -1157,7 +1161,11 @@
         <td>{{i+1}}</td>
         <td>{{item.sourceField}}</td>
         <td>{{item.targetField}}</td>
-        <td>{{item.mappings.length}}</td>
+        <td>{{item.releaseTableName}}</td>
+        <td>{{item.releaseFieldName}}</td>
+        <td>{{item.releaseRalation}}</td>
+        <td>{{item.targetFieldName}}</td>
+        <td>{{item.defValue}}</td>
         <td><img src="./assets/img/error.png" alt="错误"
                  *ngIf="!item.status"> <img src="./assets/img/ok.png"
                                             alt="正确" *ngIf="item.status"></td>
@@ -1188,37 +1196,33 @@
           <td><input type="text" [(ngModel)]="rule.rowData.defValue"
                      maxlength="10"/></td>
         </tr>
+
+        <tr>
+          <th>来源表名称：</th>
+          <td><input type="text" [(ngModel)]="rule.rowData.releaseTableName"
+                     maxlength="40"/></td>
+        </tr>
+
+        <tr>
+          <th>对应字段名称：</th>
+          <td><input type="text" [(ngModel)]="rule.rowData.releaseFieldName"
+                     maxlength="40"/></td>
+        </tr>
+
+        <tr>
+          <th>对应关系：</th>
+          <td><input type="text" [(ngModel)]="rule.rowData.releaseRalation"
+                     maxlength="40"/></td>
+        </tr>
+
+        <tr>
+          <th>目标字段：</th>
+          <td><input type="text" [(ngModel)]="rule.rowData.targetFieldName"
+                     maxlength="10"/></td>
+        </tr>
       </table>
     </div>
-    <table class="mt10 ruletable " style="width: 500px;">
-      <thead>
-      <tr>
-        <td width="40">序号</td>
-        <td><em>*</em>源值</td>
-        <td><em>*</em>目标值</td>
-        <td width="80">操作</td>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let item of rule.rowData.mappings; let i=index">
-        <td>{{i+1}}</td>
-        <td><input type="text" [(ngModel)]="item.sourceValue"
-                   [ngClass]="{error:rule.valid.rowData?.mappings[i]?.sourceValue.status}"
-                   maxlength="10"/></td>
-        <td><input type="text" [(ngModel)]="item.targetValue"
-                   [ngClass]="{error:rule.valid.rowData?.mappings[i]?.targetValue.status}"
-                   maxlength="10"/></td>
-        <td *ngIf="rule.rowData.mappings.length > 1" class="last-td">
-          <span class="btn-add" (click)="rule.addDataRow(i)">+</span> <span
-          class="btn-add" (click)="rule.removeDataRow(i)">-</span>
-        </td>
-        <td *ngIf="rule.rowData.mappings.length == 1" class="last-td">
-          <span class="btn-add" (click)="rule.addDataRow(i)">+</span> <span
-          class="btn-add" style="visibility:hidden">-</span>
-        </td>
-      </tr>
-      </tbody>
-    </table>
+
     <div class="btn-group-center"
          *ngIf="rule.rowData.sourceField && rule.rowData.sourceField != '' ">
       <button type="button" (click)="rule.onMapperOk()">确认</button>
