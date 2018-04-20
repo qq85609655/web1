@@ -1144,7 +1144,8 @@
         <td width="40">序号</td>
         <td>输入字段(p)</td>
         <td>输出字段</td>
-        <td>来源表名称(t)</td>
+        <td>输出字段类型</td>
+        <td>对应表名称(t)</td>
         <td>对应字段名称(b)</td>
         <td>对应关系(=)</td>
         <td>目标字段(a)</td>
@@ -1155,12 +1156,13 @@
       </thead>
       <tbody>
       <tr *ngIf="rule.dataList.length == 0">
-        <td colspan="6">暂无数据</td>
+        <td colspan="11">暂无数据</td>
       </tr>
       <tr *ngFor="let item of rule.dataList; let i=index">
         <td>{{i+1}}</td>
         <td>{{item.sourceField}}</td>
         <td>{{item.targetField}}</td>
+        <td>{{item.targetFieldType}}</td>
         <td>{{item.releaseTableName}}</td>
         <td>{{item.releaseFieldName}}</td>
         <td>{{item.releaseRalation}}</td>
@@ -1189,24 +1191,35 @@
           <th><em>*</em>输出字段：</th>
           <td><input type="text" [(ngModel)]="rule.rowData.targetField"
                      [ngClass]="{error:rule.valid.rowData.targetField.status}"
-                     maxlength="20"/></td>
+                     maxlength="20"/> <em>* 输出字段给下一步骤使用</em> </td>
+        </tr>
+
+        <tr>
+          <th><em>*</em>输出字段类型：</th>
+          <td>
+            <p-dropdown [options]="rule.targetFieldTypeList"
+                        [(ngModel)]="rule.rowData.targetFieldType"
+                        [ngClass]="{error:rule.valid.rowData.targetFieldType.status}"
+                        placeholder="请选择"></p-dropdown>
+            <em>* 输出字段给下一步骤使用</em> </td>
         </tr>
         <tr>
           <th>缺省值：</th>
           <td><input type="text" [(ngModel)]="rule.rowData.defValue"
-                     maxlength="10"/></td>
+                     maxlength="10"/> <em>* 如果没找到对应的值的时候默认的值</em></td>
         </tr>
 
+
         <tr>
-          <th>来源表名称：</th>
+          <th>目标表名称：</th>
           <td><input type="text" [(ngModel)]="rule.rowData.releaseTableName"
-                     maxlength="40"/></td>
+                     maxlength="40"/> <em>* p 的值来源表名称</em></td>
         </tr>
 
         <tr>
           <th>对应字段名称：</th>
           <td><input type="text" [(ngModel)]="rule.rowData.releaseFieldName"
-                     maxlength="40"/></td>
+                     maxlength="40"/> <em>* 输出字段给下一步骤使用</em></td>
         </tr>
 
         <tr>
@@ -1225,12 +1238,12 @@
 
     <div class="btn-group-center"
          *ngIf="rule.rowData.sourceField && rule.rowData.sourceField != '' ">
-      <button type="button" (click)="rule.onMapperOk()">确认</button>
+      <button type="button" (click)="rule.onDynamicMapperOk()">确认</button>
       <button type="button" class="btn-cancel" (click)="onRuleClose()">取消规则</button>
     </div>
     <div class="btn-group-center"
          *ngIf="!rule.rowData.sourceField || rule.rowData.sourceField == '' ">
-      <button type="button" (click)="rule.onAllMappingOk()">确认规则</button>
+      <button type="button" (click)="rule.onAllDynamicMappingOk()">确认规则</button>
       <button type="button" class="btn-cancel" (click)="onRuleClose()">取消规则</button>
     </div>
   </div>

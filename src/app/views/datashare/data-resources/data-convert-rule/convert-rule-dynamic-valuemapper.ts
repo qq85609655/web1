@@ -16,23 +16,26 @@ export class ConvertRuleDynamicValuemapper extends ConvertRule {
   public rowData: any = {
     sourceField: '',//输入字段 p
     targetField: '',//输出字段
+    targetFieldType: '',//输出字段类型
     releaseTableName: '',//对应的表名 t
     releaseFieldName: '',//对应的字段名 b
     targetFieldName: '',// 想要的字段名称 a
     releaseRalation: '',//对应的关系 =
-    mappings: [{sourceValue: '', targetValue: ''}]
   };
+
+  //输出字段类型
+  public targetFieldTypeList = [{value: 'C', label: '字符串'}, {value: 'N', label: '整型数字'}];
 
   public defaultData = {
     sourceField: '',
     targetField: '',
+    targetFieldType: '',
     defValue: '',
     status: true,
     releaseTableName: '',//对应的表名 t
     releaseFieldName: '',// 想要的字段名称 b
     releaseRalation: '',//对应的关系 =
     targetFieldName: '',// 想要的字段名称 a
-    mappings: [{sourceValue: '', targetValue: ''}]
   };
 
 
@@ -84,11 +87,11 @@ export class ConvertRuleDynamicValuemapper extends ConvertRule {
       d = this.defaultData;
     }
     let d2 = Object.assign({}, d);
-    let mappings = [];
-    for (let vo of d2.mappings) {
-      mappings.push(Object.assign({}, vo));
-    }
-    d2.mappings = mappings;
+    // let mappings = [];
+    //  for (let vo of d2.mappings) {
+    //   mappings.push(Object.assign({}, vo));
+    //  }
+    //  d2.mappings = mappings;
     return d2;
   }
 
@@ -184,7 +187,7 @@ export class ConvertRuleDynamicValuemapper extends ConvertRule {
   }
 
   //当做操作的行数据保存
-  onMapperOk(): any {
+  onDynamicMapperOk(): any {
     //检查操作列表
     let flag = this.validData(this.valid, 'rowData', this);
     if (!flag) return false;
@@ -214,33 +217,34 @@ export class ConvertRuleDynamicValuemapper extends ConvertRule {
   }
 
   //保存当前整个规则
-  onAllMappingOk() {
+  onAllDynamicMappingOk() {
     //检查步骤名称
     let flag = this.validData(this.valid, 'modifyName', this);
     if (!flag) return false;
     if (this.dataList.length == 0) {
-      this.tipWarnMessage('请选择至少添加一个字段的值映射操作！');
+      this.tipWarnMessage('请选择至少添加一个字段的动态值映射操作！');
       return false;
     }
     let outs = [];
     for (let d of this.dataList) {
       let sourceField = d.sourceField;
       let field = this.sourceList[this.findFieldIndex(this.sourceList, sourceField)];
+      let fieldType = d.targetFieldType;
       let updateField = {
         field: d.targetField,
         ruleType: this.type,
-        dataType: 'C',
+        dataType: fieldType,
         length: 0
       };
       //计算字段长度
       if (d.defValue.length > updateField.length) {
         updateField.length = d.defValue.length;
       }
-      for (let m of d.mappings) {
-        if (m.targetValue.length > updateField.length) {
-          updateField.length = m.targetValue.length;
-        }
-      }
+      //for (let m of d.mappings) {
+      //   if (m.targetValue.length > updateField.length) {
+      //     updateField.length = m.targetValue.length;
+      //   }
+      // }
       let field2 = Object.assign({}, field, updateField);
       outs.push(field2);
     }
@@ -260,7 +264,7 @@ export class ConvertRuleDynamicValuemapper extends ConvertRule {
       ]
     },
     rowData: {
-      _fields: ['sourceField', 'targetField', 'mappings.$'],
+      _fields: ['sourceField', 'targetField', 'targetFieldName', 'releaseRalation', 'releaseFieldName', 'releaseTableName'],
       sourceField: {
         status: false,
         msg: '',
@@ -276,45 +280,42 @@ export class ConvertRuleDynamicValuemapper extends ConvertRule {
           {regexp: this.regexp_field, msg: '请输入有效的输出字段，仅支持字母数字下划线，且以字母开头！'}
         ]
       },
-      /*defValue: {
+      targetFieldName: {
         status: false,
         msg: '',
         valids: [
-          {required: true, msg: '缺省值不能为空！'},
+          {required: true, msg: '目标字段不能为空！'},
         ]
-      },*/
-      'mappings.$': {
-        valids: [
-          {norepeat: 'sourceValue', msg: '源值不能重复'}
-        ],
-        _fields: ['sourceValue', 'targetValue'],
-        sourceValue: {
-          status: false,
-          msg: '',
-          valids: [
-            {required: true, msg: '源值不能为空！'},
-          ]
-        },
-        targetValue: {
-          status: false,
-          msg: '',
-          valids: [
-            {required: true, msg: '目标值不能为空！'}
-          ]
-        }
       },
-      mappings: []
+      releaseRalation: {
+        status: false,
+        msg: '',
+        valids: [
+          {required: true, msg: '对应关系不能为空！'},
+        ]
+      },
+      releaseFieldName: {
+        status: false,
+        msg: '',
+        valids: [
+          {required: true, msg: '对应字段名称不能为空！'},
+        ]
+      },
+      releaseTableName: {
+        status: false,
+        msg: '',
+        valids: [
+          {required: true, msg: '目标表名称不能为空！'},
+        ]
+      },
+      targetFieldType: {
+        status: false,
+        msg: '',
+        valids: [
+          {required: true, msg: '输出字段类型不能为空！'},
+        ]
+      }
+
     }
   };
-
-  addDataRow(i) {
-    this._addDataRow(i, this.rowData.mappings, {sourceValue: '', targetValue: ''});
-    this._addDataRow(i, this.valid.rowData.mappings, null);
-
-  }
-
-  removeDataRow(i) {
-    this._removeDataRow(i, this.rowData.mappings);
-    this._removeDataRow(i, this.valid.rowData.mappings);
-  }
 }
