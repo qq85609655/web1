@@ -286,14 +286,14 @@ export class ConvertRuleDynamicValuemapper extends ConvertRule {
         valids: [
           {required: true, msg: '目标字段不能为空！'},
         ]
-      },
+      }/*,
       releaseRalation: {
         status: false,
         msg: '',
         valids: [
-          {required: true, msg: '对应关系不能为空！'},
+          {required: false, msg: '对应关系不能为空！'},
         ]
-      },
+      }*/,
       releaseFieldName: {
         status: false,
         msg: '',

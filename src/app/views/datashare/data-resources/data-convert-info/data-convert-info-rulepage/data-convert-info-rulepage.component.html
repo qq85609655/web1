@@ -1135,7 +1135,7 @@
     <em>*</em>步骤名称： <input type="text" [maxlength]="stepNameLength"
                            [(ngModel)]="rule.modifyName"
                            [ngClass]="{error:rule.valid.modifyName.status}"/> 编号： {{rule.id}}
-    <div>示例：select t.a from t where t.b = p</div>
+    <div>示例：select t.a,t.b  from t </div>
   </div>
   <div class="rule-detail">
     <table class="mt10">
@@ -1147,7 +1147,6 @@
         <td>输出字段类型</td>
         <td>对应表名称(t)</td>
         <td>对应字段名称(b)</td>
-        <td>对应关系(=)</td>
         <td>目标字段(a)</td>
         <td>缺省值(a)</td>
         <td>是否有效</td>
@@ -1165,7 +1164,6 @@
         <td>{{item.targetFieldType}}</td>
         <td>{{item.releaseTableName}}</td>
         <td>{{item.releaseFieldName}}</td>
-        <td>{{item.releaseRalation}}</td>
         <td>{{item.targetFieldName}}</td>
         <td>{{item.defValue}}</td>
         <td><img src="./assets/img/error.png" alt="错误"
@@ -1211,25 +1209,25 @@
 
 
         <tr>
-          <th>目标表名称：</th>
+          <th><em>*</em>目标表名称：</th>
           <td><input type="text" [(ngModel)]="rule.rowData.releaseTableName"
                      maxlength="40"/> <em>* p 的值来源表名称</em></td>
         </tr>
 
         <tr>
-          <th>对应字段名称：</th>
+          <th><em>*</em>对应字段名称：</th>
           <td><input type="text" [(ngModel)]="rule.rowData.releaseFieldName"
                      maxlength="40"/> <em>* 输出字段给下一步骤使用</em></td>
         </tr>
 
-        <tr>
-          <th>对应关系：</th>
+     <!--   <tr>
+          <th><em>*</em>对应关系：</th>
           <td><input type="text" [(ngModel)]="rule.rowData.releaseRalation"
                      maxlength="40"/></td>
-        </tr>
+        </tr>-->
 
         <tr>
-          <th>目标字段：</th>
+          <th><em>*</em>目标字段：</th>
           <td><input type="text" [(ngModel)]="rule.rowData.targetFieldName"
                      maxlength="10"/></td>
         </tr>
