@@ -349,6 +349,33 @@
   </div>
 </div>
 
+
+<p-dialog header="{{rule.showCode.title}}" [(visible)]="rule.showCode.visible" width="750" height="auto" modal="true">
+  <div>
+    根据实际情况来查询标准代码
+  </div>
+  <div>选择大类：
+    <p-dropdown [options]="rule.BigCodeTypeList"
+                [(ngModel)]="rule.showCode.BigCodeType" placeholder="请选择"></p-dropdown>
+  </div>
+  <div>选择子类：
+    <p-dropdown [options]="rule.BigCodeTypeList"
+                [(ngModel)]="rule.showCode.BigCodeType" placeholder="请选择"></p-dropdown>
+  </div>
+  <div>代码列表：
+  </div>
+  <div class="content-table">
+    <!--表格-->
+    <div class="table">
+      <app-ptable [tableOpts]="rule.tableOpts" (selectionChange)="rule.tableOpts.selections = $event"></app-ptable>
+    </div>
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="rule.showCode.visible=false" label="关闭"></button>
+  </p-footer>
+</p-dialog>
+
+
 <!--  值映射  -->
 <div id="ValueMapper" *ngIf="rule?.type == 7">
   <div class="rule-title">{{rule.typeName}}</div>
@@ -416,7 +443,7 @@
         <td width="40">序号</td>
         <td><em>*</em>源值</td>
         <td><em>*</em>目标值</td>
-        <td width="80">操作</td>
+        <td width="220">操作 <a href="javascript:void(0);" (click)="rule.showCodes();"> 【参考】</a></td>
       </tr>
       </thead>
       <tbody>
@@ -1135,7 +1162,7 @@
     <em>*</em>步骤名称： <input type="text" [maxlength]="stepNameLength"
                            [(ngModel)]="rule.modifyName"
                            [ngClass]="{error:rule.valid.modifyName.status}"/> 编号： {{rule.id}}
-    <div>示例：select t.a,t.b  from t </div>
+    <div>示例：select t.a,t.b from t</div>
   </div>
   <div class="rule-detail">
     <table class="mt10">
@@ -1189,7 +1216,7 @@
           <th><em>*</em>输出字段：</th>
           <td><input type="text" [(ngModel)]="rule.rowData.targetField"
                      [ngClass]="{error:rule.valid.rowData.targetField.status}"
-                     maxlength="20"/> <em>* 输出字段给下一步骤使用</em> </td>
+                     maxlength="20"/> <em>* 输出字段给下一步骤使用</em></td>
         </tr>
 
         <tr>
@@ -1199,7 +1226,7 @@
                         [(ngModel)]="rule.rowData.targetFieldType"
                         [ngClass]="{error:rule.valid.rowData.targetFieldType.status}"
                         placeholder="请选择"></p-dropdown>
-            <em>* 输出字段给下一步骤使用</em> </td>
+            <em>* 输出字段给下一步骤使用</em></td>
         </tr>
         <tr>
           <th>缺省值：</th>
@@ -1220,11 +1247,11 @@
                      maxlength="40"/> <em>* 输出字段给下一步骤使用</em></td>
         </tr>
 
-     <!--   <tr>
-          <th><em>*</em>对应关系：</th>
-          <td><input type="text" [(ngModel)]="rule.rowData.releaseRalation"
-                     maxlength="40"/></td>
-        </tr>-->
+        <!--   <tr>
+             <th><em>*</em>对应关系：</th>
+             <td><input type="text" [(ngModel)]="rule.rowData.releaseRalation"
+                        maxlength="40"/></td>
+           </tr>-->
 
         <tr>
           <th><em>*</em>目标字段：</th>
@@ -1246,6 +1273,10 @@
     </div>
   </div>
 </div>
+
+
+
+
 
 
 
