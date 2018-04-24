@@ -74,9 +74,6 @@ export class ConfigManagerComponent extends BaseComponent implements OnInit {
     password: '',
     ipAddress: ''
   };
-  public initparam = {
-    sfInit: 0
-  };
   dialogOpts = {
     initialization: {
       title: '初始化',
@@ -184,8 +181,8 @@ export class ConfigManagerComponent extends BaseComponent implements OnInit {
         emailUser: data.emailUser, //用户名
         emailPwd: data.emailPwd //密码
       };
-      this.centerDb ={
-        dbType:data.dbType,
+      this.centerDb = {
+        dbType: data.dbType,
         dbName: data.dbName,
         tableSpaces: data.tableSpaces,
         port: data.port,
@@ -193,7 +190,7 @@ export class ConfigManagerComponent extends BaseComponent implements OnInit {
         password: data.password,
         ipAddress: data.ipAddress
       };
-      this.initparam.sfInit = data.sfInit;
+      //this.initparam.sfInit = data.sfInit;
     });
   }
 
@@ -211,7 +208,7 @@ export class ConfigManagerComponent extends BaseComponent implements OnInit {
   }
 
   initializationOk() {
-    this._HttpClient.post('config/initCenterDataBase', this.initparam, {}, data => {
+    this._HttpClient.post('config/initCenterDataBase', this.systemparam.initbz, {}, data => {
       this.tipMessage('中心库表初始化完成！！');
     });
     this.dialogOpts.initialization.visible = false;

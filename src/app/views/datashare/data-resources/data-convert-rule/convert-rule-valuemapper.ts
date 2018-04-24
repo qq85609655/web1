@@ -299,43 +299,17 @@ export class ConvertRuleValuemapper extends ConvertRule {
 
   public tableEvent: EventEmitter<any> = new EventEmitter();
 
-  showCode = {
-    BigCodeType: '',
-    SecondCodeType: '',
-    DetailCode: [{
-      code: '',
-      name: ''
-    }
-    ],
+  public showCode = {
     title: '查询标准代码',
     visible: false,
     pathParam: ''
   };
 
-  showCodes() {
+    showCodes() {
     this.showCode.visible = true;
   }
 
 
-  public treeNode: any;
-  public treeEvent = new EventEmitter();
-  public treeQueryParam = {
-    parentId: 1
-  };
-  public treeOpts = {
-    that: this,
-    queryMethod: 'get',
-    expandedIndex: 0,
-    queryUrl: "codestandard/queryCodeNodeTree2",
-    queryParam: this.treeQueryParam,//表示query类型参数，放在?后面。后续如果需要pathParam bodyParam再调整
-    functionName: '代码标准',//新增和修改框标题中的功能名称
-    queryResultField: ['code', 'parentCode', 'name', 'children'],//查询结果对象中，需要的字段名称
-    treeType: 'single',//树类型，simple/checkbox
-    nodeSelect: '',
-    operButton: {
-    },
-    treeEvent: this.treeEvent
-  };
 
 
   addDataRow(i) {
@@ -348,4 +322,37 @@ export class ConvertRuleValuemapper extends ConvertRule {
     this._removeDataRow(i, this.rowData.mappings);
     this._removeDataRow(i, this.valid.rowData.mappings);
   }
+
+
+  public queryParam2 = {
+  };
+  public queryParam = {
+  };
+
+  public tableOpts = {
+    that: this,
+    queryMethod: 'post',
+    queryUrl: "codestandard/queryCodeList4Reseacher",
+    pageParam: {
+      pageNum: 1,
+      pageSize: 10
+    },//可使用默认值
+    isPage: true,//是否分页
+    defaultPageSize: 10,
+    queryParam: this.queryParam2,//页面选择的查询参数，包括树节点id等信息
+    bodyParam: this.queryParam,//请求体中的参数
+    queryResultField: ['codeId'],//第一个值指定id的字段名,主要用于修改删除，状态切换
+    tableType: 'single',//树类型，simple/checkbox
+    theadOptions: [
+      {name: '编号', type: 'numberpage'},
+      {name: '代码', field: 'code'},
+      {name: '中文名称', field: 'name'},
+      {name: '所属代码类', field: 'nodeName'},
+      {name: '描述', field: 'description'},
+    ],
+    buttonOptions: [],
+    selections: [],
+    emptyMessage: '暂无数据',
+    tableEvent: this.tableEvent
+  };
 }

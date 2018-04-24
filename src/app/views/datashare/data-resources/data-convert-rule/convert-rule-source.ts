@@ -166,7 +166,7 @@ export class ConvertRuleSource extends ConvertRule {
       }
     }
     this.dataTableList = [{value: '', label: '请选择'}];
-    this.getHttpClient().get('datasource/' + this.data.thirdConnectionId, null, (data) => {
+    this.getHttpClient().get('datasource/' + this.data.thirdConnectionId+"/"+this.businessType, null, (data) => {
       this.dataTableList = [{value: '', label: '请选择'}];
       if (data && data.length > 0) {
         for (let d of data) {

@@ -18,69 +18,110 @@
           <td colspan="3">
             {{itemData.subclassName}}
           </td>
-        <!--  <th><em>*</em>编号：</th>
-          <td>
-            <input type="text" [(ngModel)]="itemData.itemCode" [disabled]="checkDisabled(false)"   maxlength="20" [ngClass]="{error: valid.itemData.itemCode.status}" >
-          </td>-->
+          <!--  <th><em>*</em>编号：</th>
+            <td>
+              <input type="text" [(ngModel)]="itemData.itemCode" [disabled]="checkDisabled(false)"   maxlength="20" [ngClass]="{error: valid.itemData.itemCode.status}" >
+            </td>-->
         </tr>
         <tr>
           <th><em>*</em>数据项名：</th>
           <td>
-            <input type="text" [(ngModel)]="itemData.itemName" [disabled]="checkDisabled(false)" [ngClass]="{error: valid.itemData.itemName.status}" maxlength="20">
+            <input type="text" [(ngModel)]="itemData.itemName" [disabled]="checkDisabled(false)"
+                   [ngClass]="{error: valid.itemData.itemName.status}" maxlength="20">
           </td>
           <th><em>*</em>类型：</th>
           <td>
-            <p-dropdown [options]="dataTypeList" [(ngModel)]="itemData.dataType" [disabled]="checkDisabled(false)" length="equate" [ngClass]="{error: valid.itemData.dataType.status}" ></p-dropdown>
+            <p-dropdown [options]="dataTypeList" [(ngModel)]="itemData.dataType" [disabled]="checkDisabled(false)"
+                        length="equate" [ngClass]="{error: valid.itemData.dataType.status}"></p-dropdown>
           </td>
         </tr>
         <tr>
           <th><em>*</em>中文名称：</th>
           <td>
-            <input type="text" [(ngModel)]="itemData.itemComment" [disabled]="checkDisabled(true)" [ngClass]="{error: valid.itemData.itemComment.status}" maxlength="20">
+            <input type="text" [(ngModel)]="itemData.itemComment" [disabled]="checkDisabled(true)"
+                   [ngClass]="{error: valid.itemData.itemComment.status}" maxlength="20">
           </td>
           <th><em>*</em>主键：</th>
           <td>
-            <p-dropdown [options]="dataPrimarykeyList" [(ngModel)]="itemData.dataPrimarykey" [disabled]="checkDisabled(false)" length="equate" [ngClass]="{error: valid.itemData.dataPrimarykey.status}"></p-dropdown>
+            <p-dropdown [options]="dataPrimarykeyList" [(ngModel)]="itemData.dataPrimarykey"
+                        [disabled]="checkDisabled(false)" length="equate"
+                        [ngClass]="{error: valid.itemData.dataPrimarykey.status}"></p-dropdown>
           </td>
         </tr>
         <tr>
           <th><em>*</em>长度：</th>
           <td>
-            <input type="text" [(ngModel)]="itemData.dataLength" [disabled]="checkDisabled(false)" [ngClass]="{error: valid.itemData.dataLength.status}" maxlength="5">
+            <input type="text" [(ngModel)]="itemData.dataLength" [disabled]="checkDisabled(false)"
+                   [ngClass]="{error: valid.itemData.dataLength.status}" maxlength="5">
           </td>
           <th><em>*</em>约束：</th>
           <td>
-            <p-dropdown [options]="selectableList" [(ngModel)]="itemData.selectable" [disabled]="checkDisabled(false)" length="equate" [ngClass]="{error: valid.itemData.selectable.status}"></p-dropdown>
+            <p-dropdown [options]="selectableList" [(ngModel)]="itemData.selectable" [disabled]="checkDisabled(false)"
+                        length="equate" [ngClass]="{error: valid.itemData.selectable.status}"></p-dropdown>
           </td>
         </tr>
         <tr>
           <th><em>*</em>是否可空：</th>
           <td>
-            <p-dropdown [options]="dataNullableList" [(ngModel)]="itemData.dataNullable" [disabled]="checkDisabled(false)" length="equate" [ngClass]="{error: valid.itemData.dataNullable.status}"></p-dropdown>
+            <p-dropdown [options]="dataNullableList" [(ngModel)]="itemData.dataNullable"
+                        [disabled]="checkDisabled(false)" length="equate"
+                        [ngClass]="{error: valid.itemData.dataNullable.status}"></p-dropdown>
           </td>
-          <td></td><td></td>
+          <td></td>
+          <td></td>
         </tr>
         <tr>
           <th>取值范围：</th>
           <td colspan="3">
-            <textarea type="text" [(ngModel)]="itemData.dataValueSource" maxlength="30" [disabled]="checkDisabled(true)"></textarea>
+            <textarea type="text" [(ngModel)]="itemData.dataValueSource" maxlength="30"
+                      [disabled]="checkDisabled(true)"></textarea>
             <b>还剩{{getRestLength(itemData.dataValueSource,30)}}</b>
           </td>
         </tr>
         <tr>
           <th>说明/示例：</th>
           <td colspan="3">
-            <textarea type="text" [(ngModel)]="itemData.dataExplain" maxlength="30" [disabled]="checkDisabled(true)"></textarea>
+            <textarea type="text" [(ngModel)]="itemData.dataExplain" maxlength="30"
+                      [disabled]="checkDisabled(true)"></textarea>
             <b>还剩{{getRestLength(itemData.dataExplain,30)}}</b>
           </td>
         </tr>
         <tr>
-          <th>引用管理：</th>
+          <th>引用一级代码：</th>
           <td colspan="3">
-            <textarea type="text" [(ngModel)]="itemData.dataReferenced" maxlength="30" [disabled]="checkDisabled(true)"></textarea>
-            <b>还剩{{getRestLength(itemData.dataReferenced,30)}}</b>
+            <!--       <textarea type="text" [(ngModel)]="itemData.dataReferenced" maxlength="30" [disabled]="checkDisabled(true)"></textarea>
+                   <b>还剩{{getRestLength(itemData.dataReferenced,30)}}</b>
+       -->
+            <p-dropdown [options]="DataReferencedList" [(ngModel)]="itemData.dataReferenced1"
+                        [disabled]="checkDisabled(true)" length="equate" (onChange)="change1()"></p-dropdown>
           </td>
         </tr>
+        <tr *ngIf="show()">
+          <th>二级代码：</th>
+          <td colspan="3">
+            <p-dropdown [options]="DataReferencedList2" [(ngModel)]="itemData.dataReferenced2"
+                        [disabled]="checkDisabled(false)" length="equate" (onChange)="change2()"></p-dropdown>
+          </td>
+        </tr>
+        <tr *ngIf="show()">
+          <th>三级代码类：</th>
+          <td colspan="3">
+            <p-dropdown [options]="DataReferencedList3" [(ngModel)]="itemData.dataReferenced3"
+                        [disabled]="checkDisabled(false)" length="equate" (onChange)="change3()"></p-dropdown>
+            <b></b>
+          </td>
+        </tr>
+        <tr *ngIf="show()">
+          <th>代码对应详情：</th>
+          <td colspan="3">
+            <div class="content-table">
+              <div class="table">
+                <app-ptable [tableOpts]="codeTableOpts"></app-ptable>
+              </div>
+            </div>
+          </td>
+        </tr>
+
       </table>
       <div class="btn-group-center" *ngIf="operType < 3">
         <button type="button" pButton label="保存" (click)="saveDataOk()"></button>

@@ -201,7 +201,11 @@ export abstract class ConvertRule extends BaseComponent {
     for (let outField of fieldList) {
       let option = {value: outField.field, label: ''};
       // option.label = outField.field + '(' + typeNameMsg + ')' + outField.comment;
-      option.label = outField.field + '-' + outField.comment;
+      if (outField.comment != '') {
+        option.label = outField.field + '-' + outField.comment;
+      } else {
+        option.label = outField.field;
+      }
       result.push(option);
     }
 
