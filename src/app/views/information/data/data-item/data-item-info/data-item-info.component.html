@@ -45,7 +45,7 @@
           <td>
             <p-dropdown [options]="dataPrimarykeyList" [(ngModel)]="itemData.dataPrimarykey"
                         [disabled]="checkDisabled(false)" length="equate"
-                        [ngClass]="{error: valid.itemData.dataPrimarykey.status}"></p-dropdown>
+                        [ngClass]="{error: valid.itemData.dataPrimarykey.status}" (onChange)="changeForReferenced()"></p-dropdown>
           </td>
         </tr>
         <tr>

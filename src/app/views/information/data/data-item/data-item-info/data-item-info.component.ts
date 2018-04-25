@@ -116,7 +116,7 @@ export class DataItemInfoComponent extends BaseComponent implements OnInit {
     var ref1 = dt.dataReferenced1;
     //接着 加载2级类
     this.getHttpClient().get(
-      'datastandarditem/getSecondNodes',
+      'datastandard/querySecondNodes',
       {parentNode: ref1},
       data => {
         this.DataReferencedList2 = [{value: '', label: '请选择'}];
@@ -130,13 +130,20 @@ export class DataItemInfoComponent extends BaseComponent implements OnInit {
     );
   }
 
+  changeForReferenced() {
+    var dtt = this.itemData;
+    var keyflag = dtt.dataPrimarykey;
+    if (keyflag == 1) {
+      this.isShow = false;
+    }
+  }
 
   public change2() {
     var dt = this.itemData;
     var ref2 = dt.dataReferenced2;
     //接着 加载2级类
     this.getHttpClient().get(
-      'datastandarditem/getThreeNodes',
+      'datastandard/getThreeNodes',
       {parentNode: ref2},
       data => {
         this.DataReferencedList3 = [{value: '', label: '请选择'}];
@@ -304,15 +311,6 @@ export class DataItemInfoComponent extends BaseComponent implements OnInit {
     }
   }
 
-  checkDisabled2(canModify: boolean) {
-    if (this.operType == 3) {
-      return true;
-    } else if (this.operType == 1) {
-      return false;
-    } else {
-      return !canModify;
-    }
-  }
 
   goback() {
     if (this.sourceId == 1) {
