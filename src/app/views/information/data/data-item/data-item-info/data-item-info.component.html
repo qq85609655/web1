@@ -45,7 +45,8 @@
           <td>
             <p-dropdown [options]="dataPrimarykeyList" [(ngModel)]="itemData.dataPrimarykey"
                         [disabled]="checkDisabled(false)" length="equate"
-                        [ngClass]="{error: valid.itemData.dataPrimarykey.status}" (onChange)="changeForReferenced()"></p-dropdown>
+                        [ngClass]="{error: valid.itemData.dataPrimarykey.status}"
+                        (onChange)="changeForReferenced()"></p-dropdown>
           </td>
         </tr>
         <tr>
@@ -86,7 +87,7 @@
             <b>还剩{{getRestLength(itemData.dataExplain,30)}}</b>
           </td>
         </tr>
-        <tr>
+        <tr *ngIf="show1()">
           <th>引用一级代码：</th>
           <td colspan="3">
             <!--       <textarea type="text" [(ngModel)]="itemData.dataReferenced" maxlength="30" [disabled]="checkDisabled(true)"></textarea>
@@ -96,14 +97,14 @@
                         [disabled]="checkDisabled(true)" length="equate" (onChange)="change1()"></p-dropdown>
           </td>
         </tr>
-        <tr *ngIf="show()">
+        <tr *ngIf="show2()">
           <th>二级代码：</th>
           <td colspan="3">
             <p-dropdown [options]="DataReferencedList2" [(ngModel)]="itemData.dataReferenced2"
                         [disabled]="checkDisabled(false)" length="equate" (onChange)="change2()"></p-dropdown>
           </td>
         </tr>
-        <tr *ngIf="show()">
+        <tr *ngIf="show3()">
           <th>三级代码类：</th>
           <td colspan="3">
             <p-dropdown [options]="DataReferencedList3" [(ngModel)]="itemData.dataReferenced3"
@@ -111,7 +112,7 @@
             <b></b>
           </td>
         </tr>
-        <tr *ngIf="show()">
+        <tr *ngIf="show4()">
           <th>代码对应详情：</th>
           <td colspan="3">
             <div class="content-table">
