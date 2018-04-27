@@ -151,7 +151,7 @@ export class DataItemInfoComponent extends BaseComponent implements OnInit {
   public change1() {
     var dt = this.itemData;
     var ref1 = dt.dataReferenced1;
-    console.info(ref1);
+   // console.info(ref1);
     //接着 加载2级类
     this.getHttpClient().get(
       'codestandard/queryNodesByParentId',
@@ -160,7 +160,7 @@ export class DataItemInfoComponent extends BaseComponent implements OnInit {
         this.DataReferencedList2 = [{value: '', label: '请选择'}];
         if (data && data.length > 0) {
           for (let d of data) {
-            console.info(d.nodeId + '----' + d.name);
+         //   console.info(d.nodeId + '----' + d.name);
             this.DataReferencedList2.push({value: d.nodeId, label: d.name});
           }
           this.isShow2 = true;
@@ -203,7 +203,7 @@ export class DataItemInfoComponent extends BaseComponent implements OnInit {
         console.info(data.length);
         if (data && data.length > 0) {
           for (let d of data) {
-            console.info(d.nodeId + '----' + d.name);
+         //   console.info(d.nodeId + '----' + d.name);
             this.DataReferencedList3.push({value: d.nodeId, label: d.name});
           }
           this.isShow3 = true;
@@ -217,7 +217,7 @@ export class DataItemInfoComponent extends BaseComponent implements OnInit {
   }
 
   public flushTable(v: any) {
-    console.info('ref========', v);
+    //console.info('ref========', v);
     this.queryParam.nodeId = parseInt(v);
     this.tableEvent.emit({flush: true});
   }

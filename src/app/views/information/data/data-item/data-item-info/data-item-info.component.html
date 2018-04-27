@@ -115,15 +115,14 @@
         <tr *ngIf="show4()">
           <th>代码对应详情：</th>
           <td colspan="3">
-            <div class="content-table">
-              <div class="table">
-                <app-ptable [tableOpts]="codeTableOpts"></app-ptable>
-              </div>
-            </div>
-          </td>
+        </td>
         </tr>
-
       </table>
+      <div class="content-table">
+        <div class="table">
+          <app-ptable [tableOpts]="codeTableOpts"></app-ptable>
+        </div>
+      </div>
       <div class="btn-group-center" *ngIf="operType < 3">
         <button type="button" pButton label="保存" (click)="saveDataOk()"></button>
         <button type="button" pButton label="取消" (click)="goback()"></button>
