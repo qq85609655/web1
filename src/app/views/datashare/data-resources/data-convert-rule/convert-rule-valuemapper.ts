@@ -6,6 +6,8 @@ import {EventEmitter} from '@angular/core';
  */
 export class ConvertRuleValuemapper extends ConvertRule {
 
+  public tableEvent: EventEmitter<any> = new EventEmitter();
+
   public sourceList = [];//可选择的所有字段
   public fieldList = [];//可选择的所有字段,用于界面显示
   //当前操作的列表，仅操作时有效。当前规则操作时不能直接修改data.dataList的数据，故定义俩个数组
@@ -21,9 +23,149 @@ export class ConvertRuleValuemapper extends ConvertRule {
     sourceField: '',
     targetField: '',
     defValue: '',
+    dataReferenced1: '',
+    dataReferenced2: '',
+    dataReferenced3: '',
     status: true,
     mappings: [{sourceValue: '', targetValue: ''}]
   };
+
+  public isShow1 = false;
+  public isShow2 = false;
+  public isShow3 = false;
+
+  public DataReferencedList = [{value: '', label: '请选择'}, {value: '1001', label: '干部人事管理代码'},
+    {value: '1002', label: '国家标准代码'}, {value: '1003', label: '行业标准代码'}, {value: '1004', label: '学科专业资产代码'}, {
+      value: '1000',
+      label: '国家教育代码'
+    }];
+
+  public DataReferencedList2 = [];
+
+  public DataReferencedList3 = [];
+
+
+
+
+  public queryParam = {
+    nodeId: 0
+  };
+
+  public codeTableOpts1 = {
+    that: this,
+    queryMethod: 'post',
+    queryUrl: 'codestandard/queryCodeALL',
+    pageParam: {
+      pageNum: 1,
+      pageSize: 8
+    },//可使用默认值
+    isPage: false,//是否分页
+    defaultPageSize: 8,
+    queryParam: this.queryParam,//页面选择的查询参数，包括树节点id等信息
+    bodyParam: this.queryParam,//请求体中的参数
+    queryResultField: ['codeId'],//第一个值指定id的字段名,主要用于修改删除，状态切换
+    tableType: 'single',//树类型，simple/checkbox
+    theadOptions: [
+      {name: '编号', type: 'numberpage'},
+      {name: '代码', field: 'code'},
+      {name: '中文名称', field: 'name'},
+      {name: '描述', field: 'description'},
+    ],
+    isColGroup: false, //是否是混合表头,rowspan colspan大于1
+    usingCache: false,
+    buttonOptions: [],
+    selections: [],
+    emptyMessage: '暂无数据',
+    tableEvent: this.tableEvent
+  };
+
+
+  public show1() {
+    return this.isShow1;
+  }
+
+  public show2() {
+    return this.isShow2;
+  }
+
+  public show3() {
+    return this.isShow3;
+  }
+
+  public change1() {
+    var ref1 = this.rowData.dataReferenced1;
+    console.info(ref1);
+    //接着 加载2级类
+    this.getHttpClient().get(
+      'codestandard/queryNodesByParentId',
+      {parentNode: ref1, type: 1},
+      data => {
+        this.DataReferencedList2 = [{value: '', label: '请选择'}];
+        if (data && data.length > 0) {
+          for (let d of data) {
+            console.info(d.nodeId + '----' + d.name);
+            this.DataReferencedList2.push({value: d.nodeId, label: d.name});
+          }
+          this.isShow1 = true;
+          if (ref1 == '1000') {
+            this.isShow2 = true;
+          } else {
+            this.isShow2 = false;
+          }
+        }
+      }
+    );
+  }
+
+
+  public change2() {
+    // debugger;
+    let ref2 = this.rowData.dataReferenced2;
+    console.info(ref2);
+    //接着 加载2级类
+    this.getHttpClient().get(
+      'codestandard/queryNodesByParentId',
+      {parentNode: ref2, type: 2},
+      data => {
+       // console.info(data.length);
+        if (data && data.length > 0) {
+          for (let d of data) {
+            console.info(d.nodeId + '----' + d.name);
+            this.rowData.DataReferencedList3.push({value: d.nodeId, label: d.name});
+          }
+          this.isShow2= true;
+        } else {//说明 此时到了最后一级  那就显示 其代码值 列表 供参考
+          this.isShow3 = true;
+          this.flushTable(ref2);
+        }
+      }
+    );
+  }
+
+
+  public change3() {
+    var ref3 = this.rowData.dataReferenced3;
+    //接着 加载2级类
+    this.getHttpClient().get(
+      'codestandard/queryNodesByParentId',
+      {parentNode: ref3, type: 3},
+      data => {
+        if (data != null) {
+          this.isShow3 = true;
+          //展示详情：
+          this.queryParam.nodeId = parseInt(ref3);
+          this.tableEvent.emit({flush: true});
+        }
+      }
+    );
+  }
+
+
+  public flushTable(v: any) {
+    console.info('ref========', v);
+    this.queryParam.nodeId = parseInt(v);
+    this.tableEvent.emit({flush: true});
+  }
 
 
   public outputs = [];//输出字段列表
@@ -266,13 +408,13 @@ export class ConvertRuleValuemapper extends ConvertRule {
           {regexp: this.regexp_field, msg: '请输入有效的输出字段，仅支持字母数字下划线，且以字母开头！'}
         ]
       },
-      /*defValue: {
+      defValue: {
         status: false,
         msg: '',
         valids: [
           {required: true, msg: '缺省值不能为空！'},
         ]
-      },*/
+      },
       'mappings.$': {
         valids: [
           {norepeat: 'sourceValue', msg: '源值不能重复'}
@@ -297,21 +439,6 @@ export class ConvertRuleValuemapper extends ConvertRule {
     }
   };
 
-  public tableEvent: EventEmitter<any> = new EventEmitter();
-
-  public showCode = {
-    title: '查询标准代码',
-    visible: false,
-    pathParam: ''
-  };
-
-    showCodes() {
-    this.showCode.visible = true;
-  }
-
-
-
-
   addDataRow(i) {
     this._addDataRow(i, this.rowData.mappings, {sourceValue: '', targetValue: ''});
     this._addDataRow(i, this.valid.rowData.mappings, null);
@@ -323,36 +450,4 @@ export class ConvertRuleValuemapper extends ConvertRule {
     this._removeDataRow(i, this.valid.rowData.mappings);
   }
 
-
-  public queryParam2 = {
-  };
-  public queryParam = {
-  };
-
-  public tableOpts = {
-    that: this,
-    queryMethod: 'post',
-    queryUrl: "codestandard/queryCodeList4Reseacher",
-    pageParam: {
-      pageNum: 1,
-      pageSize: 10
-    },//可使用默认值
-    isPage: true,//是否分页
-    defaultPageSize: 10,
-    queryParam: this.queryParam2,//页面选择的查询参数，包括树节点id等信息
-    bodyParam: this.queryParam,//请求体中的参数
-    queryResultField: ['codeId'],//第一个值指定id的字段名,主要用于修改删除，状态切换
-    tableType: 'single',//树类型，simple/checkbox
-    theadOptions: [
-      {name: '编号', type: 'numberpage'},
-      {name: '代码', field: 'code'},
-      {name: '中文名称', field: 'name'},
-      {name: '所属代码类', field: 'nodeName'},
-      {name: '描述', field: 'description'},
-    ],
-    buttonOptions: [],
-    selections: [],
-    emptyMessage: '暂无数据',
-    tableEvent: this.tableEvent
-  };
 }

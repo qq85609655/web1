@@ -391,7 +391,9 @@
         <td width="40">序号</td>
         <td>输入</td>
         <td>输出</td>
+        <td>缺省值</td>
         <td>映射个数</td>
+        <td>对应码值</td>
         <td>是否有效</td>
         <td width="100">操作</td>
       </tr>
@@ -404,7 +406,9 @@
         <td>{{i+1}}</td>
         <td>{{item.sourceField}}</td>
         <td>{{item.targetField}}</td>
+        <td>{{item.defValue}}</td>
         <td>{{item.mappings.length}}</td>
+        <td>{{item.dataReferenced1}}-{{item.dataReferenced2}}-{{item.dataReferenced3}}</td>
         <td><img src="./assets/img/error.png" alt="错误"
                  *ngIf="!item.status"> <img src="./assets/img/ok.png"
                                             alt="正确" *ngIf="item.status"></td>
@@ -435,7 +439,37 @@
           <td><input type="text" [(ngModel)]="rule.rowData.defValue"
                      maxlength="10"/></td>
         </tr>
+        <tr>
+          <th><em>*</em>选择代码大类：</th>
+          <td>
+            <p-dropdown [options]="rule.DataReferencedList" [(ngModel)]="rule.rowData.dataReferenced1"
+                        length="equate" (onChange)="rule.change1()"></p-dropdown>
+          </td>
+        </tr>
+        <tr *ngIf="rule.show1()">
+          <th><em>*</em>选择代码二级类：</th>
+          <td>
+            <p-dropdown [options]="rule.DataReferencedList2" [(ngModel)]="rule.rowData.dataReferenced2"
+                        length="equate" (onChange)="rule.change2()"></p-dropdown>
+          </td>
+        </tr>
+        <tr *ngIf="rule.show2()">
+          <th><em>*</em>选择代码三级类：</th>
+          <td>
+            <p-dropdown [options]="rule.DataReferencedList3" [(ngModel)]="rule.rowData.dataReferenced3"
+                        length="equate" (onChange)="rule.change3()"></p-dropdown>
+          </td>
+        </tr>
+        <tr *ngIf="rule.show3()">
+          <th><em>*</em> 查看明细</th>
+          <td></td>
+        </tr>
       </table>
+    </div>
+    <div class="content-table">
+      <div class="table">
+        <app-ptable [tableOpts]="rule.codeTableOpts1"></app-ptable>
+      </div>
     </div>
     <table class="mt10 ruletable " style="width: 500px;">
       <thead>
@@ -443,7 +477,7 @@
         <td width="40">序号</td>
         <td><em>*</em>源值</td>
         <td><em>*</em>目标值</td>
-        <td width="220">操作 <a href="javascript:void(0);" (click)="rule.showCodes();"> 【参考】</a></td>
+        <td width="220">操作</td>
       </tr>
       </thead>
       <tbody>
@@ -603,6 +637,7 @@
         <td width="40">序号</td>
         <td>输入参数</td>
         <td>sql脚本</td>
+        <td>执行每一行</td>
         <td width="100">操作</td>
       </tr>
       </thead>
