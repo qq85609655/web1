@@ -400,7 +400,7 @@
       </thead>
       <tbody>
       <tr *ngIf="rule.dataList.length == 0">
-        <td colspan="6">暂无数据</td>
+        <td colspan="8">暂无数据</td>
       </tr>
       <tr *ngFor="let item of rule.dataList; let i=index">
         <td>{{i+1}}</td>
@@ -466,9 +466,15 @@
         </tr>
       </table>
     </div>
+
     <div class="content-table">
       <div class="table">
         <app-ptable [tableOpts]="rule.codeTableOpts1"></app-ptable>
+      </div>
+    </div>
+    <div class="content-table">
+      <div class="table">
+        <span><em>请参考代码详情进行对应填写！！！！</em></span>
       </div>
     </div>
     <table class="mt10 ruletable " style="width: 500px;">

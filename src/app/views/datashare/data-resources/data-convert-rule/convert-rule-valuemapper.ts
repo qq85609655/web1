@@ -316,7 +316,7 @@ export class ConvertRuleValuemapper extends ConvertRule {
   checkCode(): any {
     console.info('开始效验用户输入的目标值是否与选择的代码类里面的值 存在 ');
     let flag = false;
-
+    debugger;
     let code1 = this.rowData.dataReferenced1;
     let code2 = this.rowData.dataReferenced2;
     let code3 = this.rowData.dataReferenced3;
@@ -330,16 +330,19 @@ export class ConvertRuleValuemapper extends ConvertRule {
     var targetValues = '';
     var mappings = this.rowData.mappings;
     for (let i = 0; i < mappings.length; i++) {
-      targetValues += mappings[i].targetField + '@@@@';
+      targetValues += mappings[i].targetValue + ';;';
     }
-    console.info(targetValues);
-    this.getHttpClient().get(
-      'codestandard/checkCodeValues',
-      {targetValues: targetValues, code: code},
-      data => {
-        if (data != null && data.expInfo != null) {
-          this.tipWarnMessage(data.expInfo);
-          return false;
+    var params = {targetValues222: targetValues.substr(0, targetValues.length - 2), code222: code};
+    console.info(targetValues.substr(0, targetValues.length - 2) + '=============code=====' + code);
+    this.getHttpClient().post(
+      'codestandard/checkCodeValues',params, data => {
+        if (data != null) {
+          if (!data.success) {
+            this.tipWarnMessage(data.expInfo);
+            flag = false;
+          } else {
+            flag = true;
+          }
         }
       }
     );
