@@ -30,6 +30,7 @@ export class ConvertRuleValuemapper extends ConvertRule {
     mappings: [{sourceValue: '', targetValue: ''}]
   };
 
+  public businessType = 1;
   public isShow1 = false;
   public isShow2 = false;
   public isShow3 = false;
@@ -176,6 +177,7 @@ export class ConvertRuleValuemapper extends ConvertRule {
     super(param, ConvertRule.Type_ValueMapper, ConvertRule.Name_ValueMapper);
     this.pushAll(this.data.dataList, param.dataList, true);
     this.pushAll(this.data.outputs, param.outputs, true);
+    this.businessType = param.businessType;
   }
 
   getOutputs(): Array<any> {
@@ -325,12 +327,17 @@ export class ConvertRuleValuemapper extends ConvertRule {
     } else {
       code = code2;
     }
+
     var targetValues = '';
     var mappings = this.rowData.mappings;
     for (let i = 0; i < mappings.length; i++) {
-      targetValues += mappings[i].targetValue + ';;';
+      if (this.businessType == 1) {
+        targetValues += mappings[i].targetValue + ';;';
+      } else {
+        targetValues += mappings[i].sourceValue + ';;';
+      }
     }
-    var params = {targetValues222: targetValues.substr(0, targetValues.length - 2), code222: code};
+    var params = {targetValues222: targetValues.substr(0, targetValues.length - 2), code222: code, busType: this.businessType};
     // console.info(targetValues.substr(0, targetValues.length - 2) + '=============code=====' + code);
     this.getHttpClient().post(
       'codestandard/checkCodeValues', params, data => {
