@@ -45,8 +45,6 @@ export class ConvertRuleValuemapper extends ConvertRule {
   public DataReferencedList3 = [];
 
 
-
-
   public queryParam = {
     nodeId: 0
   };
@@ -66,10 +64,10 @@ export class ConvertRuleValuemapper extends ConvertRule {
     queryResultField: ['codeId'],//第一个值指定id的字段名,主要用于修改删除，状态切换
     tableType: 'single',//树类型，simple/checkbox
     theadOptions: [
-      {name: '编号', type: 'numberpage'},
+      // {name: '编号', type: 'numberpage'},
       {name: '代码', field: 'code'},
       {name: '中文名称', field: 'name'},
-      {name: '描述', field: 'description'},
+      //  {name: '描述', field: 'description'},
     ],
     isColGroup: false, //是否是混合表头,rowspan colspan大于1
     usingCache: false,
@@ -127,13 +125,13 @@ export class ConvertRuleValuemapper extends ConvertRule {
       'codestandard/queryNodesByParentId',
       {parentNode: ref2, type: 2},
       data => {
-       // console.info(data.length);
+        // console.info(data.length);
         if (data && data.length > 0) {
           for (let d of data) {
             console.info(d.nodeId + '----' + d.name);
             this.rowData.DataReferencedList3.push({value: d.nodeId, label: d.name});
           }
-          this.isShow2= true;
+          this.isShow2 = true;
         } else {//说明 此时到了最后一级  那就显示 其代码值 列表 供参考
           this.isShow3 = true;
           this.flushTable(ref2);
@@ -315,11 +313,50 @@ export class ConvertRuleValuemapper extends ConvertRule {
     return true;
   }
 
+  checkCode(): any {
+    console.info('开始效验用户输入的目标值是否与选择的代码类里面的值 存在 ');
+    let flag = false;
+
+    let code1 = this.rowData.dataReferenced1;
+    let code2 = this.rowData.dataReferenced2;
+    let code3 = this.rowData.dataReferenced3;
+
+    let code = '';
+    if (code1 == '1000') {
+      code = code3;
+    } else {
+      code = code2;
+    }
+    var targetValues = '';
+    var mappings = this.rowData.mappings;
+    for (let i = 0; i < mappings.length; i++) {
+      targetValues += mappings[i].targetField + '@@@@';
+    }
+    console.info(targetValues);
+    this.getHttpClient().get(
+      'codestandard/checkCodeValues',
+      {targetValues: targetValues, code: code},
+      data => {
+        if (data != null && data.expInfo != null) {
+          this.tipWarnMessage(data.expInfo);
+          return false;
+        }
+      }
+    );
+
+    console.info('效验结束!');
+    return flag;
+  }
+
   //当做操作的行数据保存
   onMapperOk(): any {
     //检查操作列表
     let flag = this.validData(this.valid, 'rowData', this);
     if (!flag) return false;
+    //效验 页面隐射 里面 的目标值是否在 已经选择的代码值范围里面。
+    let checkCodeflag = this.checkCode();
+    if (!checkCodeflag) return false;
+
     let sourceField = this.rowData.sourceField;
 
     //检查输出字段是否被前面的规则使用过
