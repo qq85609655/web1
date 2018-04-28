@@ -52,22 +52,22 @@ export class ConvertRuleValuemapper extends ConvertRule {
   public codeTableOpts1 = {
     that: this,
     queryMethod: 'post',
-    queryUrl: 'codestandard/queryCodeALL',
+    queryUrl: 'codestandard/queryCodeInfoPage',
     pageParam: {
       pageNum: 1,
-      pageSize: 8
+      pageSize: 5
     },//可使用默认值
-    isPage: false,//是否分页
-    defaultPageSize: 8,
+    isPage: true,//是否分页
+    defaultPageSize: 5,
     queryParam: this.queryParam,//页面选择的查询参数，包括树节点id等信息
     bodyParam: this.queryParam,//请求体中的参数
     queryResultField: ['codeId'],//第一个值指定id的字段名,主要用于修改删除，状态切换
     tableType: 'single',//树类型，simple/checkbox
     theadOptions: [
-      // {name: '编号', type: 'numberpage'},
+      {name: '编号', type: 'numberpage'},
       {name: '代码', field: 'code'},
       {name: '中文名称', field: 'name'},
-      //  {name: '描述', field: 'description'},
+      {name: '描述', field: 'description'},
     ],
     isColGroup: false, //是否是混合表头,rowspan colspan大于1
     usingCache: false,
@@ -314,9 +314,7 @@ export class ConvertRuleValuemapper extends ConvertRule {
   }
 
   checkCode(): any {
-    console.info('开始效验用户输入的目标值是否与选择的代码类里面的值 存在 ');
     let flag = false;
-    debugger;
     let code1 = this.rowData.dataReferenced1;
     let code2 = this.rowData.dataReferenced2;
     let code3 = this.rowData.dataReferenced3;
@@ -333,9 +331,9 @@ export class ConvertRuleValuemapper extends ConvertRule {
       targetValues += mappings[i].targetValue + ';;';
     }
     var params = {targetValues222: targetValues.substr(0, targetValues.length - 2), code222: code};
-    console.info(targetValues.substr(0, targetValues.length - 2) + '=============code=====' + code);
+    // console.info(targetValues.substr(0, targetValues.length - 2) + '=============code=====' + code);
     this.getHttpClient().post(
-      'codestandard/checkCodeValues',params, data => {
+      'codestandard/checkCodeValues', params, data => {
         if (data != null) {
           if (!data.success) {
             this.tipWarnMessage(data.expInfo);
@@ -347,7 +345,6 @@ export class ConvertRuleValuemapper extends ConvertRule {
       }
     );
 
-    console.info('效验结束!');
     return flag;
   }
 
