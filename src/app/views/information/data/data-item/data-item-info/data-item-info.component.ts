@@ -19,13 +19,13 @@ export class DataItemInfoComponent extends BaseComponent implements OnInit {
   public codeTableOpts = {
     that: this,
     queryMethod: 'post',
-    queryUrl: 'codestandard/queryCodeALL',
+    queryUrl: 'codestandard/queryCodeInfoPage',
     pageParam: {
       pageNum: 1,
-      pageSize: 1000
+      pageSize: 5
     },//可使用默认值
-    isPage: false,//是否分页
-    defaultPageSize: 1000,
+    isPage: true,//是否分页
+    defaultPageSize: 5,
     queryParam: this.queryParam,//页面选择的查询参数，包括树节点id等信息
     bodyParam: this.queryParam,//请求体中的参数
     queryResultField: ['codeId'],//第一个值指定id的字段名,主要用于修改删除，状态切换
