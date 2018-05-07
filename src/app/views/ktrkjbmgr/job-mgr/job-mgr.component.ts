@@ -8,10 +8,9 @@ import {HttpClient} from '../../../components/http-client.service';
   templateUrl: './job-mgr.component.html',
   styleUrls: ['./job-mgr.component.css']
 })
-export class JobMgrComponent  extends BaseComponent
+export class JobMgrComponent extends BaseComponent
   implements OnInit, OnDestroy {
 
-  public collectionList = [{label: '全部', value: 0}];
   public treeNode: any;
   public statusList = [
     {label: '全部', value: -1},
@@ -19,35 +18,17 @@ export class JobMgrComponent  extends BaseComponent
     {label: '停用', value: 0}
   ];
 
+  public busList = [
+    {label: '全部', value: -1},
+    {label: '发布', value: 1},
+    {label: '订阅', value: 2}];
+
+
   constructor(public _ActivatedRoute: ActivatedRoute,
               public _Router: Router,
               public _HttpClient: HttpClient) {
     super();
-    this.setBusinessType(1);
   }
-
-  //指定当前页面的类型
-  setBusinessType(type: number) {
-    this.treeOpts.queryParam.businessType = type;
-    this.queryParam.businessType = type;
-    this.queryParam2.businessType = type;
-    this.tableOpts.buttonOptions[0].authcode = this.getAuthcode(3);
-    this.tableOpts.buttonOptions[1].authcode = this.getAuthcode(4);
-    this.tableOpts.theadOptions[this.tableOpts.theadOptions.length - 2][
-      'authcode'
-      ] = this.getAuthcode(5);
-  }
-
-
-  private authcodes = [
-    ['', '', '011002', '011003', '011004', '011005'],
-    ['', '', '012002', '012003', '012004', '012005']
-  ];
-
-  getAuthcode(oper: number): string {
-    return this.authcodes[this.queryParam.businessType - 1][oper];
-  }
-
 
 
   //树参数
@@ -56,8 +37,8 @@ export class JobMgrComponent  extends BaseComponent
     queryMethod: 'get',
     queryUrl: 'org/orgShowTree',
     expandedIndex: -1,
-    queryParam: {businessType: 1}, //表示query类型参数，放在?后面。后续如果需要pathParam bodyParam再调整
-    functionName: '数据资源', //新增和修改框标题中的功能名称
+    queryParam: '', //表示query类型参数，放在?后面。后续如果需要pathParam bodyParam再调整
+    functionName: '转换任务', //新增和修改框标题中的功能名称
     treeType: 'single', //树类型，simple/checkbox
     queryResultField: ['id', 'parentId', 'orgName', 'children'], //查询结果对象中，需要的字段名称
     queryDataToTreeData: null, //查询数据转换为树需要的数据
@@ -69,31 +50,26 @@ export class JobMgrComponent  extends BaseComponent
 
   public tableEvent: EventEmitter<any> = new EventEmitter();
   public queryParam = {
-    businessType: 1,
     orgName: '',
     orgId: 0,
     orgIds: '',
-    dataTypeValue: 1,
     status: -1,
-    name: '',
-    collectionId: 0
-  };
-  public queryParam2 = {
-    businessType: 1
+    busType: 0,
+    jobName: '',
   };
   public tableOpts = {
     that: this,
     queryMethod: 'post',
-    queryUrl: 'datatask/queryList',
+    queryUrl: 'datajob/queryList',
     pageParam: {
       pageNum: 1,
       pageSize: 10
     }, //可使用默认值
     isPage: true, //是否分页
     defaultPageSize: 10,
-    queryParam: this.queryParam2, //页面选择的查询参数，包括树节点id等信息
+    queryParam: '', //页面选择的查询参数，包括树节点id等信息
     bodyParam: this.queryParam, //请求体中的参数
-    queryResultField: ['taskId'], //第一个值指定id的字段名,主要用于修改删除，状态切换
+    queryResultField: ['jobId'], //第一个值指定id的字段名,主要用于修改删除，状态切换
     tableType: 'single', //树类型，simple/checkbox
     isColGroup: false, //是否是混合表头,rowspan colspan大于1
     usingCache: false,
@@ -106,14 +82,14 @@ export class JobMgrComponent  extends BaseComponent
     theadOptions: [
       {name: '', type: 'checkbox'},
       {name: '序号', type: 'number'},
-      {name: '数据资源名称', field: 'taskName', title: true},
-      {name: '同步计划', field: 'runTypeStr'},
+      {name: 'job名称', field: 'jobName', title: true},
+      {name: '执行计划', field: 'schedule'},
       {name: '所属机构', field: 'orgName'},
       {
         name: '状态',
-        field: 'runStatus',
+        field: 'status',
         type: 'switch',
-        queryUrl: 'datatask/updateStatus',
+        queryUrl: 'datajob/updateStatus',
         queryParam: {},
         switchName: ['启动', '停止'],
         authcode: ''
@@ -127,15 +103,15 @@ export class JobMgrComponent  extends BaseComponent
     buttonOptions: [
       {
         name: '修改',
-        callback: this.updateDataSource,
-        disabled: (index, item) => item.runStatus == 1,
+        callback: this.updateJob,
+        disabled: (index, item) => item.status == 1,
         hidden: null,
         authcode: ''
       },
       {
         name: '删除',
         callback: this.deleteDataSource,
-        disabled: (index, item) => item.runStatus == 1,
+        disabled: (index, item) => item.status == 1,
         hidden: null,
         authcode: ''
       },
@@ -144,8 +120,6 @@ export class JobMgrComponent  extends BaseComponent
         callback: this.startNow,
         authcode: ''
       }
-      //  {name:'启动', callback: this.startService, disabled: null, hidden: (index,item)=>item.runStatus == 1},
-      ///  {name:'停止', callback: this.stopService,  disabled: null, hidden: (index,item)=>item.runStatus != 1},
     ],
     dataHandler: row => {
       if (row.runType == 1) {
@@ -202,36 +176,25 @@ export class JobMgrComponent  extends BaseComponent
   }
 
   deleteDataSourcesOk() {
-    let url = 'datatask/deleteTaskBatch';
+    let url = 'datajob/deleteJobBatch';
     this._HttpClient.delete_old(
       url + '/' + this.dialogOpts.delete.pathParam,
       null,
       data => {
-        this.tipMessage(this.getFunctionName() + '删除成功！');
+        this.tipMessage('转换任务job删除成功！');
         this.flushData();
       }
     );
     this.dialogOpts.delete.visible = false;
   }
 
-  public getFunctionName(): string {
-    if (this.queryParam.businessType == 1) {
-      return '发布数据资源';
-    } else {
-      return '订阅数据资源';
-    }
-  }
 
   public getRouterName() {
-    if (this.queryParam.businessType == 1) {
-      return 'index/datashare/issueDataResources';
-    } else {
-      return 'index/datashare/subscribeDataResources';
-    }
+    return 'index/datashare/jobMgr';
   }
 
   //修改数据资源
-  updateDataSource(index, item) {
+  updateJob(index, item) {
     this.saveSelectToLink(
       this.treeOpts.treeEvent,
       this.tableOpts.tableEvent,
@@ -242,13 +205,14 @@ export class JobMgrComponent  extends BaseComponent
       }
     );
   }
+
   startNow(index, item) {
     this.dialogOpts.startnow.visible = true;
     this.dialogOpts.startnow.pathParam = item;
   }
 
   startnowOk() {
-    this._HttpClient.get('datatask/startNow/' + this.dialogOpts.startnow.pathParam.taskId, '', data => {
+    this._HttpClient.get('datajob/startNow/' + this.dialogOpts.startnow.pathParam.taskId, '', data => {
       if (data) {
         this.tipMessage('执行成功！');
         this.dialogOpts.startnow.visible = false;
@@ -278,7 +242,7 @@ export class JobMgrComponent  extends BaseComponent
 
   //启动任务停止任务
   public startOrStopServices(serviceState: number, taskId?: string) {
-    let url = 'datatask/startStopServiceBatch';
+    let url = 'datajob/startStopServiceBatch';
     if (serviceState == 1 || serviceState == 0) {
     } else {
       return false;
@@ -305,10 +269,11 @@ export class JobMgrComponent  extends BaseComponent
         successState = '失败';
       }
       var operInfo = serviceState == 1 ? '启动' : '停止';
-      this.tipMessage(this.getFunctionName() + '任务' + operInfo + successState);
+      this.tipMessage('转换任务JOB' + operInfo + successState);
       this.flushData();
     });
   }
+
   /**
    * 树节点点击事件
    * @param node
@@ -319,13 +284,12 @@ export class JobMgrComponent  extends BaseComponent
     this.queryParam.orgName = node.data.orgName;
     var orgNodeIds = this.getOrgNodeIds(node.data, true);
     this.queryParam.orgIds = orgNodeIds.join(',');
-    this.flushConnections();
     this.flushData();
   }
 
   dialogOpts = {
     delete: {
-      title: '数据资源删除',
+      title: '转换任务Job删除',
       visible: false,
       pathParam: ''
     },
@@ -335,11 +299,6 @@ export class JobMgrComponent  extends BaseComponent
       pathParam: {
         taskId: ''
       }
-    },
-    startLocalKettle: {
-      title: '本地kettle平台',
-      visible: false,
-      pathParam: ''
     }
   };
 
@@ -354,36 +313,6 @@ export class JobMgrComponent  extends BaseComponent
 
   flushData() {
     this.tableEvent.emit({flush: true});
-  }
-
-
-  flushConnections() {
-    let old_orgIds = this.queryParam.orgIds;
-    this.getHttpClient().get(
-      'datasource/queryListAll',
-      {orgIds: this.queryParam.orgIds},
-      data => {
-        if (old_orgIds != this.queryParam.orgIds) {
-          return;
-        }
-        let list = [{label: '全部', value: 0}];
-        let exists = false;
-        if (data && data.length > 0) {
-          for (let d of data) {
-            list.push({label: d.name, value: d.id});
-            if (d.id == this.queryParam.collectionId) {
-              exists = true;
-            }
-          }
-        }
-        this.collectionList = list;
-        //如果选择的链接不存在，且为全部时，刷新数据
-        if (!exists && this.queryParam.collectionId > 0) {
-          this.queryParam.collectionId = 0;
-          this.flushData();
-        }
-      }
-    );
   }
 
 }
