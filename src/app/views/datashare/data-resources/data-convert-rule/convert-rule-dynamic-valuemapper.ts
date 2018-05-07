@@ -25,6 +25,7 @@ export class ConvertRuleDynamicValuemapper extends ConvertRule {
 
   //输出字段类型
   public targetFieldTypeList = [{value: 'C', label: '字符串'}, {value: 'N', label: '整型数字'}];
+  public fromList = [{value: '1', label: '源库'}, {value: '2', label: '目标库'}];
 
   public defaultData = {
     sourceField: '',
@@ -45,7 +46,7 @@ export class ConvertRuleDynamicValuemapper extends ConvertRule {
     outputs: this.outputs
   };
 
-  constructor(param: any) {
+  constructor(param: any, busType: any) {
     super(param, ConvertRule.Type_DynamicValueMapping, ConvertRule.Name_DynamicValueMapping);
     this.pushAll(this.data.dataList, param.dataList, true);
     this.pushAll(this.data.outputs, param.outputs, true);
@@ -240,11 +241,6 @@ export class ConvertRuleDynamicValuemapper extends ConvertRule {
       if (d.defValue.length > updateField.length) {
         updateField.length = d.defValue.length;
       }
-      //for (let m of d.mappings) {
-      //   if (m.targetValue.length > updateField.length) {
-      //     updateField.length = m.targetValue.length;
-      //   }
-      // }
       let field2 = Object.assign({}, field, updateField);
       outs.push(field2);
     }
@@ -264,7 +260,7 @@ export class ConvertRuleDynamicValuemapper extends ConvertRule {
       ]
     },
     rowData: {
-      _fields: ['sourceField', 'targetField', 'targetFieldName', 'releaseRalation', 'releaseFieldName', 'releaseTableName'],
+      _fields: ['sourceField', 'targetField', 'targetFieldName', 'defValue', 'releaseFieldName', 'releaseTableName'],
       sourceField: {
         status: false,
         msg: '',
@@ -286,14 +282,7 @@ export class ConvertRuleDynamicValuemapper extends ConvertRule {
         valids: [
           {required: true, msg: '目标字段不能为空！'},
         ]
-      }/*,
-      releaseRalation: {
-        status: false,
-        msg: '',
-        valids: [
-          {required: false, msg: '对应关系不能为空！'},
-        ]
-      }*/,
+      },
       releaseFieldName: {
         status: false,
         msg: '',
@@ -307,15 +296,13 @@ export class ConvertRuleDynamicValuemapper extends ConvertRule {
         valids: [
           {required: true, msg: '目标表名称不能为空！'},
         ]
-      },
-      targetFieldType: {
+      }, defValue: {
         status: false,
         msg: '',
         valids: [
-          {required: true, msg: '输出字段类型不能为空！'},
+          {required: true, msg: '默认值不能为空！'},
         ]
       }
-
     }
   };
 }

@@ -36,7 +36,7 @@ export class ConvertRuleSplitfield extends ConvertRule {
     outputs: this.outputs
   };
 
-  constructor(param: any) {
+  constructor(param: any,busType:any) {
     super(param, ConvertRule.Type_Split, ConvertRule.Name_Split);
     this.pushAll(this.data.dataList, param.dataList, true);
     this.pushAll(this.data.outputs, param.outputs, true);

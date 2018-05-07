@@ -472,10 +472,8 @@
         <app-ptable [tableOpts]="rule.codeTableOpts1"></app-ptable>
       </div>
     </div>
-    <div class="content-table">
-      <div class="table">
+    <div>
         <span><em>请参考代码详情进行对应填写！！！！</em></span>
-      </div>
     </div>
     <table class="mt10 ruletable " style="width: 500px;">
       <thead>
@@ -1264,39 +1262,34 @@
           <th><em>*</em>输出字段类型：</th>
           <td>
             <p-dropdown [options]="rule.targetFieldTypeList"
-                        [(ngModel)]="rule.rowData.targetFieldType"
-                        [ngClass]="{error:rule.valid.rowData.targetFieldType.status}"
-                        placeholder="请选择"></p-dropdown>
-            <em>* 输出字段给下一步骤使用</em></td>
+                        [(ngModel)]="rule.rowData.targetFieldType"></p-dropdown>
+             </td>
         </tr>
         <tr>
           <th>缺省值：</th>
           <td><input type="text" [(ngModel)]="rule.rowData.defValue"
-                     maxlength="10"/> <em>* 如果没找到对应的值的时候默认的值</em></td>
+                     [ngClass]="{error:rule.valid.rowData.defValue.status}"
+                     maxlength="10"/>  </td>
         </tr>
 
 
         <tr>
           <th><em>*</em>目标表名称：</th>
           <td><input type="text" [(ngModel)]="rule.rowData.releaseTableName"
-                     maxlength="40"/> <em>* p 的值来源表名称</em></td>
+                     [ngClass]="{error:rule.valid.rowData.releaseTableName.status}"
+                     maxlength="40"/>  </td>
         </tr>
 
         <tr>
           <th><em>*</em>对应字段名称：</th>
           <td><input type="text" [(ngModel)]="rule.rowData.releaseFieldName"
-                     maxlength="40"/> <em>* 输出字段给下一步骤使用</em></td>
+                     [ngClass]="{error:rule.valid.rowData.releaseFieldName.status}"
+                     maxlength="40"/> </td>
         </tr>
-
-        <!--   <tr>
-             <th><em>*</em>对应关系：</th>
-             <td><input type="text" [(ngModel)]="rule.rowData.releaseRalation"
-                        maxlength="40"/></td>
-           </tr>-->
-
         <tr>
           <th><em>*</em>目标字段：</th>
           <td><input type="text" [(ngModel)]="rule.rowData.targetFieldName"
+                     [ngClass]="{error:rule.valid.rowData.targetFieldName.status}"
                      maxlength="10"/></td>
         </tr>
       </table>

@@ -215,7 +215,9 @@ export class DataConvertInfoComponent extends BaseComponent implements OnInit, O
       let prevRule: any = this.sourceRule;
       for (let i = 1; i < this.taskData.steps.length - 1; i++) {
         let ruleData = JSON.parse(this.taskData.steps[i]);
-        let newRule = this.newConvertRuleByType(ruleData.type, ruleData);
+        debugger;
+        let busType=taskInfo.businessType;
+        let newRule = this.newConvertRuleByType(ruleData.type, ruleData, busType);
         this.rules.splice(i, 0, newRule);
         prevRule.setNextRule(newRule, this.rules);
         prevRule = newRule;
@@ -415,7 +417,10 @@ export class DataConvertInfoComponent extends BaseComponent implements OnInit, O
       return;
     }
     let newId = this.dialogOpts.select.rule.getNewId();
-    let newRule = this.newConvertRuleByType(this.dialogOpts.select.selectType, {id: newId});
+    let busType = this.sourceRule.businessType;
+    debugger;
+    console.info(busType);
+    let newRule = this.newConvertRuleByType(this.dialogOpts.select.selectType, {id: newId}, busType);
     if (!newRule) {
       return false;
     }
@@ -428,36 +433,36 @@ export class DataConvertInfoComponent extends BaseComponent implements OnInit, O
     this.onRuleUpdate(newRule);
   }
 
-  newConvertRuleByType(type: number, param: any): ConvertRule {
+  newConvertRuleByType(type: number, param: any, busType: any): ConvertRule {
     let newRule: ConvertRule = null;
     if (type == ConvertRule.Type_StringOper) {
-      newRule = new ConvertRuleStringoper(param);
+      newRule = new ConvertRuleStringoper(param, busType);
     } else if (type == ConvertRule.Type_Calculator) {
-      newRule = new ConvertRuleCalculator(param);
+      newRule = new ConvertRuleCalculator(param, busType);
     } else if (type == ConvertRule.Type_UniqueRows) {
-      newRule = new ConvertRuleUniquerow(param);
+      newRule = new ConvertRuleUniquerow(param, busType);
     } else if (type == ConvertRule.Type_AddConstant) {
-      newRule = new ConvertRuleAddconstant(param);
+      newRule = new ConvertRuleAddconstant(param, busType);
     } else if (type == ConvertRule.Type_Stringreplace) {
-      newRule = new ConvertRuleStringreplace(param);
+      newRule = new ConvertRuleStringreplace(param, busType);
     } else if (type == ConvertRule.Type_Splitfieldtorows) {
-      newRule = new ConvertRuleSplitfieldtorows(param);
+      newRule = new ConvertRuleSplitfieldtorows(param, busType);
     } else if (type == ConvertRule.Type_Numberrange) {
-      newRule = new ConvertRuleNumberrange(param);
+      newRule = new ConvertRuleNumberrange(param, busType);
     } else if (type == ConvertRule.Type_ValueMapper) {
-      newRule = new ConvertRuleValuemapper(param);
+      newRule = new ConvertRuleValuemapper(param, busType);
     } else if (type == ConvertRule.Type_Split) {
-      newRule = new ConvertRuleSplitfield(param);
+      newRule = new ConvertRuleSplitfield(param, busType);
     } else if (type == ConvertRule.Type_Concat) {
-      newRule = new ConvertRuleConcatfield(param);
+      newRule = new ConvertRuleConcatfield(param, busType);
     } else if (type == ConvertRule.Type_TypeConvert) {
-      newRule = new ConvertRuleTypeconvert(param);
+      newRule = new ConvertRuleTypeconvert(param, busType);
     } else if (type == ConvertRule.Type_StringCut) {
-      newRule = new ConvertRuleStringcut(param);
-    }else if (type == ConvertRule.Type_DynamicValueMapping) {
-      newRule = new ConvertRuleDynamicValuemapper(param);
-    }else if (type == ConvertRule.Type_ExecuteSql) {
-      newRule = new ConvertRuleExecuteSql(param);
+      newRule = new ConvertRuleStringcut(param, busType);
+    } else if (type == ConvertRule.Type_DynamicValueMapping) {
+      newRule = new ConvertRuleDynamicValuemapper(param, busType);
+    } else if (type == ConvertRule.Type_ExecuteSql) {
+      newRule = new ConvertRuleExecuteSql(param, busType);
     } else {
       this.dialogMessage('功能开发中...');
       return null;

@@ -31,7 +31,7 @@ export class ConvertRuleStringoper extends ConvertRule{
   numberList=[{label: "不处理", value: 0},{label: "只保留数字", value: 1},{label: "去除数字", value: 2}];
   specialList=[{label: "不处理", value: 0},{label: "去除回车符", value: 1},{label: "去除换行", value: 2},{label: "去除回车和换行符", value: 3},{label: "去除空格", value: 5}];
 
-  constructor(param:any){
+  constructor(param:any,busType:any){
     super(param, ConvertRule.Type_StringOper, ConvertRule.Name_StringOper);
     this.pushAll(this.data.dataList , param.dataList, true);
     this.pushAll(this.data.outputs , param.outputs, true);

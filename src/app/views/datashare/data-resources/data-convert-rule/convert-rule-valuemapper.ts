@@ -173,11 +173,12 @@ export class ConvertRuleValuemapper extends ConvertRule {
     outputs: this.outputs
   };
 
-  constructor(param: any) {
+  constructor(param: any, busType: any) {
     super(param, ConvertRule.Type_ValueMapper, ConvertRule.Name_ValueMapper);
     this.pushAll(this.data.dataList, param.dataList, true);
     this.pushAll(this.data.outputs, param.outputs, true);
-    this.businessType = param.businessType;
+    console.info('busType===========' + busType);
+    this.businessType = parseInt(busType);
   }
 
   getOutputs(): Array<any> {
@@ -315,7 +316,12 @@ export class ConvertRuleValuemapper extends ConvertRule {
     return true;
   }
 
+  /**
+   * 效验 标准代码值
+   * @returns {any}
+   */
   checkCode(): any {
+    debugger;
     let flag = false;
     let code1 = this.rowData.dataReferenced1;
     let code2 = this.rowData.dataReferenced2;

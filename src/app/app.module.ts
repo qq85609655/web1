@@ -124,6 +124,7 @@ import { GdztBcsjComponent } from './views/information/code/gdzt-bcsj/gdzt-bcsj.
 import { KtrMgrComponent } from './views/ktrkjbmgr/ktr-mgr/ktr-mgr.component';
 import { KjbMgrComponent } from './views/ktrkjbmgr/kjb-mgr/kjb-mgr.component';
 import { InterfaceComponent } from './views/information/interface/interface.component';
+import { JobMgrComponent } from './views/ktrkjbmgr/job-mgr/job-mgr.component';
 
 @NgModule({
   declarations: [
@@ -217,7 +218,8 @@ import { InterfaceComponent } from './views/information/interface/interface.comp
     GdztBcsjComponent,
     KtrMgrComponent,
     KjbMgrComponent,
-    InterfaceComponent
+    InterfaceComponent,
+    JobMgrComponent
   ],
   imports: [
     // app模块依赖的东西

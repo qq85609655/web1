@@ -70,6 +70,7 @@ import {GdztBcsjComponent} from './views/information/code/gdzt-bcsj/gdzt-bcsj.co
 import {KtrMgrComponent} from './views/ktrkjbmgr/ktr-mgr/ktr-mgr.component';
 import {KjbMgrComponent} from './views/ktrkjbmgr/kjb-mgr/kjb-mgr.component';
 import {InterfaceComponent} from './views/information/interface/interface.component';
+import {JobMgrComponent} from './views/ktrkjbmgr/job-mgr/job-mgr.component';
 
 
 export const routes: any = [
@@ -256,7 +257,8 @@ export const routes: any = [
             ]
           },
           {path: 'ktrmgr', component: KtrMgrComponent},
-          {path: 'kjbmgr', component: KjbMgrComponent}
+          {path: 'kjbmgr', component: KjbMgrComponent},
+          {path: 'jobMgr', component: JobMgrComponent}
         ]
       },
       //系统管理

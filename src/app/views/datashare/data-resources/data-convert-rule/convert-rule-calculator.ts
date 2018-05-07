@@ -115,7 +115,7 @@ export class ConvertRuleCalculator extends ConvertRule {
     outputs: this.outputs
   };
 
-  constructor(param: any) {
+  constructor(param: any,busType:any) {
     super(param, ConvertRule.Type_Calculator, ConvertRule.Name_Calculator);
     this.pushAll(this.data.dataList, param.dataList, true);
     this.pushAll(this.data.outputs, param.outputs, true);
