@@ -83,6 +83,7 @@ export class DataConvertListComponent extends BaseComponent
     theadOptions: [
       {name: '', type: 'checkbox'},
       {name: '序号', type: 'number'},
+      {name: '主键', field: 'taskId'},
       {name: '数据资源名称', field: 'taskName', link: this.showDataSource, title: true},
       {name: '同步计划', field: 'runTypeStr'},
       {name: '所属机构', field: 'orgName'},

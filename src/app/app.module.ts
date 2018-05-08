@@ -125,6 +125,9 @@ import { KtrMgrComponent } from './views/ktrkjbmgr/ktr-mgr/ktr-mgr.component';
 import { KjbMgrComponent } from './views/ktrkjbmgr/kjb-mgr/kjb-mgr.component';
 import { InterfaceComponent } from './views/information/interface/interface.component';
 import { JobMgrComponent } from './views/ktrkjbmgr/job-mgr/job-mgr.component';
+import { JobAddComponent } from './views/ktrkjbmgr/job-mgr/job-add/job-add.component';
+import { JobEditComponent } from './views/ktrkjbmgr/job-mgr/job-edit/job-edit.component';
+import { JobDetailComponent } from './views/ktrkjbmgr/job-mgr/job-detail/job-detail.component';
 
 @NgModule({
   declarations: [
@@ -219,7 +222,10 @@ import { JobMgrComponent } from './views/ktrkjbmgr/job-mgr/job-mgr.component';
     KtrMgrComponent,
     KjbMgrComponent,
     InterfaceComponent,
-    JobMgrComponent
+    JobMgrComponent,
+    JobAddComponent,
+    JobEditComponent,
+    JobDetailComponent
   ],
   imports: [
     // app模块依赖的东西

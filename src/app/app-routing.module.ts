@@ -71,6 +71,9 @@ import {KtrMgrComponent} from './views/ktrkjbmgr/ktr-mgr/ktr-mgr.component';
 import {KjbMgrComponent} from './views/ktrkjbmgr/kjb-mgr/kjb-mgr.component';
 import {InterfaceComponent} from './views/information/interface/interface.component';
 import {JobMgrComponent} from './views/ktrkjbmgr/job-mgr/job-mgr.component';
+import {JobAddComponent} from './views/ktrkjbmgr/job-mgr/job-add/job-add.component';
+import {JobEditComponent} from './views/ktrkjbmgr/job-mgr/job-edit/job-edit.component';
+import {JobDetailComponent} from './views/ktrkjbmgr/job-mgr/job-detail/job-detail.component';
 
 
 export const routes: any = [
@@ -258,7 +261,14 @@ export const routes: any = [
           },
           {path: 'ktrmgr', component: KtrMgrComponent},
           {path: 'kjbmgr', component: KjbMgrComponent},
-          {path: 'jobMgr', component: JobMgrComponent}
+          {
+            path: 'jobMgr', component: JobMgrComponent,
+            children: [
+              {path: 'add', component: JobAddComponent},
+              {path: 'edit', component: JobEditComponent},
+              {path: 'detail',component: JobDetailComponent},
+            ]
+          }
         ]
       },
       //系统管理
