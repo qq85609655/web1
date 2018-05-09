@@ -262,11 +262,11 @@ export const routes: any = [
           {path: 'ktrmgr', component: KtrMgrComponent},
           {path: 'kjbmgr', component: KjbMgrComponent},
           {
-            path: 'jobMgr', component: JobMgrComponent,
+            path: 'jobMgr', component: '',
             children: [
-              {path: 'add', component: JobAddComponent},
-              {path: 'edit', component: JobEditComponent},
-              {path: 'detail',component: JobDetailComponent},
+              {path: '', redirectTo: 'search', pathMatch: 'full'},
+              {path: 'search', component: JobMgrComponent},
+              {path: ':type', component: JobEditComponent},
             ]
           }
         ]

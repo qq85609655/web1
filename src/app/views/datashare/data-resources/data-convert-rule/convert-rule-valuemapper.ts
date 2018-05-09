@@ -118,7 +118,7 @@ export class ConvertRuleValuemapper extends ConvertRule {
 
 
   public change2() {
-    // debugger;
+    debugger;
     let ref2 = this.rowData.dataReferenced2;
     console.info(ref2);
     //接着 加载2级类
@@ -130,7 +130,7 @@ export class ConvertRuleValuemapper extends ConvertRule {
         if (data && data.length > 0) {
           for (let d of data) {
             console.info(d.nodeId + '----' + d.name);
-            this.rowData.DataReferencedList3.push({value: d.nodeId, label: d.name});
+            this.DataReferencedList3.push({value: d.nodeId, label: d.name});
           }
           this.isShow2 = true;
         } else {//说明 此时到了最后一级  那就显示 其代码值 列表 供参考

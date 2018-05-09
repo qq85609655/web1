@@ -200,7 +200,7 @@ export class JobMgrComponent extends BaseComponent
       this.tableOpts.tableEvent,
       () => {
         this._Router.navigate([this.getRouterName() + '/edit'], {
-          queryParams: {taskId: item.taskId}
+          queryParams: {jobId: item.jobId}
         });
       }
     );
