@@ -1,0 +1,96 @@
+<div class="content-wrap">
+  <div class="content-header nav_tab">
+    <a class="btn-back" (click)="goback()"><em class="ico-r"></em>返回</a>
+    <ol class="breadcrumb">
+      <li>数据交换任务</li>
+      <li class="active">{{getOperName()}}</li>
+    </ol>
+  </div>
+  <div class="data-convert">
+    <!--数据资源基础信息-->
+    <div class="content-title">数据资源基础信息</div>
+    <div class="border valignTable autovalignTable">
+      <table>
+        <tr>
+          <th>所属机构：</th>
+          <td>{{jobData.orgName}}</td>
+          <th><em>*</em>job任务名称：</th>
+          <td><input type="text" [(ngModel)]="jobData.jobName" maxlength="20"
+                     [ngClass]="{error:valid.jobData.jobName.status}"></td>
+        </tr>
+        <tr>
+          <th>所属业务：</th>
+          <td>
+            <p-dropdown length="equate" [options]="busTypeList" [(ngModel)]="jobData.businessType"
+                        [ngClass]="{error: valid.jobData.businessType.status}"
+                        placeholder="请选择" (onChange)="onbusTypeChange()"></p-dropdown>
+          </td>
+          <th>执行计划：</th>
+          <td>
+            <p-dropdown length="equate" [options]="scheduleTypeList" [(ngModel)]="jobData.schedule"
+                        [ngClass]="{error: valid.jobData.schedule.status}"
+                        placeholder="请选择" (onChange)="onscheduleTypeChange()"></p-dropdown>
+          </td>
+        </tr>
+        <tr>
+          <th>简介：</th>
+          <td colspan="3"><textarea [(ngModel)]="jobData.remark"></textarea></td>
+        </tr>
+      </table>
+    </div>
+    <div class="content-stepflow">
+      <span></span>
+    </div>
+    <div class="content-title">配置任务执行步骤</div>
+    <div>
+      <button type="button" pButton class="fr" (click)="addStep()">添加转换步骤</button>
+      <table class="ruletable mt10" style="table-layout: auto;">
+        <thead>
+        <tr>
+          <td width="40">序号</td>
+          <td width="150">执行序号</td>
+          <td width="150">转换步骤Id</td>
+          <td>转换步骤名称</td>
+          <td width="65">操作</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let item of jobData.taskInfos; let i=index">
+          <td>{{i+1}}</td>
+          <td>
+            <input type="text" [(ngModel)]="item.sort"
+                   maxlength="20"
+            />
+          </td>
+          <td>{{item.taskId}}</td>
+          <td>{{item.taskName}}</td>
+          <td>
+            <span
+              class="btn-add" (click)="removeItem(i)">删除</span>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <button type="button" pButton class="fr" (click)="saveitem()">保存</button>
+      <button type="button" pButton class="fr" (click)="goback()">返回</button>
+    </div>
+  </div>
+</div>
+
+
+<p-dialog header="{{dialogOpts.select.title}}" [(visible)]="dialogOpts.select.visible" width="702" height="auto"
+          modal="true">
+  <div class="ruleTypeSelect">
+    <ul>
+      <li *ngFor="let item of taskList;let i=index">
+      {{item.taskName}}
+      </li>
+    </ul>
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="selectOk()" label="确认"></button>
+    <button type="button" pButton (click)="dialogOpts.select.visible=false" label="取消"></button>
+  </p-footer>
+</p-dialog>

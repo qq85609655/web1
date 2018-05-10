@@ -128,6 +128,7 @@ export class ConvertRuleValuemapper extends ConvertRule {
       data => {
         // console.info(data.length);
         if (data && data.length > 0) {
+          this.DataReferencedList3 = [{value: '', label: '请选择'}];
           for (let d of data) {
             console.info(d.nodeId + '----' + d.name);
             this.DataReferencedList3.push({value: d.nodeId, label: d.name});
@@ -367,8 +368,8 @@ export class ConvertRuleValuemapper extends ConvertRule {
     let flag = this.validData(this.valid, 'rowData', this);
     if (!flag) return false;
     //效验 页面隐射 里面 的目标值是否在 已经选择的代码值范围里面。
-    let checkCodeflag = this.checkCode();
-    if (!checkCodeflag) return false;
+    //let checkCodeflag = this.checkCode();
+  //  if (!checkCodeflag) return false;
 
     let sourceField = this.rowData.sourceField;
 
