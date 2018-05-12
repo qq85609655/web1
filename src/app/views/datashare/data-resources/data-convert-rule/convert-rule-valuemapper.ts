@@ -244,6 +244,14 @@ export class ConvertRuleValuemapper extends ConvertRule {
     }
     let d = this.dataList[fieldIndex];
     this.rowData = this.newRowData(d);
+    this.change1();
+    var ref1 = this.rowData.dataReferenced1;
+    if(ref1=='1000'){
+      this.change2();
+      this.change3();
+    }else {
+      this.change2();
+    }
   }
 
   //删除按钮
