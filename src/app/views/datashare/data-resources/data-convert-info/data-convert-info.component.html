@@ -86,6 +86,7 @@
             <p-dropdown [options]="sourceRule.subclassList" [(ngModel)]="sourceRule.data.subclassCode"
                         (onChange)="sourceRule.onSubclassChange()"
                         [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
+          <!--  <span>{{sourceRule.data.centerTableName}}</span>-->
             <span class="error-tip" *ngIf="sourceRule.error.status" [title]="sourceRule.error.msg"></span>
           </div>
         </div>
@@ -169,6 +170,7 @@
               <p-dropdown [options]="targetRule.subclassList" [(ngModel)]="targetRule.data.subclassCode"
                           (onChange)="targetRule.onSubclassChange()"
                           [disabled]="isRuleOpen()" [filter]="true"></p-dropdown>
+           <!--   <span>{{targetRule.data.centerTableName}}</span>-->
               <span class="error-tip" *ngIf="targetRule.error.status" [title]="targetRule.error.msg"></span>
             </div>
           </div>

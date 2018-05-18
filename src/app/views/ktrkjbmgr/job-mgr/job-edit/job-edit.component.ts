@@ -18,8 +18,15 @@ export class JobEditComponent extends BaseComponent implements OnInit, OnDestroy
     schedule: '',
     businessType: '',
     remark: '',
-    taskInfos: [{sort: 0, taskId: 0, taskName: ''}]
+    taskInfos: []
   };
+
+
+  public defaultData = {
+    sort: '',
+    taskName: ''
+  };
+
 
   constructor(public _ActivatedRoute: ActivatedRoute) {
     super();
@@ -38,6 +45,14 @@ export class JobEditComponent extends BaseComponent implements OnInit, OnDestroy
   };
 
 
+  addDataRow(i) {
+    this._addDataRow(i, this.jobData.taskInfos, this.defaultData, 100);
+  }
+
+  removeDataRow(i) {
+    this._removeDataRow(i, this.jobData.taskInfos);
+  }
+
   ngOnInit() {
     this._ActivatedRoute.queryParams.subscribe(params => {
       if (this.operType == 1) {
@@ -45,6 +60,9 @@ export class JobEditComponent extends BaseComponent implements OnInit, OnDestroy
         this.jobData.orgName = params.orgName;
       }
     });
+    for (let i = 0; i < 5; i++) {
+      this.jobData.taskInfos.push(Object.assign({}, this.defaultData));
+    }
   }
 
   onscheduleTypeChange() {
@@ -96,12 +114,22 @@ export class JobEditComponent extends BaseComponent implements OnInit, OnDestroy
           {required: true, msg: '执行计划不能为空！'},
         ]
       }
-    }
+    },
+    "data.$": {
+      valids: [{ norepeat: "sort", msg: "排序号不能重复" }],
+      sort: {
+        status: false,
+        name: "排序号",
+        valids: [{ required: true }, { regexp: this.regexp_data }]
+      },
+      taskName: {
+        status: false,
+        name: "中文名称",
+        valids: [{ required: true ,  msg:"中文名称格式错误，仅支持中文字母数字！" }]
+      }
+    },
+    data: []
   };
-
-  removeItem(index) {
-    alert(index);
-  }
 
   public getOperName() {
     return this.operType == 1 ? '新增' : (this.operType == 2 ? '修改' : '查看');
@@ -133,19 +161,9 @@ export class JobEditComponent extends BaseComponent implements OnInit, OnDestroy
   }
 
 
-  selectTaskClick(taskId) {
-    alert(taskId);
-  }
-
-  selectOk() {
-    alert('ok?');
-  }
-
   saveitem() {
     alert('saveitem?');
+    console.log(this.jobData);
   }
 
-  addStep() {
-    this.dialogOpts.select.visible = true;
-  }
 }

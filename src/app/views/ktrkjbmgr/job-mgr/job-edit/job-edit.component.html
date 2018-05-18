@@ -19,13 +19,13 @@
                      [ngClass]="{error:valid.jobData.jobName.status}"></td>
         </tr>
         <tr>
-          <th>所属业务：</th>
+          <th><em>*</em>所属业务：</th>
           <td>
             <p-dropdown length="equate" [options]="busTypeList" [(ngModel)]="jobData.businessType"
                         [ngClass]="{error: valid.jobData.businessType.status}"
                         placeholder="请选择" (onChange)="onbusTypeChange()"></p-dropdown>
           </td>
-          <th>执行计划：</th>
+          <th><em>*</em>执行计划：</th>
           <td>
             <p-dropdown length="equate" [options]="scheduleTypeList" [(ngModel)]="jobData.schedule"
                         [ngClass]="{error: valid.jobData.schedule.status}"
@@ -41,56 +41,46 @@
     <div class="content-stepflow">
       <span></span>
     </div>
-    <div class="content-title">配置任务执行步骤</div>
+    <div class="content-title">配置任务执行步骤 (<font color="red">请先选择业务类型</font> )</div>
     <div>
-      <button type="button" pButton class="fr" (click)="addStep()">添加转换步骤</button>
       <table class="ruletable mt10" style="table-layout: auto;">
         <thead>
         <tr>
           <td width="40">序号</td>
-          <td width="150">执行序号</td>
-          <td width="150">转换步骤Id</td>
+          <td width="250">执行序号</td>
           <td>转换步骤名称</td>
-          <td width="65">操作</td>
+          <td width="100">操作</td>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let item of jobData.taskInfos; let i=index">
           <td>{{i+1}}</td>
           <td>
-            <input type="text" [(ngModel)]="item.sort"
-                   maxlength="20"
-            />
+            第 <input type="text" [(ngModel)]="item.sort" maxlength="10" style="width: 50px"
+                     [ngClass]="{error:valid.data && valid.data[i]?.sort.status}"
+          />步
           </td>
-          <td>{{item.taskId}}</td>
-          <td>{{item.taskName}}</td>
           <td>
-            <span
-              class="btn-add" (click)="removeItem(i)">删除</span>
+            <p-dropdown length="equate" [options]="taskList" [(ngModel)]="item.taskName"
+                        [ngClass]="{error:valid.data && valid.data[i]?.taskName.status}"
+                        placeholder="请选择"></p-dropdown>
+          </td>
+          <td *ngIf="jobData.taskInfos.length > 1" class="last-td">
+            <span class="btn-add" (click)=" addDataRow(i)">+</span> <span
+            class="btn-add" (click)=" removeDataRow(i)">-</span>
+          </td>
+          <td *ngIf="jobData.taskInfos.length == 1" class="last-td">
+            <span class="btn-add" (click)=" addDataRow(i)">+</span> <span
+            class="btn-add" style="visibility:hidden">-</span>
           </td>
         </tr>
         </tbody>
       </table>
     </div>
-    <div>
+    <div class="btn-group-center">
       <button type="button" pButton class="fr" (click)="saveitem()">保存</button>
       <button type="button" pButton class="fr" (click)="goback()">返回</button>
     </div>
   </div>
 </div>
 
-
-<p-dialog header="{{dialogOpts.select.title}}" [(visible)]="dialogOpts.select.visible" width="702" height="auto"
-          modal="true">
-  <div class="ruleTypeSelect">
-    <ul>
-      <li *ngFor="let item of taskList;let i=index">
-      {{item.taskName}}
-      </li>
-    </ul>
-  </div>
-  <p-footer>
-    <button type="button" pButton (click)="selectOk()" label="确认"></button>
-    <button type="button" pButton (click)="dialogOpts.select.visible=false" label="取消"></button>
-  </p-footer>
-</p-dialog>

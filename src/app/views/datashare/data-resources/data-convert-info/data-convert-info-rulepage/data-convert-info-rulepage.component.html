@@ -1062,7 +1062,7 @@
         </td>
         <td>
           <p-dropdown [options]="rule.formatList"
-                      [(ngModel)]="item.format" placeholder="无"
+                      [(ngModel)]="item.formatVal" placeholder="无"
                       [disabled]="item.targetType != 'Date' && item.targetType != 'String' && item.targetType != 'Timestamp'"></p-dropdown>
         </td>
         <td><input type="text" [(ngModel)]="item.longVal"

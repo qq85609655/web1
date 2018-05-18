@@ -1,6 +1,5 @@
-import { AfterViewInit, Component, EventEmitter, OnInit } from "@angular/core";
+import { AfterViewInit, EventEmitter, OnInit } from "@angular/core";
 import { BaseComponent } from "../../../../components/base/base.component";
-import { BaseService } from "../../../../components/base/base.service";
 
 export class DataSubsetComponent extends BaseComponent
   implements OnInit, AfterViewInit {
