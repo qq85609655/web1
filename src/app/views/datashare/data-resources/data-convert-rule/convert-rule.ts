@@ -374,7 +374,7 @@ export abstract class ConvertRule extends BaseComponent {
     {type: ConvertRule.Type_Splitfieldtorows, name: ConvertRule.Name_Splitfieldtorows, description: '列拆分为多行'},
     {type: ConvertRule.Type_Calculator, name: ConvertRule.Name_Calculator, description: '计算器'},
     {type: ConvertRule.Type_UniqueRows, name: ConvertRule.Name_UniqueRows, description: '去除重复记录'},
-    {type: ConvertRule.Type_ExecuteSql, name: ConvertRule.Name_ExecuteSql, description: '执行脚本(包括sql查询语句、自定义函数、存储过程等)'},
+    //{type: ConvertRule.Type_ExecuteSql, name: ConvertRule.Name_ExecuteSql, description: '执行脚本(包括sql查询语句、自定义函数、存储过程等)'},
     {
       type: ConvertRule.Type_DynamicValueMapping,
       name: ConvertRule.Name_DynamicValueMapping,
