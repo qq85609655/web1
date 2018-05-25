@@ -8,12 +8,8 @@ import {Router} from '@angular/router';
   templateUrl: './kjb-mgr.component.html',
   styleUrls: ['./kjb-mgr.component.css']
 })
-export class KjbMgrComponent extends BaseComponent
+export class KjbMgrComponent  extends BaseComponent
   implements OnInit, AfterViewInit {
-  //
-  ngAfterViewInit(): void {
-
-  }
 
   public tableEvent: EventEmitter<any> = new EventEmitter();
 
@@ -28,13 +24,20 @@ export class KjbMgrComponent extends BaseComponent
   }
 
 
+
+  ngAfterViewInit() {
+    this.flushData();
+  }
+
   public queryParam = {
-   fileName:''
+    fileName: '',
+    fileType: 'kjb'
   };
 
 
   public queryParam2 = {
-   fileType:'ktr'
+    fileName: '',
+    fileType: 'kjb'
   };
 
   ngOnInit() {
@@ -58,7 +61,7 @@ export class KjbMgrComponent extends BaseComponent
     queryResultField: ['fileName'], //第一个值指定id的字段名,主要用于修改删除，状态切换
     tableType: 'single', //树类型，simple/checkbox
     theadOptions: [
-      {name: '转换任务名称', field: 'fileName'},
+      {name: 'job名称', field: 'fileName'},
       {name: '保存路径', field: 'filePath'},
       {name: '创建时间', field: 'createTime'},
       {name: '最后编辑时间', field: 'updateTime'},
@@ -89,6 +92,10 @@ export class KjbMgrComponent extends BaseComponent
       }
     }
   };
+
+  runAllNow() {
+
+  }
 
   sendInTaskOk() {
     this._HttpClient.get('kfilemgr/sendInTask/' + this.dialogOpts.startnow.pathParam.filePath, '', data => {
