@@ -74,6 +74,8 @@ import {JobMgrComponent} from './views/ktrkjbmgr/job-mgr/job-mgr.component';
 import {JobAddComponent} from './views/ktrkjbmgr/job-mgr/job-add/job-add.component';
 import {JobEditComponent} from './views/ktrkjbmgr/job-mgr/job-edit/job-edit.component';
 import {JobDetailComponent} from './views/ktrkjbmgr/job-mgr/job-detail/job-detail.component';
+import {DataPlsqlComponent} from './views/datashare/data-plsql/data-plsql.component';
+import {DataEditsqlComponent} from './views/datashare/data-plsql/data-editsql/data-editsql.component';
 
 
 export const routes: any = [
@@ -249,6 +251,14 @@ export const routes: any = [
               {path: '', redirectTo: 'search', pathMatch: 'full'},
               {path: 'search', component: DataConvertListIssueComponent},
               {path: ':type', component: DataConvertInfoIssueComponent}
+            ]
+          },
+          {
+            path: 'plsql', component: '',
+            children: [
+              {path: '', redirectTo: 'search', pathMatch: 'full'},
+              {path: 'search', component: DataPlsqlComponent},
+              {path: ':type', component: DataEditsqlComponent}
             ]
           },
           {

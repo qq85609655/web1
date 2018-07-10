@@ -2,7 +2,6 @@ import {Component, EventEmitter, OnDestroy, OnInit} from '@angular/core';
 import {HttpClient} from '../../../../components/http-client.service';
 import {ActivatedRoute, Router} from "@angular/router";
 import {BaseComponent} from "../../../../components/base/base.component";
-import {BaseService} from "../../../../components/base/base.service";
 
 @Component({
   selector: 'app-data-source-search',
@@ -140,7 +139,7 @@ export class DataSourceSearchComponent extends BaseComponent implements OnInit, 
     queryMethod: 'get',
     queryUrl: "org/orgShowTree",
     usingCache: false,
-    expandedIndex: -1,
+    expandedIndex: 0,
     queryParam: {},//表示query类型参数，放在?后面。后续如果需要pathParam bodyParam再调整
     functionName: '机构列表',//新增和修改框标题中的功能名称
     queryResultField: ['id', 'parentId', 'orgName', 'children'],//查询结果对象中，需要的字段名称

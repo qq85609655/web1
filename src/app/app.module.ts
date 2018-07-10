@@ -128,6 +128,8 @@ import { JobMgrComponent } from './views/ktrkjbmgr/job-mgr/job-mgr.component';
 import { JobAddComponent } from './views/ktrkjbmgr/job-mgr/job-add/job-add.component';
 import { JobEditComponent } from './views/ktrkjbmgr/job-mgr/job-edit/job-edit.component';
 import { JobDetailComponent } from './views/ktrkjbmgr/job-mgr/job-detail/job-detail.component';
+import { DataPlsqlComponent } from './views/datashare/data-plsql/data-plsql.component';
+import { DataEditsqlComponent } from './views/datashare/data-plsql/data-editsql/data-editsql.component';
 
 @NgModule({
   declarations: [
@@ -225,7 +227,9 @@ import { JobDetailComponent } from './views/ktrkjbmgr/job-mgr/job-detail/job-det
     JobMgrComponent,
     JobAddComponent,
     JobEditComponent,
-    JobDetailComponent
+    JobDetailComponent,
+    DataPlsqlComponent,
+    DataEditsqlComponent
   ],
   imports: [
     // app模块依赖的东西

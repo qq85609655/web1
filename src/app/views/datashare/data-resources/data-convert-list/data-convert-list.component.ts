@@ -32,7 +32,7 @@ export class DataConvertListComponent extends BaseComponent
     that: this,
     queryMethod: 'get',
     queryUrl: 'org/orgShowTree',
-    expandedIndex: -1,
+    expandedIndex:0,
     queryParam: {businessType: 1}, //表示query类型参数，放在?后面。后续如果需要pathParam bodyParam再调整
     functionName: '数据资源', //新增和修改框标题中的功能名称
     treeType: 'single', //树类型，simple/checkbox
