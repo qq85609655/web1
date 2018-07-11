@@ -1,7 +1,7 @@
 import {Component, EventEmitter, OnDestroy, OnInit} from '@angular/core';
-import {BaseComponent} from "../../../components/base/base.component";
-import {Router} from "@angular/router";
-import {HttpClient} from "../../../components/http-client.service";
+import {BaseComponent} from '../../../components/base/base.component';
+import {Router} from '@angular/router';
+import {HttpClient} from '../../../components/http-client.service';
 
 @Component({
   selector: 'app-etl-log',
@@ -24,7 +24,7 @@ export class EtlLogComponent extends BaseComponent implements OnInit, OnDestroy 
     that: this,
     queryMethod: 'get',
     expandedIndex: 0,
-    queryUrl: "org/orgShowTree",
+    queryUrl: 'org/orgShowTree',
     queryParam: {},//表示query类型参数，放在?后面。后续如果需要pathParam bodyParam再调整
     functionName: '机构列表',//新增和修改框标题中的功能名称
     queryResultField: ['id', 'parentId', 'orgName', 'children'],//查询结果对象中，需要的字段名称
@@ -36,7 +36,7 @@ export class EtlLogComponent extends BaseComponent implements OnInit, OnDestroy 
 
   public queryParam = {
     startTime: '',
-    transName:'',
+    transName: '',
     endTime: '',
     orgId: 0,
     orgIds: '',
@@ -45,7 +45,7 @@ export class EtlLogComponent extends BaseComponent implements OnInit, OnDestroy 
   public tableOpts = {
     that: this,
     queryMethod: 'post',
-    queryUrl: "kettleLog/queryList",
+    queryUrl: 'kettleLog/queryList',
     pageParam: {
       pageNum: 1,
       pageSize: 10
@@ -95,7 +95,7 @@ export class EtlLogComponent extends BaseComponent implements OnInit, OnDestroy 
     startTimeMin: null,
     endTime: null,
     endTimeMax: null
-  }
+  };
   public cn = this.getCnDateLocale();
 
   onSelectTime(type) {
@@ -126,4 +126,48 @@ export class EtlLogComponent extends BaseComponent implements OnInit, OnDestroy 
   flushData() {
     this.tableEvent.emit({flush: true});
   }
+
+  dialogOpts = {
+    clearOpt: {
+      title: '确认清空所有日志',
+      visible: false,
+      param: {
+        type: ''
+      }
+    }
+  };
+
+  clearLog() {
+    this.dialogOpts.clearOpt = {
+      title: '确认清空所有日志',
+      visible: true,
+      param: {
+        type: 'ALL'
+      }
+    };
+  }
+
+  clearOK() {
+    var that = this;
+    this._HttpClient.post(
+      'kettleLog/clearLogs',
+      {},
+      null,
+      function (data) {
+        if (data) {
+          that.tipMessage('清空操作成功！');
+          that.dialogOpts.clearOpt.visible = false;
+          that.flushData();
+        } else {
+          that.tipMessage('清空操作失败！');
+          that.dialogOpts.clearOpt.visible = false;
+          that.flushData();
+        }
+      }, null, () => {
+        that.removeAjaxFlag();
+      }
+    );
+  }
+
+
 }

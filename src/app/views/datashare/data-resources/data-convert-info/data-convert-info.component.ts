@@ -585,6 +585,7 @@ export class DataConvertInfoComponent extends BaseComponent implements OnInit, O
     }
   }
 
+
   isRuleOpen(): boolean {
     return this.rule && this.rule.type >= 0;
   }
