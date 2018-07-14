@@ -105,11 +105,6 @@ import { JybOtherBzdmComponent } from './views/information/code/jyb-other-bzdm/j
 import { JyBzdmComponent } from './views/information/code/jy-bzdm/jy-bzdm.component';
 import { BzdmComponent } from './views/information/code/bzdm/bzdm.component';
 import { DataItemTestComponent } from './views/information/data/data-item/data-item-test/data-item-test.component';
-import { CpzxComponent } from './views/ding/cpzx/cpzx.component';
-import { QyfcComponent } from './views/ding/qyfc/qyfc.component';
-import { GywmComponent } from './views/ding/gywm/gywm.component';
-import { JszcComponent } from './views/ding/jszc/jszc.component';
-import { XwzxComponent } from './views/ding/xwzx/xwzx.component';
 import { GdztJbxxComponent } from './views/information/code/gdzt-jbxx/gdzt-jbxx.component';
 import { GdztYxldComponent } from './views/information/code/gdzt-yxld/gdzt-yxld.component';
 import { GdztJbbxtjComponent } from './views/information/code/gdzt-jbbxtj/gdzt-jbbxtj.component';
@@ -205,11 +200,6 @@ import { DataEditsqlComponent } from './views/datashare/data-plsql/data-editsql/
     JyBzdmComponent,
     BzdmComponent,
     DataItemTestComponent,
-    CpzxComponent,
-    QyfcComponent,
-    GywmComponent,
-    JszcComponent,
-    XwzxComponent,
     GdztJbxxComponent,
     GdztYxldComponent,
     GdztJbbxtjComponent,

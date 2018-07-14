@@ -8,7 +8,7 @@ import {Router} from '@angular/router';
   templateUrl: './kjb-mgr.component.html',
   styleUrls: ['./kjb-mgr.component.css']
 })
-export class KjbMgrComponent  extends BaseComponent
+export class KjbMgrComponent extends BaseComponent
   implements OnInit, AfterViewInit {
 
   public tableEvent: EventEmitter<any> = new EventEmitter();
@@ -22,7 +22,6 @@ export class KjbMgrComponent  extends BaseComponent
   flushData() {
     this.tableEvent.emit({flush: true});
   }
-
 
 
   ngAfterViewInit() {
@@ -45,7 +44,6 @@ export class KjbMgrComponent  extends BaseComponent
   }
 
 
-
   public tableOpts = {
     that: this,
     queryMethod: 'post',
@@ -63,8 +61,8 @@ export class KjbMgrComponent  extends BaseComponent
     theadOptions: [
       {name: 'job名称', field: 'fileName'},
       {name: '保存路径', field: 'filePath'},
-      {name: '创建时间', field: 'createTime'},
-      {name: '最后编辑时间', field: 'updateTime'},
+      {name: '创建时间', field: 'createTime2'},
+      {name: '最后编辑时间', field: 'updateTime2'},
       {name: '操作', type: 'button', buttonOptions: 'buttonOptions'}
     ],
     //callback指定回调的方法，
@@ -72,33 +70,65 @@ export class KjbMgrComponent  extends BaseComponent
     //hidden指定按钮是否隐藏
     //此三个方法参数一样,共俩个，第一个index,第二个当前行item
     buttonOptions: [
-        {name: '添加到定时任务中', callback: this.runIt},
+      {name: '执行', callback: this.runIt},
     ],
     selections: [],
     emptyMessage: '暂无数据',
     tableEvent: this.tableEvent
   };
 
-   runIt(index,item){
-     this.dialogOpts.startnow.visible = true;
-     this.dialogOpts.startnow.pathParam = item;
+  runIt(index, item) {
+    this.dialogOpts.startnow.visible = true;
+    this.dialogOpts.startnow.pathParam = item;
   }
+
   dialogOpts = {
     startnow: {
-      title: '添加到定时任务',
+      title: '执行',
       visible: false,
       pathParam: {
-        filePath: ''
+        fileName: '',
+        fileType: ''
       }
     }
   };
 
-  runAllNow() {
 
+  RunBatch() {
+    let pathParam = '';
+    if (!this.tableOpts.selections || this.tableOpts.selections.length <= 0) {
+      this.tipWarnMessage('请选择至少一条数据！');
+      return false;
+    }
+    let fileNames = [];
+    for (let selection of this.tableOpts.selections) {
+      fileNames.push(selection.fileName);
+    }
+    pathParam += fileNames.join(',');
+    this.dialogOpts.startnow.visible = true;
+    this.dialogOpts.startnow.pathParam.fileName = pathParam;
+    this.dialogOpts.startnow.pathParam.fileType = 'kjb';
+    return true;
   }
 
-  sendInTaskOk() {
-    this._HttpClient.get('kfilemgr/sendInTask/' + this.dialogOpts.startnow.pathParam.filePath, '', data => {
+  loadAgain() {
+    var urrl = 'kfilemgr/load/kjb';
+    console.info(urrl);
+    this._HttpClient.get(urrl, '', data => {
+      if (data) {
+        this.tipMessage('执行成功！');
+        this.flushData() ;
+      }
+    });
+  }
+
+  runItOk() {
+    let fileName = this.dialogOpts.startnow.pathParam.fileName;
+    var ext = fileName.substring(0, fileName.lastIndexOf('.'));
+    console.info(ext);
+    var urrl = 'kfilemgr/runIt/' + this.dialogOpts.startnow.pathParam.fileType + '/' + ext;
+    console.info(urrl);
+    this._HttpClient.get(urrl, '', data => {
       if (data) {
         this.tipMessage('执行成功！');
         this.dialogOpts.startnow.visible = false;

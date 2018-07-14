@@ -37,9 +37,6 @@ export class KtrMgrComponent extends BaseComponent
   };
 
   ngOnInit() {
-  }
-
-  runAllNow() {
 
   }
 
@@ -64,12 +61,12 @@ export class KtrMgrComponent extends BaseComponent
       {name: '保存路径', field: 'filePath'},
       /*      {name: '创建时间', field: 'createTime'},
             {name: '最后编辑时间', field: 'updateTime'},*/
-      {name:'调度计划',field:'scheduleInfo'},
+      {name: '调度计划', field: 'scheduleInfo'},
       {name: '操作', type: 'button', buttonOptions: 'buttonOptions'}
     ],
     buttonOptions: [
       {name: '立即执行', callback: this.runIt},
-       {name: '调度计划调整', callback: this.changeScheduleInfo},
+      {name: '调度计划调整', callback: this.changeScheduleInfo},
     ],
     selections: [],
     emptyMessage: '暂无数据',
@@ -81,15 +78,16 @@ export class KtrMgrComponent extends BaseComponent
       title: '立即执行',
       visible: false,
       pathParam: {
-        fileName: ''
+        fileName: '',
+        fileType: ''
       }
     },
-    changeSchedule:{
+    changeSchedule: {
       title: '修改调度',
       visible: false,
       pathParam: {
         fileName: '',
-        scheduleInfo:''
+        scheduleInfo: ''
       }
     }
   };
@@ -99,13 +97,46 @@ export class KtrMgrComponent extends BaseComponent
     this.dialogOpts.startnow.pathParam = item;
   }
 
+  runBatch() {
+    let pathParam = '';
+    if (!this.tableOpts.selections || this.tableOpts.selections.length <= 0) {
+      this.tipWarnMessage('请选择至少一条数据！');
+      return false;
+    }
+    let fileNames = [];
+    for (let selection of this.tableOpts.selections) {
+      fileNames.push(selection.fileName);
+    }
+    pathParam += fileNames.join(',');
+    this.dialogOpts.startnow.visible = true;
+    this.dialogOpts.startnow.pathParam.fileName = pathParam;
+    this.dialogOpts.startnow.pathParam.fileType = 'ktr';
+    return true;
+  }
+
+
   changeScheduleInfo(index, item) {
     this.dialogOpts.changeSchedule.visible = true;
     this.dialogOpts.changeSchedule.pathParam = item;
   }
 
+  loadAgain(){
+    var urrl = 'kfilemgr/load/ktr';
+    console.info(urrl);
+    this._HttpClient.get(urrl, '', data => {
+      if (data) {
+        this.tipMessage('执行成功！');
+        this.flushData() ;
+      }
+    });
+  }
   startnowOk() {
-    this._HttpClient.get('kfilemgr/runIt/' + this.dialogOpts.startnow.pathParam.fileName, '', data => {
+    let fileName = this.dialogOpts.startnow.pathParam.fileName;
+    var ext = fileName.substring(0, fileName.lastIndexOf('.'));
+    console.info(ext);
+    var urrl = 'kfilemgr/runIt/' + this.dialogOpts.startnow.pathParam.fileType + '/' + ext;
+    console.info(urrl);
+    this._HttpClient.get(urrl, '', data => {
       if (data) {
         this.tipMessage('执行成功！');
         this.dialogOpts.startnow.visible = false;
@@ -114,7 +145,7 @@ export class KtrMgrComponent extends BaseComponent
   }
 
   changeScheduleOk() {
-    this._HttpClient.get('kfilemgr/changeSchedule/' + this.dialogOpts.changeSchedule.pathParam.fileName+'/'+this.dialogOpts.changeSchedule.pathParam.scheduleInfo,'' , data => {
+    this._HttpClient.get('kfilemgr/changeSchedule/' + this.dialogOpts.changeSchedule.pathParam.fileName + '/' + this.dialogOpts.changeSchedule.pathParam.scheduleInfo, '', data => {
       if (data) {
         this.tipMessage('执行成功！');
         this.dialogOpts.changeSchedule.visible = false;
