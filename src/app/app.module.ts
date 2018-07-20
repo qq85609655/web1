@@ -125,6 +125,9 @@ import { JobEditComponent } from './views/ktrkjbmgr/job-mgr/job-edit/job-edit.co
 import { JobDetailComponent } from './views/ktrkjbmgr/job-mgr/job-detail/job-detail.component';
 import { DataPlsqlComponent } from './views/datashare/data-plsql/data-plsql.component';
 import { DataEditsqlComponent } from './views/datashare/data-plsql/data-editsql/data-editsql.component';
+import { DyTaskCloneComponent } from './views/ktrkjbmgr/dy-task-clone/dy-task-clone.component';
+import { FbTaskCloneComponent } from './views/ktrkjbmgr/fb-task-clone/fb-task-clone.component';
+import { TaskCloneComponent } from './views/ktrkjbmgr/task-clone/task-clone.component';
 
 @NgModule({
   declarations: [
@@ -219,7 +222,10 @@ import { DataEditsqlComponent } from './views/datashare/data-plsql/data-editsql/
     JobEditComponent,
     JobDetailComponent,
     DataPlsqlComponent,
-    DataEditsqlComponent
+    DataEditsqlComponent,
+    DyTaskCloneComponent,
+    FbTaskCloneComponent,
+    TaskCloneComponent
   ],
   imports: [
     // app模块依赖的东西

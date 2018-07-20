@@ -59,8 +59,6 @@ export class KtrMgrComponent extends BaseComponent
       {name: '', type: 'checkbox'},
       {name: '转换任务名称', field: 'fileName'},
       {name: '保存路径', field: 'filePath'},
-      /*      {name: '创建时间', field: 'createTime'},
-            {name: '最后编辑时间', field: 'updateTime'},*/
       {name: '调度计划', field: 'scheduleInfo'},
       {name: '操作', type: 'button', buttonOptions: 'buttonOptions'}
     ],

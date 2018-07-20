@@ -74,6 +74,8 @@ import {JobMgrComponent} from './views/ktrkjbmgr/job-mgr/job-mgr.component';
 import {JobEditComponent} from './views/ktrkjbmgr/job-mgr/job-edit/job-edit.component';
 import {DataPlsqlComponent} from './views/datashare/data-plsql/data-plsql.component';
 import {DataEditsqlComponent} from './views/datashare/data-plsql/data-editsql/data-editsql.component';
+import {DyTaskCloneComponent} from './views/ktrkjbmgr/dy-task-clone/dy-task-clone.component';
+import {FbTaskCloneComponent} from './views/ktrkjbmgr/fb-task-clone/fb-task-clone.component';
 
 
 export const routes: any = [
@@ -269,6 +271,20 @@ export const routes: any = [
           },
           {path: 'ktrmgr', component: KtrMgrComponent},
           {path: 'kjbmgr', component: KjbMgrComponent},
+          {
+            path: 'dycl', component: '',
+            children: [
+              {path: '', redirectTo: 'search', pathMatch: 'full'},
+              {path: 'search', component: DyTaskCloneComponent}
+            ]
+          },
+          {
+            path: 'fbcl', component: '',
+            children: [
+              {path: '', redirectTo: 'search', pathMatch: 'full'},
+              {path: 'search', component: FbTaskCloneComponent}
+            ]
+          },
           {
             path: 'jobMgr', component: '',
             children: [

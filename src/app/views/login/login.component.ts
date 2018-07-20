@@ -189,6 +189,7 @@ export class LoginComponent extends BaseComponent
           Cookie.delete(this.login_pwd_len);
         }
         this.tipMessage("登录成功！");
+        debugger;
         this._TabsService.cleanAllTabs();
         this._SystemInfoService.setUserInfoForLogin(data.userInfo);
         this.router.navigate(["/index"]);

@@ -94,12 +94,12 @@ export class UserManagerComponent extends BaseComponent  implements OnInit, OnDe
         // disabled: (index, item) => this.isAdmin(item),
         authcode: "013003"
       },
-      {
+     /* {
         name: "删除",
         callback: this.deleteUser,
         disabled: (index, item) => this.isThisAdmin(item),
         authcode: "013004"
-      },
+      },*/
       {
         name: "授权",
         callback: this.userAuth,

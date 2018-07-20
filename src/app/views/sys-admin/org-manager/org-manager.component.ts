@@ -43,18 +43,18 @@ export class OrgManagerComponent extends BaseComponent implements OnInit {
   };
 
   public treeNode = {
-    id: 0,
+    id: "",
     orgName: "",
     nodeType: 1,
     children: []
   };
 
   orgDataDefault = {
-    id: 0,
+    id: "",
     orgName: "",
     orgNo: "",
     orgAddress: "",
-    parentId: 0,
+    parentId: "",
     parentName: "",
     manager: "",
     orgType: 2,
@@ -88,7 +88,7 @@ export class OrgManagerComponent extends BaseComponent implements OnInit {
     delete: {
       title: "删除机构",
       visible: false,
-      data: { id: 0 }
+      data: { id: "" }
     }
   };
 

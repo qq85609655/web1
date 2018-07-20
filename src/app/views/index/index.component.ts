@@ -14,7 +14,7 @@ export class IndexComponent implements OnInit {
 
   }
   public userInfo:any ={
-    userId:0
+    userId:""
   };
   ngOnInit() {
     this.userInfo = this._SystemInfoService.getUserInfo();
