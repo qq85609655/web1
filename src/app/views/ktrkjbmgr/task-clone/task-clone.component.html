@@ -1,0 +1,59 @@
+<div class="content-wrap">
+  <app-ptree [treeOpts]="treeOpts"></app-ptree>
+  <div class="content-meta">
+    <!--面包屑-->
+    <div class="content-header nav_tab">
+      <ol class="breadcrumb">
+        <li>数据共享交换</li>
+        <li class="active">{{getFunctionName()}}</li>
+      </ol>
+    </div>
+    <!-- 搜索 -->
+    <div class="content-search">
+      <div class="crumbs-btn">
+        <button type="button" (click)="cloneItem();" [hidden]="!checkAuth(getAuthcode(4))">克隆</button>
+      </div>
+      <div class="">
+        <span class="title">数据源：</span>
+        <p-dropdown margin="none" [options]="collectionList" class="compatible" [(ngModel)]="queryParam.collectionId"
+                    (onChange)="flushData()" [filter]="true"></p-dropdown>
+        <span class="title">资源状态：</span>
+        <p-dropdown [options]="statusList" class="compatible" [(ngModel)]="queryParam.status"
+                    (onChange)="flushData()"></p-dropdown>
+        <p class="search-box">
+          <span class="title">数据资源名称：</span>
+          <input type="text" [(ngModel)]="queryParam.name" maxlength="20">
+        </p>
+        <button type="button" class="btn-check" (click)="flushData()">查询</button>
+      </div>
+    </div>
+    <div class="content-table">
+      <!--表格-->
+      <div class="table">
+        <app-ptable [tableOpts]="tableOpts" (selectionChange)="tableOpts.selections = $event"></app-ptable>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="{{dialogOpts.clone.title}}" [(visible)]="dialogOpts.clone.visible" width="450" height="auto"
+          modal="true">
+  <div class="dialogForm">
+    <div class="ptreeBox">
+      <div>
+        <p>选择目标部门</p>
+        <app-ptree [treeOpts]="orgTreeOpts"></app-ptree>
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="cloneOk()" label="确认"></button>
+    <button type="button" pButton (click)="dialogOpts.clone.visible=false" label="取消"></button>
+  </p-footer>
+</p-dialog>
+
+
+
+
+
+
