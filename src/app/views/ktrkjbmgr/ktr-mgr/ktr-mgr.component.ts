@@ -60,6 +60,15 @@ export class KtrMgrComponent extends BaseComponent
       {name: '转换任务名称', field: 'fileName'},
       {name: '保存路径', field: 'filePath'},
       {name: '调度计划', field: 'scheduleInfo'},
+      {
+        name: '状态',
+        field: 'runStatus',
+        type: 'switch',
+        queryUrl: 'kfilemgr/updateStatus',
+        queryParam: {},
+        switchName: ['启动', '停止'],
+        authcode: ''
+      },
       {name: '操作', type: 'button', buttonOptions: 'buttonOptions'}
     ],
     buttonOptions: [

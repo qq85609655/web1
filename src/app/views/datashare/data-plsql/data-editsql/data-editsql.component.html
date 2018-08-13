@@ -1,3 +1,59 @@
-<p>
-  data-editsql works!
-</p>
+<div class="content-header nav_tab">
+  <a class="btn-back" (click)="goback()"><em></em>返回</a>
+  <ol class="breadcrumb">
+    <li>数据共享交换</li>
+    <li>数据源管理</li>
+    <li class="active">{{getOperName()}}</li>
+  </ol>
+</div>
+
+<div class="content-meta-treehide">
+  <div class="Countrymeta-add">
+    <dl>
+      <dt><em>*</em>查询名称：</dt>
+      <dd>
+        <input type="text" maxlength="20" [(ngModel)]="plsqls.name" [ngClass]="{error: valid.plsqls.name.status}"
+               [disabled]="checkDisabled(false)"/>
+      </dd>
+      <dt>
+        <em>*</em>数据库来源：
+      </dt>
+      <dd>
+        <p-dropdown length="equate" [options]="dbSourceList" [(ngModel)]="plsqls.dbSourceId"
+                    [ngClass]="{error: valid.plsqls.dbSourceId.status}"
+                    placeholder="请选择" [disabled]="checkDisabled(true)"></p-dropdown>
+      </dd>
+    </dl>
+    <dl>
+      <dt><em>*</em>英文名称：</dt>
+      <dd>
+        <input type="text" maxlength="30" [(ngModel)]="plsqls.aliansName"
+               [ngClass]="{error: valid.plsqls.aliansName.status}" [disabled]="checkDisabled(true)"/>
+      </dd>
+    </dl>
+    <dl>
+      <dt>查询脚本：</dt>
+      <dd style="width: 80%">
+        <textarea name="dataExplain" [(ngModel)]="plsqls.content"
+                  [ngClass]="{error: valid.plsqls.content.status}"
+                  [disabled]="checkDisabled(true)"></textarea>
+      </dd>
+    </dl>
+    <dl>
+      <dt>数据源备注：</dt>
+      <dd style="width: 80%">
+        <textarea name="dataExplain" maxlength="60" [(ngModel)]="plsqls.remark"
+                  [disabled]="checkDisabled(true)"></textarea>
+        <span>还剩{{getRestLength(plsqls.remark,60)}}</span>
+      </dd>
+    </dl>
+  </div>
+  <div class="btn-box">
+    <button class="btn-test" (click)="toTestOk()">测试连接</button>
+    <button class="btn-save" (click)="toSaveOk()" *ngIf="operType < 3">保存</button>
+    <button class="btn-cancel" (click)="goback()">取消</button>
+    <label *ngIf="operType == 1">
+      <input type="checkbox" [(ngModel)]="continueAdd">保存后继续增加
+    </label>
+  </div>
+</div>

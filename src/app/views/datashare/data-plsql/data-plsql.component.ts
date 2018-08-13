@@ -12,12 +12,18 @@ import {HttpClient} from '../../../components/http-client.service';
 
 export class DataPlsqlComponent extends BaseComponent implements OnInit, OnDestroy {
 
-
   constructor(public _ActivatedRoute: ActivatedRoute,
               public _Router: Router,
               public _HttpClient: HttpClient) {
     super();
   }
+
+  public queryParam = {
+    orgId: 0,
+    orgIds: '',
+    dbType: '',
+    sqlName: '',
+  };
 
   public dbTypeList = [{label: '全部', value: -1}, {label: 'Oracle', value: 2}, {
     label: 'MySql',
@@ -25,13 +31,31 @@ export class DataPlsqlComponent extends BaseComponent implements OnInit, OnDestr
   }, {label: 'MS SQL Server', value: 3}];
 
   public tableEvent: EventEmitter<any> = new EventEmitter();
-
-
-  public queryParam = {
-    dbType: '',
-    sqlName: '',
+  public treeNode: any;
+  //树参数
+  public treeOpts = {
+    that: this,
+    queryMethod: 'get',
+    queryUrl: 'org/orgShowTree',
+    usingCache: false,
+    expandedIndex: 0,
+    queryParam: {},//表示query类型参数，放在?后面。后续如果需要pathParam bodyParam再调整
+    functionName: '机构列表',//新增和修改框标题中的功能名称
+    queryResultField: ['id', 'parentId', 'orgName', 'children'],//查询结果对象中，需要的字段名称
+    treeType: 'single',//树类型，simple/checkbox
+    queryDataToTreeData: null,//查询数据转换为树需要的数据
+    nodeSelect: this.treeNodeSelect,
+    operButton: {},
+    treeEvent: new EventEmitter()
   };
 
+  treeNodeSelect(node) {
+    this.treeNode = node;
+    this.queryParam.orgId = node.data.id;
+    var orgNodeIds = this.getOrgNodeIds(node.data, true);
+    this.queryParam.orgIds = orgNodeIds.join(',');
+    this.flushData();
+  }
 
   public tableOpts = {
     that: this,
@@ -52,7 +76,8 @@ export class DataPlsqlComponent extends BaseComponent implements OnInit, OnDestr
     theadOptions: [
       {name: '序号', type: 'numberpage'},
       {name: '查询名称', field: 'sqlName'},
-      {name: '状态', field: 'status'},
+      {name: '英文别名', field: 'sqlAliansName'},
+      {name: '状态', field: 'status'},//开启状态
       {name: '创建时间', field: 'createTime'},
       {name: '操作', type: 'button', buttonOptions: 'buttonOptions'}
     ],
@@ -75,9 +100,22 @@ export class DataPlsqlComponent extends BaseComponent implements OnInit, OnDestr
   }
 
   addData(opsItem?: any, listItem?: any) {
-    this.saveSelectToLink(null, this.tableOpts.tableEvent, () => {
-      this._Router.navigate(['index/datashare/plsql/add'], '');
-    });
+    if (this.treeNode.data.nodeType != 3) {
+      this.tipWarnMessage('请选择第三级机构新增数据资源任务！');
+      return false;
+    }
+    let tree = {
+      orgId: this.queryParam.orgId,
+    };
+    this.saveSelectToLink(
+      this.treeOpts.treeEvent,
+      this.tableOpts.tableEvent,
+      () => {
+        this._Router.navigate(['index/datashare/plsql/add/'], {
+          queryParams: tree
+        });
+      }
+    );
   }
 
   flushData() {
