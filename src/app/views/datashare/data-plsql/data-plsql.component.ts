@@ -75,10 +75,9 @@ export class DataPlsqlComponent extends BaseComponent implements OnInit, OnDestr
     usingCache: false,
     theadOptions: [
       {name: '序号', type: 'numberpage'},
-      {name: '查询名称', field: 'sqlName'},
-      {name: '英文别名', field: 'sqlAliansName'},
-      {name: '状态', field: 'status'},//开启状态
-      {name: '创建时间', field: 'createTime'},
+      {name: '查询名称', field: 'name'},
+      {name: '英文别名', field: 'aliansName'},
+      {name: '开启状态', field: 'status'},//开启状态
       {name: '操作', type: 'button', buttonOptions: 'buttonOptions'}
     ],
     buttonOptions: [
@@ -124,13 +123,15 @@ export class DataPlsqlComponent extends BaseComponent implements OnInit, OnDestr
 
   detailItem(index, item) {
     this.saveSelectToLink(null, this.tableOpts.tableEvent, () => {
-      this._Router.navigate(['index/datashare/plsql/detail'], {queryParams: {id: item.id}});
+      //alert(item.orgId);
+      this._Router.navigate(['index/datashare/plsql/detail'], {queryParams: {id: item.id, orgId: item.orgId}});
     });
   }
 
   editItem(index, item) {
     this.saveSelectToLink(null, this.tableOpts.tableEvent, () => {
-      this._Router.navigate(['index/datashare/plsql/edit'], {queryParams: {id: item.id}});
+      //  alert(item.orgId);
+      this._Router.navigate(['index/datashare/plsql/edit'], {queryParams: {id: item.id, orgId: item.orgId}});
     });
   }
 
@@ -157,7 +158,7 @@ export class DataPlsqlComponent extends BaseComponent implements OnInit, OnDestr
   };
 
   deleteOk() {
-    let url = 'plsql/' + this.dialogOpts.delete.data.id;
+    let url = 'plsql/deleteBatch/' + this.dialogOpts.delete.data.id;
     console.log(this.dialogOpts.delete.data.id);
     this._HttpClient.delete_old(url, {}, data => {
       this.tipMessage('数据源删除成功！');

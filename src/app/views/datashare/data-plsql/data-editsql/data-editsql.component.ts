@@ -50,8 +50,8 @@ export class DataEditsqlComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this._ActivatedRoute.queryParams.subscribe(params => {
+      this.plsqls.orgId = params.orgId;
       if (this.operType == 1) {
-        this.plsqls.orgId = params.orgId;
         if (params.continueAdd && params.continueAdd == 'true') {
           this.continueAdd = true;
         }
@@ -63,6 +63,7 @@ export class DataEditsqlComponent extends BaseComponent implements OnInit {
     this.initDbSourceList();
     if (this.operType > 1) {
       this.getHttpClient().get('plsql/getInfoById', {id: this.plsqls.id}, data => {
+        console.info(data);
         Object.assign(this.plsqls, data);
       });
     }
@@ -73,6 +74,7 @@ export class DataEditsqlComponent extends BaseComponent implements OnInit {
     this.getHttpClient().get('plsql/getDbSourceListByOrgId', {orgId: this.plsqls.orgId}, data => {
       if (data && data.length > 0) {
         for (let d of data) {
+          debugger;
           this.dbSourceList.push({label: d.name, value: d.id});
         }
       }

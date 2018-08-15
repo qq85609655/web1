@@ -161,7 +161,6 @@ export class ConfigManagerComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this._HttpClient.get('config/queryEntity', '', data => {
-      debugger;
       this.systemparam = {
         sysName: data.sysName, //系统名称
         schoolName: data.schoolName, //学校名称
