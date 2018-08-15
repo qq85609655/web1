@@ -41,3 +41,30 @@
     <button type="button" pButton (click)="dialogOpts.delete.visible=false" label="取消"></button>
   </p-footer>
 </p-dialog>
+
+
+<!-- 执行查询 -->
+<p-dialog header="{{dialogOpts.runSql.title}}" [(visible)]="dialogOpts.runSql.visible" width="800"
+          height="auto"
+          modal="true" ovflow="auto">
+  <div>
+    <div>当前查询语句名称：{{dialogOpts.runSql.tableInfo.name}}</div>
+    <!-- 表头-->
+    <table class="ruletable mt10" style="table-layout: auto;">
+      <thead>
+      <tr>
+        <td width="80" *ngFor="let item of dialogOpts.runSql.fieldList; let i=index">{{item.field}}</td>
+      </tr>
+      </thead>
+      <!-- 数据-->
+      <tbody>
+      <tr *ngFor="let item of dialogOpts.runSql.dataList; let i=index">
+
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="dialogOpts.runSql.visible=false" label="关闭"></button>
+  </p-footer>
+</p-dialog>

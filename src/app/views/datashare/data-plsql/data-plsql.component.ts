@@ -83,6 +83,7 @@ export class DataPlsqlComponent extends BaseComponent implements OnInit, OnDestr
     buttonOptions: [
       {name: '查看', callback: this.detailItem},
       {name: '修改', callback: this.editItem},
+      {name: '执行查询', callback: this.runItem},
       {name: '删除', callback: this.deleteItem}
     ],
     selections: [],
@@ -128,6 +129,10 @@ export class DataPlsqlComponent extends BaseComponent implements OnInit, OnDestr
     });
   }
 
+  runItem(index, item) {
+
+  }
+
   editItem(index, item) {
     this.saveSelectToLink(null, this.tableOpts.tableEvent, () => {
       //  alert(item.orgId);
@@ -154,6 +159,14 @@ export class DataPlsqlComponent extends BaseComponent implements OnInit, OnDestr
       data: {
         id: 0
       }
+    },
+    runSql: {
+      title: '执行结果展示',
+      visible: false,
+      type: 0,
+      fieldList: [],
+      dataList: [],
+      tableInfo: {name: '', dbType: 1, comment: ''}
     }
   };
 

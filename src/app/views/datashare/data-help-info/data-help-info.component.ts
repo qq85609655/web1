@@ -57,7 +57,7 @@ export class DataHelpInfoComponent extends BaseComponent implements OnInit, OnDe
      });*/
   }
   flushData(){
-    alert("查询....");
+   // alert("查询....");
 
     this._HttpClient.get("dataInfo/queryTableDatas", {id: this.params.id}, data => {
 
