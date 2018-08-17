@@ -77,13 +77,13 @@ export class DataPlsqlComponent extends BaseComponent implements OnInit, OnDestr
       {name: '序号', type: 'numberpage'},
       {name: '查询名称', field: 'name'},
       {name: '英文别名', field: 'aliansName'},
-      {name: '开启状态', field: 'status'},//开启状态
+   /*   {name: '开启状态', field: 'status'},//开启状态*/
       {name: '操作', type: 'button', buttonOptions: 'buttonOptions'}
     ],
     buttonOptions: [
       {name: '查看', callback: this.detailItem},
       {name: '修改', callback: this.editItem},
-      {name: '执行查询', callback: this.runItem},
+      {name: '执行查询', callback: this.runItem1},
       {name: '删除', callback: this.deleteItem}
     ],
     selections: [],
@@ -137,6 +137,11 @@ export class DataPlsqlComponent extends BaseComponent implements OnInit, OnDestr
         id: 0
       }
     },
+    runSql2: {
+      title: '立即执行',
+      visible: false,
+      id: 0
+    },
     runSql: {
       title: '执行结果展示',
       visible: false,
@@ -150,13 +155,22 @@ export class DataPlsqlComponent extends BaseComponent implements OnInit, OnDestr
     }
   };
 
-  runItem(index, item) {
-    this.getHttpClient().post('plsql/runNow/' + item.id, null, null, (data) => {
-      //Object.assign(this.dateItems, data);
+  runOk() {
+    this.dialogOpts.runSql2.visible = false;
+    this.runItem(this.dialogOpts.runSql2.id);
+  }
+
+  runItem1(index, item) {
+    this.dialogOpts.runSql2.visible = true;
+    this.dialogOpts.runSql2.id = item.id;
+  }
+
+  runItem(id) {
+    this.getHttpClient().post('plsql/runNow/' + id, null, null, (data) => {
       this.dialogOpts.runSql.visible = true;
       this.dialogOpts.runSql.data.datas = data.datas;
       this.dialogOpts.runSql.data.itemDetailVos = data.itemDetailVos;
-      this.dialogOpts.runSql.data.dbType =data.dbType;
+      this.dialogOpts.runSql.data.dbType = data.dbType;
       this.dialogOpts.runSql.data.sqlName = data.sqlName;
       this.dialogOpts.runSql.data.dataCount = data.dataCount;
     });

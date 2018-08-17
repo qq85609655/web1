@@ -418,8 +418,6 @@ export class DataConvertInfoComponent extends BaseComponent implements OnInit, O
     }
     let newId = this.dialogOpts.select.rule.getNewId();
     let busType = this.sourceRule.businessType;
-    debugger;
-    console.info(busType);
     let newRule = this.newConvertRuleByType(this.dialogOpts.select.selectType, {id: newId}, busType);
     if (!newRule) {
       return false;

@@ -43,6 +43,19 @@
 </p-dialog>
 
 
+
+<p-dialog header="{{dialogOpts.runSql2.title}}" [(visible)]="dialogOpts.runSql2.visible" width="450" height="auto"
+          modal="true">
+  <div>
+    确认立即执行？如果是，请稍等，结果会很快展现~
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="runOk()" label="确认"></button>
+    <button type="button" pButton (click)="dialogOpts.runSql2.visible=false" label="取消"></button>
+  </p-footer>
+</p-dialog>
+
+
 <!-- 执行查询 -->
 <p-dialog header="{{dialogOpts.runSql.title}}" [(visible)]="dialogOpts.runSql.visible" width="100%"
           height="auto"

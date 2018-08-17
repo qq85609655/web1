@@ -184,11 +184,11 @@ export class ConvertRuleSource extends ConvertRule {
   }
 
   onDataTableChange(initFlag?: boolean) {
-    debugger;
     $('#primaryKeyInfo').html('');
     if (initFlag !== true) {
       this.cleanFieldListData();//非初始化时，清空已存在的字段
     }
+    debugger;
     let tableName = this.data.thirdTablename;
     console.info(tableName);
     if (tableName != null) {
