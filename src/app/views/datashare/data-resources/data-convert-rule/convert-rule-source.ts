@@ -188,14 +188,14 @@ export class ConvertRuleSource extends ConvertRule {
     if (initFlag !== true) {
       this.cleanFieldListData();//非初始化时，清空已存在的字段
     }
-    debugger;
+   // debugger;
     let tableName = this.data.thirdTablename;
-    console.info(tableName);
+    //console.info(tableName);
     if (tableName != null) {
       var taname = tableName.split('#');
       var tType = taname[1];
       var tname = taname[0];
-      console.info(tType + '---------' + tname);
+      //console.info(tType + '---------' + tname);
       let queryParam = {
         connectionId: this.data.thirdConnectionId,
         tableName: tname,
@@ -204,7 +204,7 @@ export class ConvertRuleSource extends ConvertRule {
       };
 
       this.getHttpClient().get('datasource/queryTableFields', queryParam, (data) => {
-        console.info(data.ketAutoAddCount);
+        //console.info(data.ketAutoAddCount);
         if (!data || data.tableFieldVoList.length == 0) {
           data = [];
         }
