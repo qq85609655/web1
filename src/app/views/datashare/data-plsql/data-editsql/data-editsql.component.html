@@ -35,7 +35,7 @@
     <dl>
       <dt>查询脚本：</dt>
       <dd style="width: 80%">
-        <textarea name="dataExplain" [(ngModel)]="plsqls.content"
+        <textarea name="content" [(ngModel)]="plsqls.content"
                   [ngClass]="{error: valid.plsqls.content.status}"
                   [disabled]="checkDisabled(true)"></textarea>
       </dd>
@@ -43,7 +43,7 @@
     <dl>
       <dt>数据源备注：</dt>
       <dd style="width: 80%">
-        <textarea name="dataExplain" maxlength="60" [(ngModel)]="plsqls.remark"
+        <textarea name="remark" maxlength="60" [(ngModel)]="plsqls.remark"
                   [disabled]="checkDisabled(true)"></textarea>
         <span>还剩{{getRestLength(plsqls.remark,60)}}</span>
       </dd>

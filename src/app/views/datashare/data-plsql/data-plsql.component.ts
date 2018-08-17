@@ -124,18 +124,46 @@ export class DataPlsqlComponent extends BaseComponent implements OnInit, OnDestr
 
   detailItem(index, item) {
     this.saveSelectToLink(null, this.tableOpts.tableEvent, () => {
-      //alert(item.orgId);
       this._Router.navigate(['index/datashare/plsql/detail'], {queryParams: {id: item.id, orgId: item.orgId}});
     });
   }
 
-  runItem(index, item) {
+  dialogOpts = {
+    delete: {
+      title: '删除',
+      visible: false,
+      pathParam: '',
+      data: {
+        id: 0
+      }
+    },
+    runSql: {
+      title: '执行结果展示',
+      visible: false,
+      data: {
+        itemDetailVos: [],
+        datas: [],
+        sqlName: '',
+        dbType: '',
+        dataCount: 0
+      }
+    }
+  };
 
+  runItem(index, item) {
+    this.getHttpClient().post('plsql/runNow/' + item.id, null, null, (data) => {
+      //Object.assign(this.dateItems, data);
+      this.dialogOpts.runSql.visible = true;
+      this.dialogOpts.runSql.data.datas = data.datas;
+      this.dialogOpts.runSql.data.itemDetailVos = data.itemDetailVos;
+      this.dialogOpts.runSql.data.dbType =data.dbType;
+      this.dialogOpts.runSql.data.sqlName = data.sqlName;
+      this.dialogOpts.runSql.data.dataCount = data.dataCount;
+    });
   }
 
   editItem(index, item) {
     this.saveSelectToLink(null, this.tableOpts.tableEvent, () => {
-      //  alert(item.orgId);
       this._Router.navigate(['index/datashare/plsql/edit'], {queryParams: {id: item.id, orgId: item.orgId}});
     });
   }
@@ -151,24 +179,6 @@ export class DataPlsqlComponent extends BaseComponent implements OnInit, OnDestr
     return true;
   }
 
-  dialogOpts = {
-    delete: {
-      title: '删除',
-      visible: false,
-      pathParam: '',
-      data: {
-        id: 0
-      }
-    },
-    runSql: {
-      title: '执行结果展示',
-      visible: false,
-      type: 0,
-      fieldList: [],
-      dataList: [],
-      tableInfo: {name: '', dbType: 1, comment: ''}
-    }
-  };
 
   deleteOk() {
     let url = 'plsql/deleteBatch/' + this.dialogOpts.delete.data.id;
