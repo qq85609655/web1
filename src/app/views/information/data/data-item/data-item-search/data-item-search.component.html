@@ -13,6 +13,7 @@
     <div class="content-search">
       <div class="crumbs-btn">
         <button type="button" class="btn-add ripple" (click)="addData()" [hidden]="!checkAuth('027002')">新增</button>
+        <button type="button" class="btn-add ripple" (click)="seeData()" [hidden]="!checkAuth('027002')">查询当前表数据</button>
       </div>
       <div>
         <span class="title">数据项名/中文名称：</span>
@@ -37,5 +38,46 @@
   <p-footer>
     <button type="button" pButton (click)="deleteDataOk()" label="确认"></button>
     <button type="button" pButton (click)="dialogOpts.delete.visible=false" label="取消"></button>
+  </p-footer>
+</p-dialog>
+
+
+
+
+<p-dialog header="{{dialogOpts.runSql2.title}}" [(visible)]="dialogOpts.runSql2.visible" width="450" height="auto"
+          modal="true">
+  <div>
+    确认立即执行？如果是，请稍等，结果会很快展现~
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="runOk()" label="确认"></button>
+    <button type="button" pButton (click)="dialogOpts.runSql2.visible=false" label="取消"></button>
+  </p-footer>
+</p-dialog>
+
+
+<!-- 执行查询 -->
+<p-dialog header="{{dialogOpts.runSql.title}}" [(visible)]="dialogOpts.runSql.visible" width="100%"
+          height="auto"
+          modal="true" ovflow="auto">
+  <div>
+    <div>当前查询语句名称：<b>{{dialogOpts.runSql.data.sqlName}}</b> , 记录总数：<b>{{dialogOpts.runSql.data.dataCount}}</b> 条</div>
+    <!-- 表头-->
+    <table class="ruletable mt10" style="table-layout: auto;">
+      <thead>
+      <tr>
+        <td width="80" *ngFor="let item of dialogOpts.runSql.data.itemDetailVos; let i=index">{{item.columnLabel}}</td>
+      </tr>
+      </thead>
+      <!-- 数据-->
+      <tbody>
+      <tr *ngFor="let item of dialogOpts.runSql.data.datas; let i=index">
+        <td *ngFor="let item2 of dialogOpts.runSql.data.itemDetailVos; let i2=index">{{item[i2]}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="dialogOpts.runSql.visible=false" label="关闭"></button>
   </p-footer>
 </p-dialog>
