@@ -77,6 +77,7 @@ export class DataPlsqlComponent extends BaseComponent implements OnInit, OnDestr
       {name: '序号', type: 'numberpage'},
       {name: '查询名称', field: 'name'},
       {name: '英文别名', field: 'aliansName'},
+      {name: '所属资源', field: 'orgName'},
    /*   {name: '开启状态', field: 'status'},//开启状态*/
       {name: '操作', type: 'button', buttonOptions: 'buttonOptions'}
     ],

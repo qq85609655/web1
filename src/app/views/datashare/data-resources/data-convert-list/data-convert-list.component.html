@@ -16,6 +16,7 @@
         <button type="button" (click)="startOrStopServices(0)" [hidden]="!checkAuth(getAuthcode(5))">批量停止</button>
         <button type="button" (click)="addDataSource()" [hidden]="!checkAuth(getAuthcode(2))">新增资源</button>
         <button type="button" (click)="addDataSource2()" [hidden]="!checkAuth(getAuthcode(3))">打开本地kettle</button>
+        <button type="button" (click)="exportRelations()" [hidden]="!checkAuth(getAuthcode(3))">导出对应关系</button>
       </div>
       <div class="">
         <span class="title">数据源：</span>

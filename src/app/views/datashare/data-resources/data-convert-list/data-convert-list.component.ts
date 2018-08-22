@@ -32,7 +32,7 @@ export class DataConvertListComponent extends BaseComponent
     that: this,
     queryMethod: 'get',
     queryUrl: 'org/orgShowTree',
-    expandedIndex:0,
+    expandedIndex: 0,
     queryParam: {businessType: 1}, //表示query类型参数，放在?后面。后续如果需要pathParam bodyParam再调整
     functionName: '数据资源', //新增和修改框标题中的功能名称
     treeType: 'single', //树类型，simple/checkbox
@@ -159,12 +159,12 @@ export class DataConvertListComponent extends BaseComponent
     });
   }
 
-  startLocalKettleOk(){
+  startLocalKettleOk() {
     this._HttpClient.get('datatask/startLocalKettle', '', data => {
       if (data) {
         this.tipMessage('执行成功！请稍后!');
         this.dialogOpts.startLocalKettle.visible = false;
-      }else{
+      } else {
         this.tipWarnMessage('执行失败！请联系管理员!');
         this.dialogOpts.startLocalKettle.visible = false;
       }
@@ -404,6 +404,13 @@ export class DataConvertListComponent extends BaseComponent
 
   addDataSource2() {
     this.dialogOpts.startLocalKettle.visible = true;
+  }
+
+  exportRelations() {
+    this.dialogConfirmMessage('导出当前资源分类下所有的任务详细说明', '是否确定导出？', () => {
+      window.location.href = this.getBasePath() + 'datatask/exportRelations';
+      this.tipMessage('导出成功！');
+    });
   }
 
   addDataSource() {
