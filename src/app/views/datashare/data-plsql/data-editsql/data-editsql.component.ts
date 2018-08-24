@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from '../../../../components/base/base.component';
 import {ActivatedRoute} from '@angular/router';
+import {Editor, EditorModule} from 'primeng/primeng';
 
 @Component({
   selector: 'app-data-editsql',
