@@ -10,7 +10,7 @@
   <!-- 数据类 -->
   <div class="content-search">
     <div class="crumbs-btn">
-      <button type="button" (click)="runBatch()">批量执行</button>
+      <!--<button type="button" (click)="runBatch()">批量执行</button>-->
       <button type="button" (click)="loadAgain()">重新加载</button>
     </div>
   </div>
@@ -32,8 +32,6 @@
     <button type="button" pButton (click)="dialogOpts.startnow.visible=false" label="取消"></button>
   </p-footer>
 </p-dialog>
-
-
 
 
 <p-dialog header="{{dialogOpts.changeSchedule.title}}" [(visible)]="dialogOpts.changeSchedule.visible" width="450" height="auto"

@@ -75,8 +75,8 @@ export class DataPlsqlComponent extends BaseComponent implements OnInit, OnDestr
     usingCache: false,
     theadOptions: [
       {name: '序号', type: 'numberpage'},
-      {name: '查询名称', field: 'name'},
-      {name: '英文别名', field: 'aliansName'},
+      {name: 'sql名称', field: 'name'},
+      {name: '别名', field: 'aliansName'},
       {name: '所属资源', field: 'orgName'},
    /*   {name: '开启状态', field: 'status'},//开启状态*/
       {name: '操作', type: 'button', buttonOptions: 'buttonOptions'}
@@ -84,6 +84,7 @@ export class DataPlsqlComponent extends BaseComponent implements OnInit, OnDestr
     buttonOptions: [
       {name: '查看', callback: this.detailItem},
       {name: '修改', callback: this.editItem},
+      {name: '设置更新', callback: this.setCondition},
       {name: '执行查询', callback: this.runItem1},
       {name: '删除', callback: this.deleteItem}
     ],
@@ -91,6 +92,29 @@ export class DataPlsqlComponent extends BaseComponent implements OnInit, OnDestr
     emptyMessage: '暂无数据',
     tableEvent: this.tableEvent
   };
+
+  setCondition(){
+    this.dialogOpts.uc.visible = true;
+  }
+
+
+
+  setOk() {
+    //此处需要获取点击选中的三级部门的id
+    var that = this;
+    debugger;
+
+    // that.dialogOpts.clone.dto.orgList = that.orgTreeOpts.selectedNodeIds;
+    let url = 'datatask/uuuu';
+
+    that._HttpClient.post_old(url, this.dialogOpts.uc.dto, null, data => {
+      if (data) {
+        that.tipMessage('操作成功！');
+        that.dialogOpts.uc.visible = false;
+      }
+    });
+    return true;
+  }
 
   ngOnInit() {
     this._ActivatedRoute.queryParams.subscribe(params => {
@@ -102,7 +126,7 @@ export class DataPlsqlComponent extends BaseComponent implements OnInit, OnDestr
 
   addData(opsItem?: any, listItem?: any) {
     if (this.treeNode.data.nodeType != 3) {
-      this.tipWarnMessage('请选择第三级机构新增数据资源任务！');
+      this.tipWarnMessage('请选择第三级机构新增自定义查询资源！');
       return false;
     }
     let tree = {
@@ -136,6 +160,15 @@ export class DataPlsqlComponent extends BaseComponent implements OnInit, OnDestr
       pathParam: '',
       data: {
         id: 0
+      }
+    },
+    uc: {
+      title: '设置更新条件',
+      visible: false,
+      dto: {
+        ids: '',
+        conditionType: 0,
+        conditionStr: ''
       }
     },
     runSql2: {
@@ -199,7 +232,7 @@ export class DataPlsqlComponent extends BaseComponent implements OnInit, OnDestr
     let url = 'plsql/deleteBatch/' + this.dialogOpts.delete.data.id;
     console.log(this.dialogOpts.delete.data.id);
     this._HttpClient.delete_old(url, {}, data => {
-      this.tipMessage('数据源删除成功！');
+      this.tipMessage('自定义查询删除成功！');
       this.dialogOpts.delete.visible = false;
       this.flushData();
     });

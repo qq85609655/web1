@@ -10,7 +10,7 @@
 <div class="content-meta-treehide">
   <div class="Countrymeta-add">
     <dl>
-      <dt><em>*</em>查询名称：</dt>
+      <dt><em>*</em>sql名称：</dt>
       <dd>
         <input type="text" maxlength="20" [(ngModel)]="plsqls.name" [ngClass]="{error: valid.plsqls.name.status}"
                [disabled]="checkDisabled(false)"/>
@@ -26,7 +26,7 @@
       </dd>
     </dl>
     <dl>
-      <dt><em>*</em>英文名称：</dt>
+      <dt><em>*</em>别名（唯一）：</dt>
       <dd>
         <input type="text" maxlength="30" [(ngModel)]="plsqls.aliansName"
                [ngClass]="{error: valid.plsqls.aliansName.status}" [disabled]="checkDisabled(true)"/>
@@ -40,6 +40,7 @@
                   [disabled]="checkDisabled(true)"></textarea>
       </dd>
     </dl>
+
     <dl>
       <dt>备注：</dt>
       <dd style="width: 80%">
@@ -58,3 +59,5 @@
     </label>
   </div>
 </div>
+
+

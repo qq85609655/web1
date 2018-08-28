@@ -43,7 +43,6 @@
 </p-dialog>
 
 
-
 <p-dialog header="{{dialogOpts.runSql2.title}}" [(visible)]="dialogOpts.runSql2.visible" width="450" height="auto"
           modal="true">
   <div>
@@ -79,5 +78,18 @@
   </div>
   <p-footer>
     <button type="button" pButton (click)="dialogOpts.runSql.visible=false" label="关闭"></button>
+  </p-footer>
+</p-dialog>
+
+
+<p-dialog header="{{dialogOpts.uc.title}}" [(visible)]="dialogOpts.uc.visible" width="450" height="auto"
+          modal="true">
+  <div class="dialogForm">
+     <div>初始化</div>
+     <div>每天一次</div>
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="setOk()" label="确认"></button>
+    <button type="button" pButton (click)="dialogOpts.uc.visible=false" label="取消"></button>
   </p-footer>
 </p-dialog>

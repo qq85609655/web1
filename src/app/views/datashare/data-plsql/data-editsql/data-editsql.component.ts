@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {BaseComponent} from '../../../../components/base/base.component';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Editor, EditorModule} from 'primeng/primeng';
+import {HttpClient} from '../../../../components/http-client.service';
 
 @Component({
   selector: 'app-data-editsql',
@@ -14,7 +15,9 @@ export class DataEditsqlComponent extends BaseComponent implements OnInit {
   public operType = 1;//1新增 2修改 3查看
   public dbSourceList = []; //根据当前机构id 去查询其下面配置哪些数据源
 
-  constructor(public _ActivatedRoute: ActivatedRoute) {
+  constructor(public _ActivatedRoute: ActivatedRoute,
+              public _Router: Router,
+              public _HttpClient: HttpClient) {
     super();
     let path = this.getRouterPath();
     if (path.endsWith('add')) {

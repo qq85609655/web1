@@ -203,7 +203,55 @@ export class DataConvertListComponent extends BaseComponent
       title: '本地kettle平台',
       visible: false,
       pathParam: ''
+    },
+    clone: {
+      title: '克隆资源',
+      visible: false,
+      dto: {
+        ids: '',
+        orgList: []
+      }
     }
+  };
+
+  cloneOk() {
+    //此处需要获取点击选中的三级部门的id
+    var that = this;
+    debugger;
+
+    that.dialogOpts.clone.dto.orgList = that.orgTreeOpts.selectedNodeIds;
+    let url = 'datatask/cloneTasksTo';
+
+    that._HttpClient.post_old(url, this.dialogOpts.clone.dto, null, data => {
+      if (data) {
+        that.tipMessage('操作成功！');
+        that.dialogOpts.clone.visible = false;
+        that.flushData();
+      }
+    });
+    return true;
+  }
+
+
+  //树参数
+  public orgTreeOpts = {
+    that: this,
+    queryMethod: 'get',
+    queryUrl: 'org/orgShowTree',
+    expandedIndex: 0,
+    queryParam: {}, //表示query类型参数，放在?后面。后续如果需要pathParam bodyParam再调整
+    functionName: '机构列表', //新增和修改框标题中的功能名称
+    queryResultField: ['id', 'parentId', 'orgName', 'children'], //查询结果对象中，需要的字段名称
+    treeType: 'checkbox', //树类型，simple/checkbox
+    queryDataToTreeData: null, //查询数据转换为树需要的数据
+    nodeSelect: this.treeNodeSelect,
+    operButton: {},
+    treeEvent: new EventEmitter(),
+    /* 以下为checkbox模式下配置*/
+    queryCheckedMethod: 'get',
+    queryCheckedUrl: '',
+    queryCheckedParam: {},
+    selectedNodeIds: []
   };
 
   ngOnInit() {
@@ -411,6 +459,24 @@ export class DataConvertListComponent extends BaseComponent
       window.location.href = this.getBasePath() + 'datatask/exportRelations';
       this.tipMessage('导出成功！');
     });
+  }
+
+
+  cloneItem() {
+    let pathParam = '';
+    if (!this.tableOpts.selections || this.tableOpts.selections.length <= 0) {
+      this.tipWarnMessage('请选择至少一条数据！');
+      return false;
+    }
+    let taskIds = [];
+    for (let selection of this.tableOpts.selections) {
+      taskIds.push(selection.taskId);
+    }
+    pathParam += taskIds.join('#');
+
+    this.dialogOpts.clone.dto.ids = pathParam;
+    this.dialogOpts.clone.visible = true;
+    return true;
   }
 
   addDataSource() {
