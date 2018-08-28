@@ -78,13 +78,12 @@ export class DataPlsqlComponent extends BaseComponent implements OnInit, OnDestr
       {name: 'sql名称', field: 'name'},
       {name: '别名', field: 'aliansName'},
       {name: '所属资源', field: 'orgName'},
-   /*   {name: '开启状态', field: 'status'},//开启状态*/
       {name: '操作', type: 'button', buttonOptions: 'buttonOptions'}
     ],
     buttonOptions: [
       {name: '查看', callback: this.detailItem},
-      {name: '修改', callback: this.editItem},
-      {name: '设置更新', callback: this.setCondition},
+      {name: '修改sql', callback: this.editItem},
+      {name: '修改字段', callback: this.updateColumn},
       {name: '执行查询', callback: this.runItem1},
       {name: '删除', callback: this.deleteItem}
     ],
@@ -92,29 +91,6 @@ export class DataPlsqlComponent extends BaseComponent implements OnInit, OnDestr
     emptyMessage: '暂无数据',
     tableEvent: this.tableEvent
   };
-
-  setCondition(){
-    this.dialogOpts.uc.visible = true;
-  }
-
-
-
-  setOk() {
-    //此处需要获取点击选中的三级部门的id
-    var that = this;
-    debugger;
-
-    // that.dialogOpts.clone.dto.orgList = that.orgTreeOpts.selectedNodeIds;
-    let url = 'datatask/uuuu';
-
-    that._HttpClient.post_old(url, this.dialogOpts.uc.dto, null, data => {
-      if (data) {
-        that.tipMessage('操作成功！');
-        that.dialogOpts.uc.visible = false;
-      }
-    });
-    return true;
-  }
 
   ngOnInit() {
     this._ActivatedRoute.queryParams.subscribe(params => {
@@ -153,6 +129,12 @@ export class DataPlsqlComponent extends BaseComponent implements OnInit, OnDestr
     });
   }
 
+  updateColumn(index, item){
+    this.saveSelectToLink(null, this.tableOpts.tableEvent, () => {
+      this._Router.navigate(['index/datashare/plsql/editColumn'], {queryParams: {id: item.id}});
+    });
+  }
+
   dialogOpts = {
     delete: {
       title: '删除',
@@ -160,15 +142,6 @@ export class DataPlsqlComponent extends BaseComponent implements OnInit, OnDestr
       pathParam: '',
       data: {
         id: 0
-      }
-    },
-    uc: {
-      title: '设置更新条件',
-      visible: false,
-      dto: {
-        ids: '',
-        conditionType: 0,
-        conditionStr: ''
       }
     },
     runSql2: {
@@ -226,7 +199,6 @@ export class DataPlsqlComponent extends BaseComponent implements OnInit, OnDestr
     this.dialogOpts.delete.visible = true;
     return true;
   }
-
 
   deleteOk() {
     let url = 'plsql/deleteBatch/' + this.dialogOpts.delete.data.id;

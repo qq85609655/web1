@@ -76,6 +76,7 @@ import {DataPlsqlComponent} from './views/datashare/data-plsql/data-plsql.compon
 import {DataEditsqlComponent} from './views/datashare/data-plsql/data-editsql/data-editsql.component';
 import {DyTaskCloneComponent} from './views/ktrkjbmgr/dy-task-clone/dy-task-clone.component';
 import {FbTaskCloneComponent} from './views/ktrkjbmgr/fb-task-clone/fb-task-clone.component';
+import {DetailEditComponent} from './views/datashare/data-plsql/detail-edit/detail-edit.component';
 
 
 export const routes: any = [
@@ -258,7 +259,8 @@ export const routes: any = [
             children: [
               {path: '', redirectTo: 'search', pathMatch: 'full'},
               {path: 'search', component: DataPlsqlComponent},
-              {path: ':type', component: DataEditsqlComponent}
+              {path: 'editColumn', component:DetailEditComponent},
+              {path: ':type', component: DataEditsqlComponent},
             ]
           },
           {

@@ -129,6 +129,7 @@ import { DyTaskCloneComponent } from './views/ktrkjbmgr/dy-task-clone/dy-task-cl
 import { FbTaskCloneComponent } from './views/ktrkjbmgr/fb-task-clone/fb-task-clone.component';
 import { TaskCloneComponent } from './views/ktrkjbmgr/task-clone/task-clone.component';
 import { ScheduleJobMgrComponent } from './views/ktrkjbmgr/schedule-job-mgr/schedule-job-mgr.component';
+import { DetailEditComponent } from './views/datashare/data-plsql/detail-edit/detail-edit.component';
 
 @NgModule({
   declarations: [
@@ -227,7 +228,8 @@ import { ScheduleJobMgrComponent } from './views/ktrkjbmgr/schedule-job-mgr/sche
     DyTaskCloneComponent,
     FbTaskCloneComponent,
     TaskCloneComponent,
-    ScheduleJobMgrComponent
+    ScheduleJobMgrComponent,
+    DetailEditComponent
   ],
   imports: [
     // app模块依赖的东西

@@ -1,7 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit} from '@angular/core';
 import {BaseComponent} from '../../../../components/base/base.component';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Editor, EditorModule} from 'primeng/primeng';
 import {HttpClient} from '../../../../components/http-client.service';
 
 @Component({
@@ -12,7 +11,9 @@ import {HttpClient} from '../../../../components/http-client.service';
 export class DataEditsqlComponent extends BaseComponent implements OnInit {
   public continueAdd: boolean = false;
 
+
   public operType = 1;//1新增 2修改 3查看
+
   public dbSourceList = []; //根据当前机构id 去查询其下面配置哪些数据源
 
   constructor(public _ActivatedRoute: ActivatedRoute,
@@ -28,6 +29,13 @@ export class DataEditsqlComponent extends BaseComponent implements OnInit {
       this.operType = 3;
     }
   }
+
+
+  public queryParam = {
+    sqlId: 0,
+    id: 0,
+    ColumnName: ''
+  };
 
   plsqls = {
     dbSourceId: 0,
@@ -70,15 +78,15 @@ export class DataEditsqlComponent extends BaseComponent implements OnInit {
         console.info(data);
         Object.assign(this.plsqls, data);
       });
+
     }
-  };
+  }
 
   initDbSourceList() {
     this.dbSourceList = [];
     this.getHttpClient().get('plsql/getDbSourceListByOrgId', {orgId: this.plsqls.orgId}, data => {
       if (data && data.length > 0) {
         for (let d of data) {
-          debugger;
           this.dbSourceList.push({label: d.name, value: d.id});
         }
       }
@@ -109,20 +117,10 @@ export class DataEditsqlComponent extends BaseComponent implements OnInit {
     this.getHttpClient().post('plsql/checkOut', null, this.plsqls, (data) => {
       if (data == 'true' || data == true) {
         this.dialogMessage('sql脚本可以执行！');
-        this.showResult();
       } else {
         this.dialogMessage('脚本无法执行！');
-        this.showErrors();
       }
     });
-  }
-
-  showResult() {
-
-  }
-
-  showErrors() {
-
   }
 
   toSaveOk() {
@@ -150,6 +148,7 @@ export class DataEditsqlComponent extends BaseComponent implements OnInit {
     });
   }
 
+
   public valid = {
     plsqls: {
       _fields: ['name', 'dbSourceId', 'aliansName', 'content'],
@@ -175,4 +174,5 @@ export class DataEditsqlComponent extends BaseComponent implements OnInit {
       },
     }
   };
+
 }

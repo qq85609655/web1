@@ -19,7 +19,7 @@
         <em>*</em>数据库来源：
       </dt>
       <dd>
-        <input  type="hidden" [(ngModel)]="plsqls.orgId">
+        <input type="hidden" [(ngModel)]="plsqls.orgId">
         <p-dropdown length="equate" [options]="dbSourceList" [(ngModel)]="plsqls.dbSourceId"
                     [ngClass]="{error: valid.plsqls.dbSourceId.status}"
                     placeholder="请选择" [disabled]="checkDisabled(true)"></p-dropdown>
@@ -35,11 +35,12 @@
     <dl>
       <dt>查询脚本：</dt>
       <dd style="width: 80%">
-        <textarea name="content" [(ngModel)]="plsqls.content"
+        <textarea name="content" [(ngModel)]="plsqls.content" cols="50" rows="100"
                   [ngClass]="{error: valid.plsqls.content.status}"
                   [disabled]="checkDisabled(true)"></textarea>
       </dd>
     </dl>
+
 
     <dl>
       <dt>备注：</dt>
@@ -50,14 +51,16 @@
       </dd>
     </dl>
   </div>
-  <div class="btn-box">
-    <button class="btn-test" (click)="toTestOk()" *ngIf="operType < 3">测试</button>
-    <button class="btn-save" (click)="toSaveOk()" *ngIf="operType < 3">保存</button>
-    <button class="btn-cancel" (click)="goback()">取消</button>
-    <label *ngIf="operType == 1">
-      <input type="checkbox" [(ngModel)]="continueAdd">保存后继续增加
-    </label>
+
+
+    <div class="btn-box">
+      <button class="btn-test" (click)="toTestOk()" *ngIf="operType < 3">测试</button>
+      <button class="btn-save" (click)="toSaveOk()" *ngIf="operType < 3">保存</button>
+      <button class="btn-cancel" (click)="goback()">取消</button>
+      <label *ngIf="operType == 1">
+        <input type="checkbox" [(ngModel)]="continueAdd">保存后继续增加
+      </label>
+    </div>
   </div>
-</div>
 
 
