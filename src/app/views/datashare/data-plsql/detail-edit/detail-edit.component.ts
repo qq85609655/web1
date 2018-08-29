@@ -8,7 +8,7 @@ import {HttpClient} from '../../../../components/http-client.service';
   templateUrl: './detail-edit.component.html',
   styleUrls: ['./detail-edit.component.css']
 })
-export class DetailEditComponent extends BaseComponent   implements OnInit, OnDestroy, AfterViewInit {
+export class DetailEditComponent extends BaseComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(public _ActivatedRoute: ActivatedRoute,
               public _Router: Router,
@@ -19,8 +19,8 @@ export class DetailEditComponent extends BaseComponent   implements OnInit, OnDe
   public tableEvent: EventEmitter<any> = new EventEmitter();
 
   public queryParam = {
-    sqlId:0,
-    columnName:''
+    sqlId: 0,
+    columnName: ''
   };
 
 
@@ -51,13 +51,13 @@ export class DetailEditComponent extends BaseComponent   implements OnInit, OnDe
     ],
     selections: [],
     emptyMessage: '暂无数据',
-    tableEvent:this.tableEvent
+    tableEvent: this.tableEvent
   };
 
   editColumnItem(index, item) {
     this.dialogOpts.updateAlianName.visible = true;
     this.dialogOpts.updateAlianName.data.id = item.id;
-    this.dialogOpts.updateAlianName.data.sqlId = this.queryParam.sqlId ;
+    this.dialogOpts.updateAlianName.data.sqlId = this.queryParam.sqlId;
     this.dialogOpts.updateAlianName.data.columnLabelName = item.columnLabelName;
   }
 
@@ -67,14 +67,14 @@ export class DetailEditComponent extends BaseComponent   implements OnInit, OnDe
       visible: false,
       data: {
         id: 0,
-        sqlId:0,
+        sqlId: 0,
         columnLabelName: ''
       }
     }
   };
   public sqlColumnDetail = {
     id: 0,
-    sqlId:0,
+    sqlId: 0,
     columnLabelName: ''
   };
 
@@ -82,9 +82,9 @@ export class DetailEditComponent extends BaseComponent   implements OnInit, OnDe
   ngOnInit() {
     this._ActivatedRoute.queryParams.subscribe(params => {
       this.queryParam.sqlId = params.id;
-      console.info("------------------------"+this.queryParam.sqlId);
+      console.info('------------------------' + this.queryParam.sqlId);
     });
-  //  alert(this.queryParam.sqlId);
+    //  alert(this.queryParam.sqlId);
   }
 
   ngAfterViewInit() {
@@ -95,20 +95,24 @@ export class DetailEditComponent extends BaseComponent   implements OnInit, OnDe
    * 提交修改
    */
   submitOk() {
-    this.sqlColumnDetail.id=this.dialogOpts.updateAlianName.data.id;
-    this.sqlColumnDetail.columnLabelName=this.dialogOpts.updateAlianName.data.columnLabelName;
-    this.sqlColumnDetail.sqlId=this.dialogOpts.updateAlianName.data.sqlId;
+    this.sqlColumnDetail.id = this.dialogOpts.updateAlianName.data.id;
+    this.sqlColumnDetail.columnLabelName = this.dialogOpts.updateAlianName.data.columnLabelName;
+    this.sqlColumnDetail.sqlId = this.dialogOpts.updateAlianName.data.sqlId;
 
     console.info(this.sqlColumnDetail);
+    if (this.sqlColumnDetail.columnLabelName == '' || this.sqlColumnDetail.columnLabelName == null) {
+          this.tipWarnMessage("请输入有效的字段名称!");
+          $("#columnstr").focus();
+    }
 
     this.getHttpClient().post('plsql/upDateColumn', null, this.sqlColumnDetail, (data) => {
       if (data == 'true' || data == true) {
         this.tipMessage('修改成功！');
-        this.dialogOpts.updateAlianName.visible=false;
+        this.dialogOpts.updateAlianName.visible = false;
         this.flushData();
       } else {
         this.tipWarnMessage('修改失败！');
-        this.dialogOpts.updateAlianName.visible=false;
+        this.dialogOpts.updateAlianName.visible = false;
         this.flushData();
       }
     });
