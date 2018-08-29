@@ -1,0 +1,41 @@
+<div class="content-wrap">
+  <div class="content-header nav_tab">
+    <ol class="breadcrumb">
+      <li>数据共享交换</li>
+      <li>自定义查询管理</li>
+      <li class="active">字段明细列表维护</li>
+    </ol>
+  </div>
+
+  <!--查询-->
+  <div class="content-search">
+    <div class="">
+      <span class="title">查询名称：</span>
+      <input type="text" class="" name="columnName" maxlength="20" [(ngModel)]="queryParam.columnName">
+      <button type="button" class="btn-check ripple" (click)="flushData()">查询</button>
+    </div>
+    <div class="crumbs-btn">
+
+    </div>
+  </div>
+  <!--数据表格-->
+  <div class="content-table">
+    <app-ptable [tableOpts]="tableOpts"></app-ptable>
+  </div>
+</div>
+
+
+<p-dialog header="{{dialogOpts.updateAlianName.title}}" [(visible)]="dialogOpts.updateAlianName.visible" width="450"
+          height="auto"
+          modal="true">
+  <div>
+       输入新的中文名：<input id="columnLabelName" [(ngModel)]="dialogOpts.updateAlianName.data.columnLabelName">
+  </div>
+  <p-footer>
+    <button type="button" pButton (click)="submitOk()" label="确认"></button>
+    <button type="button" pButton (click)="dialogOpts.updateAlianName.visible=false" label="取消"></button>
+  </p-footer>
+</p-dialog>
+
+
+
