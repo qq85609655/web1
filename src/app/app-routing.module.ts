@@ -77,6 +77,8 @@ import {DataEditsqlComponent} from './views/datashare/data-plsql/data-editsql/da
 import {DyTaskCloneComponent} from './views/ktrkjbmgr/dy-task-clone/dy-task-clone.component';
 import {FbTaskCloneComponent} from './views/ktrkjbmgr/fb-task-clone/fb-task-clone.component';
 import {DetailEditComponent} from './views/datashare/data-plsql/detail-edit/detail-edit.component';
+import {DataApiSourceComponent} from './views/datashare/data-api-source/data-api-source.component';
+import {ApiSourceEditComponent} from './views/datashare/data-api-source/api-source-edit/api-source-edit.component';
 
 
 export const routes: any = [
@@ -261,6 +263,15 @@ export const routes: any = [
               {path: 'search', component: DataPlsqlComponent},
               {path: 'editColumn', component:DetailEditComponent},
               {path: ':type', component: DataEditsqlComponent},
+            ]
+          },
+          {
+            path: 'apiAdmin', component: '',
+            children: [
+              {path: '', redirectTo: 'search', pathMatch: 'full'},
+              {path: 'search', component: DataApiSourceComponent},
+              {path: 'editColumn', component:ApiSourceEditComponent},
+              {path: ':type', component: ApiSourceEditComponent},
             ]
           },
           {

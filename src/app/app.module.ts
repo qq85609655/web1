@@ -130,6 +130,8 @@ import { FbTaskCloneComponent } from './views/ktrkjbmgr/fb-task-clone/fb-task-cl
 import { TaskCloneComponent } from './views/ktrkjbmgr/task-clone/task-clone.component';
 import { ScheduleJobMgrComponent } from './views/ktrkjbmgr/schedule-job-mgr/schedule-job-mgr.component';
 import { DetailEditComponent } from './views/datashare/data-plsql/detail-edit/detail-edit.component';
+import { DataApiSourceComponent } from './views/datashare/data-api-source/data-api-source.component';
+import { ApiSourceEditComponent } from './views/datashare/data-api-source/api-source-edit/api-source-edit.component';
 
 @NgModule({
   declarations: [
@@ -229,7 +231,9 @@ import { DetailEditComponent } from './views/datashare/data-plsql/detail-edit/de
     FbTaskCloneComponent,
     TaskCloneComponent,
     ScheduleJobMgrComponent,
-    DetailEditComponent
+    DetailEditComponent,
+    DataApiSourceComponent,
+    ApiSourceEditComponent
   ],
   imports: [
     // app模块依赖的东西

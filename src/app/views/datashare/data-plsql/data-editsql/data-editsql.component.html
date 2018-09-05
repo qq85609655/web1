@@ -22,45 +22,45 @@
         <input type="hidden" [(ngModel)]="plsqls.orgId">
         <p-dropdown length="equate" [options]="dbSourceList" [(ngModel)]="plsqls.dbSourceId"
                     [ngClass]="{error: valid.plsqls.dbSourceId.status}"
-                    placeholder="请选择" [disabled]="checkDisabled(true)"></p-dropdown>
+                    placeholder="请选择" [disabled]="checkDisabled(false)"></p-dropdown>
       </dd>
     </dl>
     <dl>
       <dt><em>*</em>别名（唯一）：</dt>
       <dd>
         <input type="text" maxlength="30" [(ngModel)]="plsqls.aliansName"
-               [ngClass]="{error: valid.plsqls.aliansName.status}" [disabled]="checkDisabled(true)"/>
+               [ngClass]="{error: valid.plsqls.aliansName.status}" [disabled]="checkDisabled(false)"/>
       </dd>
     </dl>
     <dl>
       <dt>查询脚本：</dt>
-      <dd style="width: 80%">
-        <textarea name="content" [(ngModel)]="plsqls.content" cols="50" rows="100"
+      <dd>
+        <textarea name="content" [(ngModel)]="plsqls.content" cols="500" rows="580"
                   [ngClass]="{error: valid.plsqls.content.status}"
                   [disabled]="checkDisabled(true)"></textarea>
       </dd>
     </dl>
 
 
-    <dl>
-      <dt>备注：</dt>
-      <dd style="width: 80%">
-        <textarea name="remark" maxlength="60" [(ngModel)]="plsqls.remark"
-                  [disabled]="checkDisabled(true)"></textarea>
-        <span>还剩{{getRestLength(plsqls.remark,60)}}</span>
-      </dd>
-    </dl>
+    <!--  <dl>
+        <dt>备注：</dt>
+        <dd style="width: 80%">
+          <textarea name="remark" maxlength="60" [(ngModel)]="plsqls.remark"
+                    [disabled]="checkDisabled(true)"></textarea>
+          <span>还剩{{getRestLength(plsqls.remark,60)}}</span>
+        </dd>
+      </dl>-->
   </div>
 
 
-    <div class="btn-box">
-      <button class="btn-test" (click)="toTestOk()" *ngIf="operType < 3">测试</button>
-      <button class="btn-save" (click)="toSaveOk()" *ngIf="operType < 3">保存</button>
-      <button class="btn-cancel" (click)="goback()">取消</button>
-      <label *ngIf="operType == 1">
-        <input type="checkbox" [(ngModel)]="continueAdd">保存后继续增加
-      </label>
-    </div>
+  <div class="btn-box">
+    <button class="btn-test" (click)="toTestOk()" *ngIf="operType < 3">测试</button>
+    <button class="btn-save" (click)="toSaveOk()" *ngIf="operType < 3">保存</button>
+    <button class="btn-cancel" (click)="goback()">取消</button>
+    <label *ngIf="operType == 1">
+      <input type="checkbox" [(ngModel)]="continueAdd">保存后继续增加
+    </label>
   </div>
+</div>
 
 
